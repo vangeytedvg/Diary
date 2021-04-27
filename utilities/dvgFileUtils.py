@@ -5,6 +5,7 @@
 """
 import os
 from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QMessageBox
 import zipfile
 # Regular Expression
 import re
@@ -94,3 +95,18 @@ def makezip(base_folder, zipname, mailid):
         zipper.write(q)
     zipper.close()
     return new_zip_filename
+
+
+def ask(title="No Title", msg="No Message", explain="No explanation"):
+    """
+    Question messagebox
+    """
+    msgBox = QMessageBox()
+    msgBox.setWindowTitle(title)
+    msgBox.setText(msg)
+    msgBox.setInformativeText(explain)
+    msgBox.setIcon(QMessageBox.Question)
+    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    msgBox.setDefaultButton(QMessageBox.Cancel)
+    return msgBox.exec_()
+
