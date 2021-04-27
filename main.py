@@ -37,11 +37,6 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.action_Add.triggered.connect(self.add_new_file)
         self.action_Add.setEnabled(False)
 
-        # self.cursor.insertBlock()
-        # self.cursor.insertHtml("<h4>Hello World</h4>")
-        # self.cursor.insertBlock()
-        # self.cursor.insertList(QTextListFormat.ListDecimal)
-
     def load_diary(self, dateedit):
         """
         Opens a diary day file if it exists.  If it does not exist
@@ -73,7 +68,9 @@ class Diary(QMainWindow, Ui_MainWindow):
                                   msg="Entry",
                                   explain="Create a new page?")
         if answer == QMessageBox.Ok:
-            editor.create_new_file(file=self._active_file)
+            editor.create_new_file(file=self._active_file,
+                                   date=self._active_date)
+            self.load_diary(self._active_date)
         else:
             print("ko")
 
