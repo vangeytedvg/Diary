@@ -37,6 +37,59 @@ console.toolbox = [{'autosave': False,
                                u''),
                     'shared': False,
                     'title': 'Compile GUI files',
+                    'use_container': False},
+                   {'autosave': True,
+                    'cmd': 'bash ./makeexe.sh',
+                    'env': ('project',
+                            [u'']),
+                    'id': 'cmd-65ZzeG0LtBXa1eEe',
+                    'io_encoding': None,
+                    'key_binding': '',
+                    'line_mode': True,
+                    'pseudo_tty': False,
+                    'pypath': ('project',
+                               []),
+                    'raise_panel': True,
+                    'rundir': ('project',
+                               u''),
+                    'shared': False,
+                    'title': 'Make Executable',
+                    'use_container': False},
+                   {'autosave': False,
+                    'cmd': 'bash -norc -ic ". /home/danny/Development/Python'\
+                           '/Diary/bin/activate && bash -norc"',
+                    'env': ('merge',
+                            ['TERM=dumb']),
+                    'id': 'cmd-p46J3rDmVymURhSw',
+                    'io_encoding': None,
+                    'key_binding': None,
+                    'line_mode': True,
+                    'pseudo_tty': True,
+                    'pypath': ('project',
+                               []),
+                    'raise_panel': True,
+                    'rundir': ('project',
+                               ''),
+                    'shared': False,
+                    'title': u'Terminal 1',
+                    'use_container': False},
+                   {'autosave': False,
+                    'cmd': 'bash -norc -ic ". /home/danny/Development/Python'\
+                           '/Diary/bin/activate && bash -norc"',
+                    'env': ('merge',
+                            ['TERM=dumb']),
+                    'id': 'cmd-KXt5oIOfmdyPFA8L',
+                    'io_encoding': None,
+                    'key_binding': None,
+                    'line_mode': True,
+                    'pseudo_tty': True,
+                    'pypath': ('project',
+                               []),
+                    'raise_panel': True,
+                    'rundir': ('project',
+                               ''),
+                    'shared': False,
+                    'title': u'Terminal 2',
                     'use_container': False}]
 debug.launch-configs = (2,
                         {'launch-Rfs7bVTEOFT0vSm5': ({'shared': True},
@@ -61,11 +114,13 @@ proj.directory-list = [{'dirloc': loc('.'),
                         'include_hidden': False,
                         'recursive': True,
                         'watch_for_changes': True}]
+proj.file-list = [loc('../../../PycharmProjects/PBMPy/Designer/Actions-exit-icon.png')]
 proj.file-type = 'normal'
 [user attributes]
 debug.err-values = {loc('main.py'): {}}
 debug.show-args-dialog = {loc('main.py'): False}
 edit.file-encoding = {loc('bin/.gitignore'): 'UTF-8',
+                      loc('bin/makeexe.sh'): 'UTF-8',
                       loc('bin/runner.sh'): 'UTF-8',
                       loc('info.md'): 'UTF-8',
                       loc('tools/__init__.py'): 'UTF-8',
@@ -87,12 +142,12 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                                0,
                                {'tree-state': {'file-sort-method': 'by name',
         'list-files-first': False,
-        'tree-states': {'deep': {'expanded-nodes': [(0,),
-        (5,),
-        (6,),
+        'tree-states': {'deep': {'expanded-nodes': [],
+                                 'selected-nodes': [(10,),
+        (11,),
+        (12,),
         (13,),
         (14,)],
-                                 'selected-nodes': [(0,)],
                                  'top-node': (0,)}},
         'tree-style': 'deep'}}),
                               ('source-assistant',
@@ -129,7 +184,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
         'current_pages': [2,
                           0],
         'notebook_display': 'normal',
-        'notebook_percent': 0.20154185022026427,
+        'notebook_percent': 0.31277533039647576,
         'override_title': None,
         'pagelist': [('batch-search',
                       'wide',
@@ -203,23 +258,6 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                       'wide',
                       1,
                       {}),
-                     ('python-shell',
-                      'wide',
-                      2,
-                      {'active-range': (None,
-        -1,
-        -1),
-                       'attrib-starts': [],
-                       'code-line': '',
-                       'first-line': 0L,
-                       'folded-linenos': [],
-                       'history': {},
-                       'launch-id': None,
-                       'sel-line': 3L,
-                       'sel-line-start': 130L,
-                       'selection_end': 130L,
-                       'selection_start': 130L,
-                       'zoom': 0L}),
                      ('messages',
                       'wide',
                       2,
@@ -525,16 +563,6 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                                   'selection_end': 0L,
                                   'selection_start': 0L,
                                   'zoom': 0L}),
-                                (loc('utilities/editor.py'),
-                                 {'attrib-starts': [],
-                                  'code-line': '# Editor manipulations\n',
-                                  'first-line': 0L,
-                                  'folded-linenos': [],
-                                  'sel-line': 0L,
-                                  'sel-line-start': 0L,
-                                  'selection_end': 0L,
-                                  'selection_start': 0L,
-                                  'zoom': 0L}),
                                 (loc('main.py'),
                                  {'attrib-starts': [],
                                   'code-line': '# Main Entry point of Diary '\
@@ -545,215 +573,80 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                                   'sel-line-start': 0L,
                                   'selection_end': 0L,
                                   'selection_start': 0L,
+                                  'zoom': 0L}),
+                                (loc('makeexe.sh'),
+                                 {'attrib-starts': [],
+                                  'code-line': 'echo "[*] Done"\n',
+                                  'first-line': 0L,
+                                  'folded-linenos': [],
+                                  'sel-line': 2L,
+                                  'sel-line-start': 68L,
+                                  'selection_end': 68L,
+                                  'selection_start': 68L,
                                   'zoom': 0L})],
           'has-focus': False,
           'locked': False},
          [loc('diary.html'),
           loc('utilities/dvgFileUtils.py'),
-          loc('utilities/editor.py'),
-          loc('main.py')]),
-        ({'bookmarks': ([[loc('utilities/editor.py'),
-                          {'attrib-starts': [('create_new_file|0|',
-        6)],
-                           'code-line': '            f.write(f"<h1>Diary dat'\
-        'e {date}</h1><br/>")\n',
-                           'first-line': 0L,
-                           'folded-linenos': [],
-                           'sel-line': 13L,
-                           'sel-line-start': 369L,
-                           'selection_end': 388L,
-                           'selection_start': 388L,
-                           'zoom': 0L},
-                          1619523571.013819],
-                         [loc('main.py'),
-                          {'attrib-starts': [('Diary|0|',
-        12),
-        ('Diary|0|.__init__|0|',
-         14)],
-                           'code-line': '        self.action_Add.setEnabled('\
-        'False)\n',
-                           'first-line': 6L,
-                           'folded-linenos': [],
-                           'sel-line': 37L,
-                           'sel-line-start': 1138L,
-                           'selection_end': 1179L,
-                           'selection_start': 1179L,
-                           'zoom': 0L},
-                          1619523593.619239],
-                         [loc('20210426.html'),
+          loc('main.py'),
+          loc('makeexe.sh')]),
+        ({'bookmarks': ([[loc('frmMain.py'),
                           {'attrib-starts': [],
-                           'code-line': '<h1>Diary date PyQt5.QtCore.QDate(2'\
-        '021, 4, 26)</h1><br/>',
-                           'first-line': 0L,
-                           'folded-linenos': [],
-                           'sel-line': 0L,
-                           'sel-line-start': 0L,
-                           'selection_end': 0L,
-                           'selection_start': 0L,
-                           'zoom': 0L},
-                          1619523596.943107],
-                         [loc('20210427.html'),
-                          {'attrib-starts': [],
-                           'code-line': '<h1>Test this test</h1>\n',
-                           'first-line': 0L,
-                           'folded-linenos': [],
-                           'sel-line': 0L,
-                           'sel-line-start': 0L,
-                           'selection_end': 0L,
-                           'selection_start': 0L,
-                           'zoom': 0L},
-                          1619523608.136852],
-                         [loc('20210426.html'),
-                          {'attrib-starts': [],
-                           'code-line': '<h1>Diary date PyQt5.QtCore.QDate(2'\
-        '021, 4, 26)</h1><br/>',
-                           'first-line': 0L,
-                           'folded-linenos': [],
-                           'sel-line': 0L,
-                           'sel-line-start': 0L,
-                           'selection_end': 0L,
-                           'selection_start': 0L,
-                           'zoom': 0L},
-                          1619523633.37814],
-                         [loc('utilities/editor.py'),
-                          {'attrib-starts': [('create_new_file|0|',
-        6)],
-                           'code-line': '            f.write(f"<h1>Diary dat'\
-        'e {date.toString()}</h1><br/>")\n',
-                           'first-line': 0L,
-                           'folded-linenos': [],
-                           'sel-line': 13L,
-                           'sel-line-start': 357L,
-                           'selection_end': 410L,
-                           'selection_start': 410L,
-                           'zoom': 0L},
-                          1619523653.262644],
-                         [loc('main.py'),
-                          {'attrib-starts': [('Diary|0|',
-        12),
-        ('Diary|0|.__init__|0|',
-         14)],
-                           'code-line': '        self.action_Add.setEnabled('\
-        'False)\n',
-                           'first-line': 45L,
-                           'folded-linenos': [],
-                           'sel-line': 37L,
-                           'sel-line-start': 1138L,
-                           'selection_end': 1179L,
-                           'selection_start': 1179L,
-                           'zoom': 0L},
-                          1619523721.621669],
-                         [loc('info.md'),
-                          {'attrib-starts': [],
-                           'code-line': '      the changes, no questions ask'\
-        'ed.',
-                           'first-line': 0L,
-                           'folded-linenos': [],
-                           'sel-line': 7L,
-                           'sel-line-start': 303L,
-                           'selection_end': 341L,
-                           'selection_start': 341L,
-                           'zoom': 0L},
-                          1619523888.314029],
-                         [loc('main.py'),
-                          {'attrib-starts': [('Diary|0|',
-        12),
-        ('Diary|0|.add_new_file|0|',
-         62)],
-                           'code-line': '            self.load_diary()\n',
+                           'code-line': 'import icons_rc\n',
                            'first-line': 54L,
                            'folded-linenos': [],
-                           'sel-line': 72L,
-                           'sel-line-start': 2428L,
-                           'selection_end': 2456L,
-                           'selection_start': 2456L,
+                           'sel-line': 77L,
+                           'sel-line-start': 3818L,
+                           'selection_end': 3818L,
+                           'selection_start': 3818L,
                            'zoom': 0L},
-                          1619523955.014968],
-                         [loc('utilities/editor.py'),
-                          {'attrib-starts': [('create_new_file|0|',
-        6)],
-                           'code-line': '            f.write(f"<h1>Diary dat'\
-        'e {date.toString()}</h1><br/>")\n',
-                           'first-line': 0L,
-                           'folded-linenos': [],
-                           'sel-line': 13L,
-                           'sel-line-start': 357L,
-                           'selection_end': 410L,
-                           'selection_start': 410L,
-                           'zoom': 0L},
-                          1619523962.722568],
-                         [loc('utilities/dvgFileUtils.py'),
-                          {'attrib-starts': [('ask|0|',
-        99)],
-                           'code-line': '',
-                           'first-line': 51L,
-                           'folded-linenos': [],
-                           'sel-line': 112L,
-                           'sel-line-start': 2975L,
-                           'selection_end': 2975L,
-                           'selection_start': 2975L,
-                           'zoom': 0L},
-                          1619523969.82362],
+                          1619601471.307776],
                          [loc('main.py'),
                           {'attrib-starts': [('Diary|0|',
-        12),
-        ('Diary|0|.add_new_file|0|',
-         62)],
-                           'code-line': '            self.load_diary(self._a'\
-        'ctive_date)\n',
-                           'first-line': 42L,
+        11),
+        ('Diary|0|.show_cursor_position|0|',
+         42)],
+                           'code-line': '        self.statusbar.showMessage('\
+        'f"Line {cursor.blockNumber()+1} | Column {cursor.columnNumber()}")'\
+        '\n',
+                           'first-line': 39L,
                            'folded-linenos': [],
-                           'sel-line': 72L,
-                           'sel-line-start': 2428L,
-                           'selection_end': 2473L,
-                           'selection_start': 2473L,
+                           'sel-line': 47L,
+                           'sel-line-start': 1501L,
+                           'selection_end': 1578L,
+                           'selection_start': 1578L,
                            'zoom': 0L},
-                          1619524103.655045],
-                         [loc('utilities/editor.py'),
-                          {'attrib-starts': [('create_new_file|0|',
-        6)],
-                           'code-line': '',
-                           'first-line': 0L,
-                           'folded-linenos': [],
-                           'sel-line': 16L,
-                           'sel-line-start': 487L,
-                           'selection_end': 487L,
-                           'selection_start': 487L,
-                           'zoom': 0L},
-                          1619524128.614769],
-                         [loc('main.py'),
-                          {'attrib-starts': [('Diary|0|',
-        12),
-        ('Diary|0|.add_new_file|0|',
-         62)],
-                           'code-line': '            self.load_diary(self._a'\
-        'ctive_date)\n',
-                           'first-line': 42L,
-                           'folded-linenos': [],
-                           'sel-line': 72L,
-                           'sel-line-start': 2428L,
-                           'selection_end': 2473L,
-                           'selection_start': 2473L,
-                           'zoom': 0L},
-                          1619524144.336339],
-                         [loc('utilities/editor.py'),
-                          {'attrib-starts': [('create_new_file|0|',
-        6)],
-                           'code-line': "            f.write(f\"<h1><span st"\
-        "yle='text-decoration:underline'>Diary date {date.toString()}</span>"\
-        "</h1><br/>\")\n",
-                           'first-line': 0L,
-                           'folded-linenos': [],
-                           'sel-line': 13L,
-                           'sel-line-start': 357L,
-                           'selection_end': 458L,
-                           'selection_start': 458L,
-                           'zoom': 0L},
-                          1619524160.080147],
-                         [loc('20210426.html'),
+                          1619601473.184325],
+                         [loc('frmMain.py'),
                           {'attrib-starts': [],
-                           'code-line': '<h1>Diary date PyQt5.QtCore.QDate(2'\
-        '021, 4, 26)</h1><br/>',
+                           'code-line': 'import icons_rc\n',
+                           'first-line': 54L,
+                           'folded-linenos': [],
+                           'sel-line': 77L,
+                           'sel-line-start': 3818L,
+                           'selection_end': 3818L,
+                           'selection_start': 3818L,
+                           'zoom': 0L},
+                          1619601496.71244],
+                         [loc('main.py'),
+                          {'attrib-starts': [('Diary|0|',
+        11),
+        ('Diary|0|.add_new_file|0|',
+         87)],
+                           'code-line': '            self.txtDiary.setFocus('\
+        ')\n',
+                           'first-line': 63L,
+                           'folded-linenos': [],
+                           'sel-line': 103L,
+                           'sel-line-start': 3590L,
+                           'selection_end': 3626L,
+                           'selection_start': 3626L,
+                           'zoom': 0L},
+                          1619602830.097602],
+                         [loc('20210428.html'),
+                          {'attrib-starts': [],
+                           'code-line': "<h1><span style='text-decoration:un"\
+        "derline'>Diary date wo apr. 28 2021</span></h1><br/>",
                            'first-line': 0L,
                            'folded-linenos': [],
                            'sel-line': 0L,
@@ -761,63 +654,198 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                            'selection_end': 0L,
                            'selection_start': 0L,
                            'zoom': 0L},
-                          1619524196.889354],
+                          1619602836.46766],
                          [loc('main.py'),
                           {'attrib-starts': [('Diary|0|',
-        12),
-        ('Diary|0|.add_new_file|0|',
-         62)],
-                           'code-line': '            self.load_diary(self._a'\
-        'ctive_date)\n',
-                           'first-line': 51L,
+        11),
+        ('Diary|0|.create_new_file|0|',
+         120)],
+                           'code-line': '            with open(file, "w") as'\
+        ' f:            \n',
+                           'first-line': 105L,
                            'folded-linenos': [],
-                           'sel-line': 72L,
-                           'sel-line-start': 2428L,
-                           'selection_end': 2473L,
-                           'selection_start': 2473L,
+                           'sel-line': 126L,
+                           'sel-line-start': 4382L,
+                           'selection_end': 4420L,
+                           'selection_start': 4420L,
                            'zoom': 0L},
-                          1619524225.786688],
-                         [loc('utilities/editor.py'),
-                          {'attrib-starts': [('create_new_file|0|',
-        6)],
-                           'code-line': '            f.write(f"<h2>Story</h2'\
-        '><br/>")\n',
+                          1619604843.582476],
+                         [loc('20210424.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
                            'first-line': 0L,
                            'folded-linenos': [],
-                           'sel-line': 14L,
-                           'sel-line-start': 471L,
-                           'selection_end': 512L,
-                           'selection_start': 512L,
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
                            'zoom': 0L},
-                          1619524268.821282],
+                          1619604867.280064],
+                         [loc('20210420.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
+                           'first-line': 0L,
+                           'folded-linenos': [],
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
+                           'zoom': 0L},
+                          1619604869.125331],
+                         [loc('20210409.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
+                           'first-line': 0L,
+                           'folded-linenos': [],
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
+                           'zoom': 0L},
+                          1619604870.992725],
+                         [loc('20210420.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
+                           'first-line': 0L,
+                           'folded-linenos': [],
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
+                           'zoom': 0L},
+                          1619604887.648534],
+                         [loc('20210409.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
+                           'first-line': 0L,
+                           'folded-linenos': [],
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
+                           'zoom': 0L},
+                          1619604888.605513],
+                         [loc('20210424.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
+                           'first-line': 0L,
+                           'folded-linenos': [],
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
+                           'zoom': 0L},
+                          1619604889.14482],
                          [loc('main.py'),
                           {'attrib-starts': [('Diary|0|',
-        12),
-        ('Diary|0|.add_new_file|0|',
-         62)],
-                           'code-line': '            self.load_diary(self._a'\
-        'ctive_date)\n',
-                           'first-line': 51L,
+        11),
+        ('Diary|0|.create_new_file|0|',
+         120)],
+                           'code-line': '            with open(file, "w") as'\
+        ' f:\n',
+                           'first-line': 87L,
                            'folded-linenos': [],
-                           'sel-line': 72L,
-                           'sel-line-start': 2428L,
-                           'selection_end': 2473L,
-                           'selection_start': 2473L,
+                           'sel-line': 126L,
+                           'sel-line-start': 4382L,
+                           'selection_end': 4420L,
+                           'selection_start': 4420L,
                            'zoom': 0L},
-                          1619524283.944057],
-                         [loc('utilities/editor.py'),
-                          {'attrib-starts': [('create_new_file|0|',
-        6)],
-                           'code-line': '            f.write(f"<h2>Story</h2'\
-        '><br/><p></p>")\n',
+                          1619604919.503433],
+                         [loc('20210427.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
                            'first-line': 0L,
                            'folded-linenos': [],
-                           'sel-line': 14L,
-                           'sel-line-start': 471L,
-                           'selection_end': 519L,
-                           'selection_start': 519L,
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
                            'zoom': 0L},
-                          1619524298.009867]],
+                          1619604928.863866],
+                         [loc('main.py'),
+                          {'attrib-starts': [('Diary|0|',
+        11),
+        ('Diary|0|.create_new_file|0|',
+         120)],
+                           'code-line': '            with open(file, "w") as'\
+        ' f:\n',
+                           'first-line': 99L,
+                           'folded-linenos': [],
+                           'sel-line': 126L,
+                           'sel-line-start': 4382L,
+                           'selection_end': 4420L,
+                           'selection_start': 4420L,
+                           'zoom': 0L},
+                          1619604972.255705],
+                         [loc('20210428.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
+                           'first-line': 0L,
+                           'folded-linenos': [],
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
+                           'zoom': 0L},
+                          1619604973.049731],
+                         [loc('20210427.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
+                           'first-line': 0L,
+                           'folded-linenos': [],
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
+                           'zoom': 0L},
+                          1619604980.620518],
+                         [loc('20210428.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
+                           'first-line': 0L,
+                           'folded-linenos': [],
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
+                           'zoom': 0L},
+                          1619604981.209462],
+                         [loc('main.py'),
+                          {'attrib-starts': [('Diary|0|',
+        11),
+        ('Diary|0|.save_changes|0|',
+         64)],
+                           'code-line': '        self.txtDiary.clear()\n',
+                           'first-line': 51L,
+                           'folded-linenos': [],
+                           'sel-line': 66L,
+                           'sel-line-start': 2137L,
+                           'selection_end': 2166L,
+                           'selection_start': 2166L,
+                           'zoom': 0L},
+                          1619605343.279324],
+                         [loc('20210428.html'),
+                          {'attrib-starts': [],
+                           'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD '\
+        'HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n',
+                           'first-line': 0L,
+                           'folded-linenos': [],
+                           'sel-line': 0L,
+                           'sel-line-start': 0L,
+                           'selection_end': 0L,
+                           'selection_start': 0L,
+                           'zoom': 0L},
+                          1619605346.629463]],
                         20),
           'current-loc': loc('main.py'),
           'editor-state-list': [(loc('diary.html'),
@@ -834,48 +862,47 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                                  {'attrib-starts': [('ask|0|',
         99)],
                                   'code-line': '',
-                                  'first-line': 51L,
+                                  'first-line': 12L,
                                   'folded-linenos': [],
                                   'sel-line': 112L,
                                   'sel-line-start': 2975L,
                                   'selection_end': 2975L,
                                   'selection_start': 2975L,
                                   'zoom': 0L}),
-                                (loc('utilities/editor.py'),
-                                 {'attrib-starts': [('create_new_file|0|',
-        6)],
-                                  'code-line': '            f.write(f"<h2>St'\
-        'ory</h2><br/><p></p>")\n',
-                                  'first-line': 0L,
-                                  'folded-linenos': [],
-                                  'sel-line': 14L,
-                                  'sel-line-start': 471L,
-                                  'selection_end': 519L,
-                                  'selection_start': 519L,
-                                  'zoom': 0L}),
                                 (loc('main.py'),
                                  {'attrib-starts': [('Diary|0|',
-        12),
-        ('Diary|0|.add_new_file|0|',
-         62)],
-                                  'code-line': '            self.load_diary('\
-        'self._active_date)\n',
-                                  'first-line': 51L,
+        11),
+        ('Diary|0|.load_diary|0|',
+         74)],
+                                  'code-line': '        self.txtDiary.insert'\
+        'Html(QTime.currentTime().toString() + " : ")\n',
+                                  'first-line': 102L,
                                   'folded-linenos': [],
-                                  'sel-line': 72L,
-                                  'sel-line-start': 2428L,
-                                  'selection_end': 2473L,
-                                  'selection_start': 2473L,
+                                  'sel-line': 101L,
+                                  'sel-line-start': 3469L,
+                                  'selection_end': 3539L,
+                                  'selection_start': 3539L,
+                                  'zoom': 0L}),
+                                (loc('makeexe.sh'),
+                                 {'attrib-starts': [],
+                                  'code-line': 'pyinstaller -y -w -i app.ico'\
+        ' main.py \n',
+                                  'first-line': 0L,
+                                  'folded-linenos': [],
+                                  'sel-line': 1L,
+                                  'sel-line-start': 33L,
+                                  'selection_end': 48L,
+                                  'selection_start': 48L,
                                   'zoom': 0L})],
-          'has-focus': True,
+          'has-focus': False,
           'locked': False},
          [loc('diary.html'),
           loc('utilities/dvgFileUtils.py'),
-          loc('utilities/editor.py'),
-          loc('main.py')])),
+          loc('main.py'),
+          loc('makeexe.sh')])),
                                'open_files': [u'diary.html',
         u'utilities/dvgFileUtils.py',
-        u'utilities/editor.py',
+        u'makeexe.sh',
         u'main.py']},
         'saved_notebook_display': None,
         'split_percents': {0: 0.5},
@@ -883,7 +910,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
         'tab_location': 'top',
         'traversal_pos': ((1,
                            0),
-                          1619524210.591334),
+                          1619607131.943175),
         'user_data': {}},
                  'saved_notebook_display': None,
                  'split_percents': {},
@@ -891,14 +918,14 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                  'tab_location': 'left',
                  'traversal_pos': ((0,
                                     0),
-                                   1619518601.700914),
+                                   1619604842.080939),
                  'user_data': {}},
         'window-alloc': (909,
                          36,
                          1007,
                          1040)}]}
 guimgr.recent-documents = [loc('main.py'),
-                           loc('utilities/editor.py'),
+                           loc('makeexe.sh'),
                            loc('utilities/dvgFileUtils.py')]
 guimgr.visual-state = {loc('../../../.cache/wingpersonal7/pi-cache/3.8/home/danny/Development/Python/Diary/lib/python3.8/site-packages/PyQt5/QtCore.pi'): {'a'\
         'ttrib-starts': [('QFile|0|',
@@ -911,6 +938,36 @@ guimgr.visual-state = {loc('../../../.cache/wingpersonal7/pi-cache/3.8/home/dann
         'selection_end': 231605L,
         'selection_start': 231600L,
         'zoom': 0L},
+                       loc('20210409.html'): {'attrib-starts': [],
+        'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http'\
+                     '://www.w3.org/TR/REC-html40/strict.dtd">\n',
+        'first-line': 0L,
+        'folded-linenos': [],
+        'sel-line': 0L,
+        'sel-line-start': 0L,
+        'selection_end': 0L,
+        'selection_start': 0L,
+        'zoom': 0L},
+                       loc('20210420.html'): {'attrib-starts': [],
+        'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http'\
+                     '://www.w3.org/TR/REC-html40/strict.dtd">\n',
+        'first-line': 0L,
+        'folded-linenos': [],
+        'sel-line': 0L,
+        'sel-line-start': 0L,
+        'selection_end': 0L,
+        'selection_start': 0L,
+        'zoom': 0L},
+                       loc('20210424.html'): {'attrib-starts': [],
+        'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http'\
+                     '://www.w3.org/TR/REC-html40/strict.dtd">\n',
+        'first-line': 0L,
+        'folded-linenos': [],
+        'sel-line': 0L,
+        'sel-line-start': 0L,
+        'selection_end': 0L,
+        'selection_start': 0L,
+        'zoom': 0L},
                        loc('20210426.html'): {'attrib-starts': [],
         'code-line': '<h1>Diary date PyQt5.QtCore.QDate(2021, 4, 26)</h1><br'\
                      '/>',
@@ -922,7 +979,18 @@ guimgr.visual-state = {loc('../../../.cache/wingpersonal7/pi-cache/3.8/home/dann
         'selection_start': 0L,
         'zoom': 0L},
                        loc('20210427.html'): {'attrib-starts': [],
-        'code-line': '<h1>Test this test</h1>\n',
+        'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http'\
+                     '://www.w3.org/TR/REC-html40/strict.dtd">\n',
+        'first-line': 0L,
+        'folded-linenos': [],
+        'sel-line': 0L,
+        'sel-line-start': 0L,
+        'selection_end': 0L,
+        'selection_start': 0L,
+        'zoom': 0L},
+                       loc('20210428.html'): {'attrib-starts': [],
+        'code-line': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http'\
+                     '://www.w3.org/TR/REC-html40/strict.dtd">\n',
         'first-line': 0L,
         'folded-linenos': [],
         'sel-line': 0L,
@@ -938,6 +1006,15 @@ guimgr.visual-state = {loc('../../../.cache/wingpersonal7/pi-cache/3.8/home/dann
         'sel-line-start': 0L,
         'selection_end': 0L,
         'selection_start': 0L,
+        'zoom': 0L},
+                       loc('bin/makeexe.sh'): {'attrib-starts': [],
+        'code-line': 'echo "[*] Done"\n',
+        'first-line': 0L,
+        'folded-linenos': [],
+        'sel-line': 2L,
+        'sel-line-start': 68L,
+        'selection_end': 68L,
+        'selection_start': 68L,
         'zoom': 0L},
                        loc('bin/runner.sh'): {'attrib-starts': [],
         'code-line': 'echo "Yawade"',
@@ -966,14 +1043,177 @@ guimgr.visual-state = {loc('../../../.cache/wingpersonal7/pi-cache/3.8/home/dann
         'selection_end': 23L,
         'selection_start': 23L,
         'zoom': 0L},
-                       loc('frmMain.py'): {'attrib-starts': [],
-        'code-line': '# -*- coding: utf-8 -*-\n',
+                       loc('dist/main/main'): {'attrib-starts': [],
+        'code-line': '\x7fELF\x02\x01\x01\0\0\0\0\0\0\0\0\0\x03\0>\0\x01\0\0'\
+                     '\0\xef\xbf\xbd$\0\0\0\0\0\0@\0\0\0\0\0\0\0\xef\xbf\xbd'\
+                     '\xef\xbf\xbd\x1a\0\0\0\0\0\0\0\0\0@\08\0\x0b\0@\0\x1e'\
+                     '\0\x1d\0\x06\0\0\0\x04\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0'\
+                     '\0\0@\0\0\0\0\0\0\0h\x02\0\0\0\0\0\0h\x02\0\0\0\0\0\0'\
+                     '\x08\0\0\0\0\0\0\0\x03\0\0\0\x04\0\0\0\xef\xbf\xbd\x02'\
+                     '\0\0\0\0\0\0\xef\xbf\xbd\x02\0\0\0\0\0\0\xef\xbf\xbd\x02'\
+                     '\0\0\0\0\0\0\x1c\0\0\0\0\0\0\0\x1c\0\0\0\0\0\0\0\x01\0'\
+                     '\0\0\0\0\0\0\x01\0\0\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0h\x17\0\0\0\0\0\0h\x17\0\0\0'\
+                     '\0\0\0\0\x10\0\0\0\0\0\0\x01\0\0\0\x05\0\0\0\0 \0\0\0'\
+                     '\0\0\0\0 \0\0\0\0\0\0\0 \0\0\0\0\0\0]>\0\0\0\0\0\0]>\0'\
+                     '\0\0\0\0\0\0\x10\0\0\0\0\0\0\x01\0\0\0\x04\0\0\0\0`\0'\
+                     '\0\0\0\0\0\0`\0\0\0\0\0\0\0`\0\0\0\0\0\0@$\0\0\0\0\0\0'\
+                     '@$\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\x01\0\0\0\x06\0\0\0p'\
+                     '\xef\xbf\xbd\0\0\0\0\0\0p\xef\xbf\xbd\0\0\0\0\0\0p\xef'\
+                     '\xbf\xbd\0\0\0\0\0\0\xef\xbf\xbd\x04\0\0\0\0\0\0P\xef'\
+                     '\xbf\xbd\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\x02\0\0\0\x06\0'\
+                     '\0\0\xef\xbf\xbd\xef\xbf\xbd\0\0\0\0\0\0\xef\xbf\xbd\xef'\
+                     '\xbf\xbd\0\0\0\0\0\0\xef\xbf\xbd\xef\xbf\xbd\0\0\0\0\0'\
+                     '\0\0\x02\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\x08\0\0\0\0\0\0'\
+                     '\0\x04\0\0\0\x04\0\0\0\xef\xbf\xbd\x02\0\0\0\0\0\0\xef'\
+                     '\xbf\xbd\x02\0\0\0\0\0\0\xef\xbf\xbd\x02\0\0\0\0\0\0D'\
+                     '\0\0\0\0\0\0\0D\0\0\0\0\0\0\0\x04\0\0\0\0\0\0\0P\xef\xbf'\
+                     '\xbdtd\x04\0\0\0\xef\xbf\xbds\0\0\0\0\0\0\xef\xbf\xbd'\
+                     's\0\0\0\0\0\0\xef\xbf\xbds\0\0\0\0\0\0T\x02\0\0\0\0\0'\
+                     '\0T\x02\0\0\0\0\0\0\x04\0\0\0\0\0\0\0Q\xef\xbf\xbdtd\x06'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0R\xef'\
+                     '\xbf\xbdtd\x04\0\0\0p\xef\xbf\xbd\0\0\0\0\0\0p\xef\xbf'\
+                     '\xbd\0\0\0\0\0\0p\xef\xbf\xbd\0\0\0\0\0\0\xef\xbf\xbd'\
+                     '\x02\0\0\0\0\0\0\xef\xbf\xbd\x02\0\0\0\0\0\0\x01\0\0\0'\
+                     '\0\0\0\0/lib64/ld-linux-x86-64.so.2\0\x04\0\0\0\x10\0'\
+                     '\0\0\x01\0\0\0GNU\0\0\0\0\0\x03\0\0\0\x02\0\0\0\0\0\0'\
+                     '\0\x04\0\0\0\x14\0\0\0\x03\0\0\0GNU\0\x1d\xef\xbf\xbd'\
+                     '\xef\xbf\xbd\xef\xbf\xbd|q\t\xef\xbf\xbddD\xef\xbf\xbd'\
+                     '\xef\xbf\xbdJ\x15\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd'\
+                     '=\x02\xef\xbf\xbd\x03\0\0\0M\0\0\0\x01\0\0\0\x06\0\0\0'\
+                     '\0\x01\xef\xbf\xbd\0\xef\xbf\xbd\x01\x10\x02M\0\0\0O\0'\
+                     '\0\0\0\0\0\0(\x1d\xef\xbf\xbd\x1c\xef\xbf\xbde\xef\xbf'\
+                     '\xbdmfUa\x109\xef\xbf\xbd\x1c\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x02\0\0\x12'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x01'\
+                     '\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\t\x02\0'\
+                     '\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd'\
+                     '\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef'\
+                     '\xbf\xbd\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0o\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0u\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '!\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x0b'\
+                     '\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef'\
+                     '\xbf\xbd\0\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\x0c\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef'\
+                     '\xbf\xbd\0\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\xef\xbf\xbd\0\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0(\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\xef\xbf\xbd\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0M\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\x13\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\x18\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\xef\xbf\xbd\x01\0\0\x12\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\04\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x01\0\0\x12\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x01\0\0\x12\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x02\0\0'\
+                     '\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0o\x01\0\0\x12'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Z\x01\0\0\x12\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x02\0'\
+                     '\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0h\x02\0\0'\
+                     '\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd'\
+                     '\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0g\x01'\
+                     '\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0(\x02\0'\
+                     '\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\00\x02\0\0'\
+                     '\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd'\
+                     '\0\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf'\
+                     '\xbd\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\xef\xbf\xbd\0\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0S\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\xef\xbf\xbd\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\x04\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0S\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\xef\xbf\xbd\0\0\0\x12\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0N\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0(\0\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\xef\xbf\xbd\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\xef\xbf\xbd\x01\0\0\x12\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0a\x01\0\0\x12\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0p\0\0\0\x12\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0;\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\xef\xbf\xbd\0\0\0\x12\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0?\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x02\0\0\x12\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\0\0\0\x12\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0W\0\0\0\x12\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x01\0\0\x12\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\0\0\0'\
+                     '\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd'\
+                     '\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef'\
+                     '\xbf\xbd\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\xef\xbf\xbd\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0~\x02\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\xef\xbf\xbd\0\0\0\x12\0\0\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\xef\xbf\xbd\0\0\0\x12\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\0\0\0\x12\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0{\0\0\0\x12\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0`\x02\0\0\x12\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\0\0\0\x12\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\0\0\0\x12\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0G\x01\0\0\x12\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x01\0\0\x12'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0!\x02\0\0\x12\0'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x01\0'\
+                     '\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0F\x02\0\0'\
+                     '\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd'\
+                     '\x01\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\07\0'\
+                     '\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0@\x01\0\0\x12'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x02'\
+                     '\0\0\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Q\0\0\0'\
+                     '\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x1c\x01\0\0'\
+                     '\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0^\0\0\0\x12'\
+                     '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\xbf\xbd\x01'\
+                     '\0\0\x11\0\x1a\0\xef\xbf\xbd\xef\xbf\xbd\0\0\0\0\0\0\x08'\
+                     '\0\0\0\0\0\0\0\xef\xbf\xbd\x02\0\0"\0\0\0\0\0\0\0\0\0'\
+                     '\0\0\0\0\0\0\0\0\0\0.\x01\0\0\x11\0\x1a\0\xef\xbf\xbd'\
+                     '\xef\xbf\xbd\0\0\0\0\0\0\x08\0\0\0\0\0\0\0\x02\x02\0\0'\
+                     '\x11\0\x1a\0\xef\xbf\xbd\xef\xbf\xbd\0\0\0\0\0\0\x08\0'\
+                     '\0\0\0\0\0\0\0libdl.so.2\0_ITM_deregisterTMCloneTable'\
+                     '\0__gmon_start__\0_ITM_registerTMCloneTable\0dlsym\0dl'\
+                     'open\0dlerror\0libz.so.1\0inflateEnd\0inflateInit_\0in'\
+                     'flate\0libc.so.6\0__xpg_basename\0mkdtemp\0fflush\0str'\
+                     'cpy\0fchmod\0readdir\0setlocale\0fopen\0wcsncpy\0strnc'\
+                     'mp\0perror\0closedir\0ftell\0signal\0strncpy\0mbstowcs'\
+                     '\0fork\0unlink\0mkdir\0stdin\0getpid\0kill\0strdup\0st'\
+                     'rtok\0feof\0calloc\0strlen\0prctl\0dirname\0rmdir\0__e'\
+                     'rrno_location\0fseek\0clearerr\0unsetenv\0__fprintf_ch'\
+                     'k\0stdout\0fclose\0__vsnprintf_chk\0malloc\0strcat\0re'\
+                     'alpath\0raise\0nl_langinfo\0opendir\0getenv\0stderr\0'\
+                     '__snprintf_chk\0readlink\0execvp\0strncat\0__realpath_'\
+                     'chk\0fileno\0fwrite\0fread\0__memcpy_chk\0waitpid\0str'\
+                     'chr\0__vfprintf_chk\0__strcpy_chk\0__cxa_finalize\0__x'\
+                     'stat\0__strcat_chk\0setbuf\0strcmp\0strerror\0__libc_s'\
+                     'tart_main\0ferror\0stpcpy\0snprintf\0free\0GLIBC_2.2.5'\
+                     '\0GLIBC_2.3\0GLIBC_2.4\0GLIBC_2.3.4\0\0\0\x02\0\x03\0'\
+                     '\x02\0\x03\0\x03\0\x02\0\x03\0\x03\0\x03\0\x03\0\0\0\x03'\
+                     '\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0'\
+                     '\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0'\
+                     '\x04\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x02\0\x03\0'\
+                     '\x03\0\0\0\x03\0\x05\0\x03\0\0\0\x03\0\x03\0\x03\0\x03'\
+                     '\0\x03\0\x06\0\x03\0\x03\0\x03\0\x03\0\x02\0\x02\0\x03'\
+                     '\0\x03\0\x03\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0'\
+                     '\x03\0\x03\0\x02\0\0\0\x03\0\x03\0\x06\0\x03\0\x06\0\x03'\
+                     '\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\x01\0\x01\0\x01\0\0\0'\
+                     '\x10\0\0\0 \0\0\0u\x1ai\t\0\0\x06\0\xef\xbf\xbd\x02\0'\
+                     '\0\0\0\0\0\x01\0\x04\0\xef\xbf\xbd\0\0\0\x10\0\0\0\0\0'\
+                     '\0\0\x13ii\r',
         'first-line': 0L,
         'folded-linenos': [],
         'sel-line': 0L,
         'sel-line-start': 0L,
         'selection_end': 0L,
         'selection_start': 0L,
+        'zoom': 0L},
+                       loc('frmMain.py'): {'attrib-starts': [],
+        'code-line': 'import icons_rc\n',
+        'first-line': 54L,
+        'folded-linenos': [],
+        'sel-line': 77L,
+        'sel-line-start': 3818L,
+        'selection_end': 3818L,
+        'selection_start': 3818L,
         'zoom': 0L},
                        loc('info.md'): {'attrib-starts': [],
         'code-line': '      the changes, no questions asked.',
@@ -1021,13 +1261,13 @@ guimgr.visual-state = {loc('../../../.cache/wingpersonal7/pi-cache/3.8/home/dann
         'selection_start': 0L,
         'zoom': 0L},
                        loc('ui/compileui.sh'): {'attrib-starts': [],
-        'code-line': '',
+        'code-line': 'pyrcc5 -o icons_rc.py ./ui/icons.qrc \n',
         'first-line': 0L,
         'folded-linenos': [],
-        'sel-line': 4L,
-        'sel-line-start': 108L,
-        'selection_end': 108L,
-        'selection_start': 108L,
+        'sel-line': 2L,
+        'sel-line-start': 52L,
+        'selection_end': 67L,
+        'selection_start': 67L,
         'zoom': 0L},
                        loc('ui/main_ui.ui'): {'attrib-starts': [],
         'code-line': '<?xml version="1.0" encoding="UTF-8"?>\n',
@@ -1046,6 +1286,18 @@ guimgr.visual-state = {loc('../../../.cache/wingpersonal7/pi-cache/3.8/home/dann
         'sel-line-start': 0L,
         'selection_end': 0L,
         'selection_start': 0L,
+        'zoom': 0L},
+                       loc('utilities/editor.py'): {'attrib-starts': [('crea'\
+        'te_new_file|0|',
+        6)],
+        'code-line': 'def create_new_file(file="undefined", date="no date", '\
+                     'cursor=None):\n',
+        'first-line': 0L,
+        'folded-linenos': [],
+        'sel-line': 6L,
+        'sel-line-start': 162L,
+        'selection_end': 489L,
+        'selection_start': 162L,
         'zoom': 0L}}
 proj.ptype = 'virtualenv'
 proj.pyexec = {None: ('activate',

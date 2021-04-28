@@ -3,11 +3,10 @@ import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTextEdit, QMessageBox
 from PyQt5.QtGui import QFont, QTextCursor, QTextListFormat
-from PyQt5.QtCore import QDate, QDateTime, QFile
+from PyQt5.QtCore import QDate, QDateTime, QFile, QTime
 
 from frmMain import Ui_MainWindow
 from utilities import dvgFileUtils
-from utilities import editor
 
 
 class Diary(QMainWindow, Ui_MainWindow):
@@ -17,6 +16,8 @@ class Diary(QMainWindow, Ui_MainWindow):
         # instance attributes
         self._active_file = None
         self._active_date = None
+        self._editorDirty = False
+        self._isDirty = False
 
         super(Diary, self).__init__()
         self.setupUi(self)
@@ -31,11 +32,45 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.load_diary(QDate.currentDate())
         # Make sure no diary entries can be made for future dates
         self.calendarWidget.setMaximumDate(QDate.currentDate())
+        # self.txtDiary.textChanged.connect(self.setdirty)
 
         # signals
+        self.txtDiary.cursorPositionChanged.connect(self.show_cursor_position)
         self.calendarWidget.clicked[QDate].connect(self.load_diary)
+        self.calendarWidget.selectionChanged.connect(self.save_changes)
         self.action_Add.triggered.connect(self.add_new_file)
         self.action_Add.setEnabled(False)
+        self.actionInsert_bulleted_list.triggered.connect(self.insert_bulleted_list)
+
+    def insert_bulleted_list(self):
+        """
+        Insert a bulleted list at the cursor position
+        """
+        cursor = self.txtDiary.textCursor()
+        cursor.insertList(QTextListFormat.ListDisc)
+
+    def show_cursor_position(self):
+        """
+        Shows the line and column position
+        """
+        cursor = self.txtDiary.textCursor()
+        self.statusbar.showMessage(f"Line {cursor.blockNumber()+1} | Column {cursor.columnNumber()}")
+
+    def setdirty(self):
+        """
+        Handle changes in the editor
+        """
+        self._isDirty = True
+
+    def save_changes(self):
+        if QFile(self._active_file).exists():
+            # Save our active file
+            print(self._active_file)
+            with open(self._active_file, 'w') as my_file:
+                my_file.write(self.txtDiary.toHtml())
+        else:
+            # Clear the text field
+            self.txtDiary.clear()
 
     def load_diary(self, dateedit):
         """
@@ -57,8 +92,17 @@ class Diary(QMainWindow, Ui_MainWindow):
 
         self.action_Add.setEnabled(False)
         self.statusbar.showMessage(self._active_file)
-        with open(file_name) as f:
+        with open(file_name, 'r') as f:
             self.txtDiary.setHtml(f.read())
+        self._editorDirty = True
+        self.txtDiary.moveCursor(QTextCursor.End)
+        self.cursor.beginEditBlock()
+        self.cursor.insertBlock()
+        self.txtDiary.setFontPointSize(int(12))
+        self.txtDiary.insertHtml(QTime.currentTime().toString() + " : ")
+        self.cursor.endEditBlock()
+
+        self.txtDiary.setFocus()
 
     def add_new_file(self):
         """
@@ -68,11 +112,26 @@ class Diary(QMainWindow, Ui_MainWindow):
                                   msg="Entry",
                                   explain="Create a new page?")
         if answer == QMessageBox.Ok:
-            editor.create_new_file(file=self._active_file,
-                                   date=self._active_date)
+            self.create_new_file(file=self._active_file,
+                                 date=self._active_date)
             self.load_diary(self._active_date)
+            self.cursor.setPosition(0)
+            self.cursor.insertBlock()
+            self.cursor.insertHtml(f"<h1>Diary entry {self._active_date.toString()}<br />")
+            self.cursor.insertHtml("<h2>Today's events</h2><br />")
+            self.cursor.setPosition(0)
         else:
             print("ko")
+
+    def create_new_file(self, file="undefined", date="no date", cursor=None):
+        """
+        Generate a new diary file
+        """
+        myFile = QFile(file)
+        if not myFile.exists():
+            with open(file, "w") as f:
+                f.write("")
+        return
 
 
 if __name__ == '__main__':
