@@ -3,11 +3,10 @@ import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTextEdit, QMessageBox
 from PyQt5.QtGui import QFont, QTextCursor, QTextListFormat
-from PyQt5.QtCore import QDate, QDateTime, QFile, QTime
+from PyQt5.QtCore import QDate, QDateTime, QFile, QTime, QSettings, QByteArray
 
 from frmMain import Ui_MainWindow
 from utilities import dvgFileUtils
-
 
 class Diary(QMainWindow, Ui_MainWindow):
 
@@ -21,6 +20,8 @@ class Diary(QMainWindow, Ui_MainWindow):
 
         super(Diary, self).__init__()
         self.setupUi(self)
+
+        self.loadsettings()
 
         # Some more ui related stuff
         self.cursor = QTextCursor(self.txtDiary.document())
@@ -132,6 +133,42 @@ class Diary(QMainWindow, Ui_MainWindow):
             with open(file, "w") as f:
                 f.write("")
         return
+
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+        SETTINGS SECTION 
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    def closeEvent(self, event):
+        """
+            Overrides the base close event
+        :param event: event to override
+        :return: nothing
+        """
+        self.savesettings()
+
+    def savesettings(self):
+        """
+            Save settings to the registry (windows) or setting file (linux)
+        :return: nothing
+        """
+        settings = QSettings("DenkaTech", "KDiary")
+        settings.beginGroup("mainwindow")
+        settings.setValue("frm_main/geometry", self.saveGeometry())
+        settings.setValue("frm_main/state", self.saveState())
+        settings.endGroup()
+
+    def loadsettings(self):
+        """
+            Load the settings from the registry (windows) or settings file (linux)
+        :return: nothing
+        """
+        settingsF = QByteArray()
+
+        settings = QSettings("DenkaTech", "KDiary")
+        settings.beginGroup("mainwindow")
+        self.restoreState(settings.value("frm_main/state", QByteArray()))
+        self.restoreGeometry(settings.value("frm_main/geometry", QByteArray()))
+        settings.endGroup()
 
 
 if __name__ == '__main__':

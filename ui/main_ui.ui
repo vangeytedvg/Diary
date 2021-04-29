@@ -68,6 +68,7 @@
      <string>Event&amp;s</string>
     </property>
     <addaction name="action_Add"/>
+    <addaction name="actionErase_and_renew"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
@@ -99,6 +100,7 @@
    </attribute>
    <addaction name="actionE_xit"/>
    <addaction name="action_Add"/>
+   <addaction name="actionErase_and_renew"/>
    <addaction name="actionSave"/>
    <addaction name="separator"/>
    <addaction name="actionInsert_numbered_list"/>
@@ -211,6 +213,15 @@
    </property>
    <property name="text">
     <string>Paste</string>
+   </property>
+  </action>
+  <action name="actionErase_and_renew">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/recycle-bin.png</normaloff>:/tlb/recycle-bin.png</iconset>
+   </property>
+   <property name="text">
+    <string>Erase &amp;and renew</string>
    </property>
   </action>
  </widget>
