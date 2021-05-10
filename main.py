@@ -46,7 +46,10 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionSave.triggered.connect(self.save_changes)
         self.actionInsert_bulleted_list.triggered.connect(self.insert_bulleted_list)
         self.actionInsert_numbered_list.triggered.connect(self.insert_numbered_list)
+        # shorthand actions
         self.actionCut.triggered.connect(self.txtDiary.cut)
+        self.actionCopy.triggered.connect(self.txtDiary.copy)
+        self.actionPaste.triggered.connect(self.txtDiary.paste)
 
     def insert_bulleted_list(self):
         """
