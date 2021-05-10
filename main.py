@@ -7,6 +7,7 @@ from PyQt5.QtCore import QDate, QDateTime, QFile, QTime, QSettings, QByteArray
 
 from frmMain import Ui_MainWindow
 from utilities import dvgFileUtils
+from utilities.setting import Settings
 
 class Diary(QMainWindow, Ui_MainWindow):
 
@@ -39,9 +40,13 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.txtDiary.cursorPositionChanged.connect(self.show_cursor_position)
         self.calendarWidget.clicked[QDate].connect(self.load_diary)
         self.calendarWidget.selectionChanged.connect(self.save_changes)
+        # actions
         self.action_Add.triggered.connect(self.add_new_file)
         self.action_Add.setEnabled(False)
+        self.actionSave.triggered.connect(self.save_changes)
         self.actionInsert_bulleted_list.triggered.connect(self.insert_bulleted_list)
+        self.actionInsert_numbered_list.triggered.connect(self.insert_numbered_list)
+        self.actionCut.triggered.connect(self.txtDiary.cut)
 
     def insert_bulleted_list(self):
         """
@@ -49,6 +54,13 @@ class Diary(QMainWindow, Ui_MainWindow):
         """
         cursor = self.txtDiary.textCursor()
         cursor.insertList(QTextListFormat.ListDisc)
+
+    def insert_numbered_list(self):
+        """
+        Insert a numbered list 
+        """
+        cursor = self.txtDiary.textCursor()
+        cursor.insertList(QTextListFormat.ListDecimal)
 
     def show_cursor_position(self):
         """
@@ -89,6 +101,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         if not myFile.exists():
             self.action_Add.setEnabled(True)
             self.statusbar.showMessage(file_name + " **")
+            self.txtDiary.clear()
             return
 
         self.action_Add.setEnabled(False)
@@ -97,11 +110,11 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.txtDiary.setHtml(f.read())
         self._editorDirty = True
         self.txtDiary.moveCursor(QTextCursor.End)
-        self.cursor.beginEditBlock()
-        self.cursor.insertBlock()
-        self.txtDiary.setFontPointSize(int(12))
-        self.txtDiary.insertHtml(QTime.currentTime().toString() + " : ")
-        self.cursor.endEditBlock()
+        # self.cursor.beginEditBlock()
+        # self.cursor.insertBlock()
+        # self.txtDiary.setFontPointSize(int(12))
+        #self.txtDiary.insertHtml(QTime.currentTime().toString() + " : ")
+        # self.cursor.endEditBlock()
 
         self.txtDiary.setFocus()
 
@@ -134,9 +147,9 @@ class Diary(QMainWindow, Ui_MainWindow):
                 f.write("")
         return
 
-    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-        SETTINGS SECTION 
-    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    """
+    SETTINGS SECTION
+    """
 
     def closeEvent(self, event):
         """
@@ -144,7 +157,10 @@ class Diary(QMainWindow, Ui_MainWindow):
         :param event: event to override
         :return: nothing
         """
+        mySettings = Settings(self, "DenkaTech", "KDiary")
+        mySettings.save_form_settings("mainwindow", "frm_main/geometry")
         self.savesettings()
+        self.save_changes()
 
     def savesettings(self):
         """
@@ -162,8 +178,6 @@ class Diary(QMainWindow, Ui_MainWindow):
             Load the settings from the registry (windows) or settings file (linux)
         :return: nothing
         """
-        settingsF = QByteArray()
-
         settings = QSettings("DenkaTech", "KDiary")
         settings.beginGroup("mainwindow")
         self.restoreState(settings.value("frm_main/state", QByteArray()))
