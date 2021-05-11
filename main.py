@@ -1,9 +1,16 @@
 # Main Entry point of Diary application
 import sys
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QTextEdit, QMessageBox
-from PyQt5.QtGui import QFont, QTextCursor, QTextListFormat, QFont
-from PyQt5.QtCore import QDate, QDateTime, QFile, QTime, QSettings, QByteArray
+from PyQt5.QtWidgets import (QMainWindow, QApplication,
+                             QTextEdit, QMessageBox)
+from PyQt5.QtPrintSupport import (QPrintDialog,
+                                  QPrinter,
+                                  QPrintPreviewDialog)
+from PyQt5.QtGui import (QFont,
+                         QTextCursor, QTextListFormat)
+from PyQt5.QtCore import (QDate, QDateTime,
+                          QFile, QTime,
+                          QSettings, QByteArray)
 
 from frmMain import Ui_MainWindow
 from utilities import dvgFileUtils
@@ -47,20 +54,45 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.action_Add.triggered.connect(self.add_new_file)
         self.action_Add.setEnabled(False)
         self.actionSave.triggered.connect(self.save_changes)
+        self.action_Print.triggered.connect(self.print_preview)
+        # delegated to the editor proxy
         self.actionInsert_bulleted_list.triggered.connect(self.ed.insert_bulleted_list)
         self.actionInsert_numbered_list.triggered.connect(self.ed.insert_numbered_list)
         self.actionBold.triggered.connect(self.ed.set_fontbold)
         self.actionItalic.triggered.connect(self.ed.set_fontitalic)
         self.actionUnderline.triggered.connect(self.ed.set_fontunderline)
+        self.actionStrikethrough.triggered.connect(self.ed.set_fontstrikethrough)
         # shorthand actions
         self.actionCut.triggered.connect(self.txtDiary.cut)
         self.actionCopy.triggered.connect(self.txtDiary.copy)
         self.actionPaste.triggered.connect(self.txtDiary.paste)
 
+    def print_preview(self):
+        """
+        Print preview
+        """
+        # Create an instance of the preview dialog
+        preview = QPrintPreviewDialog()
+        preview.paintRequested.connect(lambda prt: self.txtDiary.print_(prt))
+        # show it
+        preview.exec_()
+
     def show_cursor_position(self):
         """
-        Shows the line and column position
+        Shows the line and column position and sets the flags of the
+        bold, italic, underline and strikethrough actions
         """
+
+        fmt = self.txtDiary.currentCharFormat()
+        if fmt.fontItalic():
+            self.actionItalic.setChecked(True)
+        else:
+            self.actionItalic.setChecked(False)
+        if fmt.fontWeight() == QFont.Bold:
+            self.actionBold.setChecked(True)
+        else:
+            self.actionBold.setChecked(False)
+
         cursor = self.txtDiary.textCursor()
         self.statusbar.showMessage(f"Line {cursor.blockNumber()+1} | Column {cursor.columnNumber()}")
 

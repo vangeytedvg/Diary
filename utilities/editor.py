@@ -37,6 +37,14 @@ class EditorProxy:
         state = self.parent.fontUnderline()
         self.parent.setFontUnderline(not state)
 
+    def set_fontstrikethrough(self):
+        """
+        Strikethrough
+        """
+        fmt = self.parent.currentCharFormat()
+        fmt.setFontStrikeOut(not fmt.fontStrikeOut())
+        self.parent.setCurrentCharFormat(fmt)
+
     def insert_bulleted_list(self):
         """
         Insert a bulleted list at the cursor position
