@@ -334,6 +334,9 @@
    </property>
   </action>
   <action name="actionStrikethrough">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/tlb/strikethrough.png</normaloff>:/tlb/strikethrough.png</iconset>

@@ -84,14 +84,18 @@ class Diary(QMainWindow, Ui_MainWindow):
         """
 
         fmt = self.txtDiary.currentCharFormat()
-        if fmt.fontItalic():
-            self.actionItalic.setChecked(True)
-        else:
-            self.actionItalic.setChecked(False)
+
+        # Bold
         if fmt.fontWeight() == QFont.Bold:
             self.actionBold.setChecked(True)
         else:
             self.actionBold.setChecked(False)
+        # Italic
+        self.actionItalic.setChecked(fmt.fontItalic())
+        # underline
+        self.actionUnderline.setChecked(fmt.fontUnderline())
+        # strike through
+        self.actionStrikethrough.setChecked(fmt.fontStrikeOut())
 
         cursor = self.txtDiary.textCursor()
         self.statusbar.showMessage(f"Line {cursor.blockNumber()+1} | Column {cursor.columnNumber()}")
@@ -105,7 +109,6 @@ class Diary(QMainWindow, Ui_MainWindow):
     def save_changes(self):
         if QFile(self._active_file).exists():
             # Save our active file
-            print(self._active_file)
             with open(self._active_file, 'w') as my_file:
                 my_file.write(self.txtDiary.toHtml())
         else:

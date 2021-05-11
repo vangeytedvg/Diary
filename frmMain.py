@@ -142,6 +142,7 @@ class Ui_MainWindow(object):
         self.actionTime.setIcon(icon16)
         self.actionTime.setObjectName("actionTime")
         self.actionStrikethrough = QtWidgets.QAction(MainWindow)
+        self.actionStrikethrough.setCheckable(True)
         icon17 = QtGui.QIcon()
         icon17.addPixmap(QtGui.QPixmap(":/tlb/strikethrough.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionStrikethrough.setIcon(icon17)
