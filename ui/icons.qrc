@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="tlb">
+    <file>strikethrough.png</file>
     <file>printer.png</file>
     <file>calendar.png</file>
     <file>time.png</file>

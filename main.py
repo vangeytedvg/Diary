@@ -8,7 +8,7 @@ from PyQt5.QtCore import QDate, QDateTime, QFile, QTime, QSettings, QByteArray
 from frmMain import Ui_MainWindow
 from utilities import dvgFileUtils
 from utilities.setting import Settings
-from utilities.editor import Editor
+from utilities.editor import EditorProxy
 
 class Diary(QMainWindow, Ui_MainWindow):
 
@@ -25,7 +25,7 @@ class Diary(QMainWindow, Ui_MainWindow):
 
         self.loadsettings()
 
-        self.ed = Editor(self.txtDiary)
+        self.ed = EditorProxy(self.txtDiary)
 
         # Some more ui related stuff
         self.cursor = QTextCursor(self.txtDiary.document())
@@ -47,52 +47,15 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.action_Add.triggered.connect(self.add_new_file)
         self.action_Add.setEnabled(False)
         self.actionSave.triggered.connect(self.save_changes)
-        self.actionInsert_bulleted_list.triggered.connect(self.insert_bulleted_list)
-        self.actionInsert_numbered_list.triggered.connect(self.insert_numbered_list)
+        self.actionInsert_bulleted_list.triggered.connect(self.ed.insert_bulleted_list)
+        self.actionInsert_numbered_list.triggered.connect(self.ed.insert_numbered_list)
         self.actionBold.triggered.connect(self.ed.set_fontbold)
-        self.actionItalic.triggered.connect(self.set_fontitalic)
-        self.actionUnderline.triggered.connect(self.set_fontunderline)
+        self.actionItalic.triggered.connect(self.ed.set_fontitalic)
+        self.actionUnderline.triggered.connect(self.ed.set_fontunderline)
         # shorthand actions
         self.actionCut.triggered.connect(self.txtDiary.cut)
         self.actionCopy.triggered.connect(self.txtDiary.copy)
         self.actionPaste.triggered.connect(self.txtDiary.paste)
-
-    def set_fontbold(self):
-        """
-        Bold
-        """
-        if self.txtDiary.fontWeight() == QFont.Bold:
-            self.txtDiary.setFontWeight(QFont.Normal)
-        else:
-            self.txtDiary.setFontWeight(QFont.Bold)
-
-    def set_fontitalic(self):
-        """
-        Italic
-        """
-        state = self.txtDiary.fontItalic()
-        self.txtDiary.setFontItalic(not state)
-
-    def set_fontunderline(self):
-        """
-        Underline
-        """
-        state = self.txtDiary.fontUnderline()
-        self.txtDiary.setFontUnderline(not state)
-
-    def insert_bulleted_list(self):
-        """
-        Insert a bulleted list at the cursor position
-        """
-        cursor = self.txtDiary.textCursor()
-        cursor.insertList(QTextListFormat.ListDisc)
-
-    def insert_numbered_list(self):
-        """
-        Insert a numbered list 
-        """
-        cursor = self.txtDiary.textCursor()
-        cursor.insertList(QTextListFormat.ListDecimal)
 
     def show_cursor_position(self):
         """

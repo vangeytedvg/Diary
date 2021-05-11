@@ -83,6 +83,7 @@
     <addaction name="actionBold"/>
     <addaction name="actionItalic"/>
     <addaction name="actionUnderline"/>
+    <addaction name="actionStrikethrough"/>
    </widget>
    <widget class="QMenu" name="menuInsert">
     <property name="title">
@@ -121,6 +122,7 @@
    <addaction name="actionBold"/>
    <addaction name="actionItalic"/>
    <addaction name="actionUnderline"/>
+   <addaction name="actionStrikethrough"/>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
    <property name="windowTitle">
@@ -329,6 +331,15 @@
    </property>
    <property name="text">
     <string>Time</string>
+   </property>
+  </action>
+  <action name="actionStrikethrough">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/strikethrough.png</normaloff>:/tlb/strikethrough.png</iconset>
+   </property>
+   <property name="text">
+    <string>Strikethrough</string>
    </property>
   </action>
  </widget>
