@@ -132,6 +132,8 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.action_Add.setEnabled(True)
             self.statusbar.showMessage(file_name + " **")
             self.txtDiary.clear()
+            # As long as we have no file, disable all the cut, paste etc controls
+            self.EnableEditControls(False)
             return
 
         self.action_Add.setEnabled(False)
@@ -141,6 +143,15 @@ class Diary(QMainWindow, Ui_MainWindow):
         self._editorDirty = True
         self.txtDiary.moveCursor(QTextCursor.End)
         self.txtDiary.setFocus()
+
+    def EnableEditControls(self, state):
+        self.actionBold.setEnabled(state)
+        self.actionItalic.setEnabled(state)
+        self.actionUnderline.setEnabled(state)
+        self.actionCut.setEnabled(state)
+        self.actionCopy.setEnabled(state)
+        self.actionPaste.setEnabled(state)
+        TODO CONTINUE HERE
 
     def add_new_file(self):
         """
