@@ -2,7 +2,7 @@
 import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTextEdit, QMessageBox
-from PyQt5.QtGui import QFont, QTextCursor, QTextListFormat
+from PyQt5.QtGui import QFont, QTextCursor, QTextListFormat, QFont
 from PyQt5.QtCore import QDate, QDateTime, QFile, QTime, QSettings, QByteArray
 
 from frmMain import Ui_MainWindow
@@ -46,10 +46,28 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionSave.triggered.connect(self.save_changes)
         self.actionInsert_bulleted_list.triggered.connect(self.insert_bulleted_list)
         self.actionInsert_numbered_list.triggered.connect(self.insert_numbered_list)
+        self.actionBold.triggered.connect(self.set_fontbold)
+        self.actionItalic.triggered.connect(self.set_fontitalic)
         # shorthand actions
         self.actionCut.triggered.connect(self.txtDiary.cut)
         self.actionCopy.triggered.connect(self.txtDiary.copy)
         self.actionPaste.triggered.connect(self.txtDiary.paste)
+
+    def set_fontbold(self):
+        """
+        Bold
+        """
+        if self.txtDiary.fontWeight() == QFont.Bold:
+            self.txtDiary.setFontWeight(QFont.Normal)
+        else:
+            self.txtDiary.setFontWeight(QFont.Bold)
+
+    def set_fontitalic(self):
+        """
+        Italic
+        """
+        state = self.txtDiary.fontItalic()
+        self.txtDiary.setFontItalic(not state)
 
     def insert_bulleted_list(self):
         """

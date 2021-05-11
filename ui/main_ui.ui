@@ -185,6 +185,9 @@
    </property>
   </action>
   <action name="actionBold">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/tlb/bold.png</normaloff>:/tlb/bold.png</iconset>
@@ -192,8 +195,14 @@
    <property name="text">
     <string>Bold</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
   </action>
   <action name="actionItalic">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/tlb/italic.png</normaloff>:/tlb/italic.png</iconset>
@@ -201,14 +210,23 @@
    <property name="text">
     <string>Italic</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
   </action>
   <action name="actionUnderline">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/tlb/underlined-text.png</normaloff>:/tlb/underlined-text.png</iconset>
    </property>
    <property name="text">
     <string>Underline</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
    </property>
   </action>
   <action name="actionSave">
