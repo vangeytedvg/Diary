@@ -8,6 +8,7 @@ from PyQt5.QtCore import QDate, QDateTime, QFile, QTime, QSettings, QByteArray
 from frmMain import Ui_MainWindow
 from utilities import dvgFileUtils
 from utilities.setting import Settings
+from utilities.editor import Editor
 
 class Diary(QMainWindow, Ui_MainWindow):
 
@@ -23,6 +24,8 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.loadsettings()
+
+        self.ed = Editor(self.txtDiary)
 
         # Some more ui related stuff
         self.cursor = QTextCursor(self.txtDiary.document())
@@ -46,8 +49,9 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionSave.triggered.connect(self.save_changes)
         self.actionInsert_bulleted_list.triggered.connect(self.insert_bulleted_list)
         self.actionInsert_numbered_list.triggered.connect(self.insert_numbered_list)
-        self.actionBold.triggered.connect(self.set_fontbold)
+        self.actionBold.triggered.connect(self.ed.set_fontbold)
         self.actionItalic.triggered.connect(self.set_fontitalic)
+        self.actionUnderline.triggered.connect(self.set_fontunderline)
         # shorthand actions
         self.actionCut.triggered.connect(self.txtDiary.cut)
         self.actionCopy.triggered.connect(self.txtDiary.copy)
@@ -68,6 +72,13 @@ class Diary(QMainWindow, Ui_MainWindow):
         """
         state = self.txtDiary.fontItalic()
         self.txtDiary.setFontItalic(not state)
+
+    def set_fontunderline(self):
+        """
+        Underline
+        """
+        state = self.txtDiary.fontUnderline()
+        self.txtDiary.setFontUnderline(not state)
 
     def insert_bulleted_list(self):
         """
@@ -131,12 +142,6 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.txtDiary.setHtml(f.read())
         self._editorDirty = True
         self.txtDiary.moveCursor(QTextCursor.End)
-        # self.cursor.beginEditBlock()
-        # self.cursor.insertBlock()
-        # self.txtDiary.setFontPointSize(int(12))
-        #self.txtDiary.insertHtml(QTime.currentTime().toString() + " : ")
-        # self.cursor.endEditBlock()
-
         self.txtDiary.setFocus()
 
     def add_new_file(self):

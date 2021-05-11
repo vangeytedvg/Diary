@@ -1,15 +1,30 @@
-# Editor / file manipulations
 from PyQt5.QtCore import QDate, QDateTime, QFile
+from PyQt5.QtGui import QFont, QTextCursor, QTextListFormat, QFont
 from PyQt5.QtWidgets import QTextEdit
-from PyQt5.QtGui import QFont, QTextCursor
 
 
-def create_new_file(file="undefined", date="no date", cursor=None):
+class Editor:
     """
-    Generate a new diary file
+    The editor class is a helper class that handles a lot of the manipulations
+    and relieves the main class from these tasks.
     """
-    myFile = QFile(file)
-    if not myFile.exists():
-        with open(file, "w") as f:
-            f.write(f"<h1><span style='text-decoration:underline'>Diary date {date.toString()}</span></h1><br/>")
-    return
+
+    def __init__(self, parent):
+        # The parent here is the QTextEditor on any form
+        self.parent = parent
+
+    def set_fontbold(self):
+        """
+        Bold
+        """
+        if self.parent.fontWeight() == QFont.Bold:
+            self.parent.setFontWeight(QFont.Normal)
+        else:
+            self.parent.setFontWeight(QFont.Bold)
+
+    def set_fontitalic(self):
+        """
+        Italic
+        """
+        state = self.parent.fontItalic()
+        self.parent.setFontItalic(not state)
