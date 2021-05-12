@@ -1,6 +1,8 @@
 # Main Entry point of Diary application
 import sys
 
+from pathlib import Path
+
 from PyQt5.QtWidgets import (QMainWindow, QApplication,
                              QTextEdit, QMessageBox)
 from PyQt5.QtPrintSupport import (QPrintDialog,
@@ -151,7 +153,6 @@ class Diary(QMainWindow, Ui_MainWindow):
         Enable or Disable actions
         param state, boolean
         """
-
         self.actionBold.setEnabled(state)
         self.actionItalic.setEnabled(state)
         self.actionUnderline.setEnabled(state)
@@ -190,12 +191,10 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def create_new_file(self, file="undefined", date="no date", cursor=None):
         """
-        Generate a new diary file
+        Generate a new diary file using the pathlib module, just like
+        the unix touch command would do.
         """
-        myFile = QFile(file)
-        if not myFile.exists():
-            with open(file, "w") as f:
-                f.write("")
+        Path(file).touch()
         return
 
     """
