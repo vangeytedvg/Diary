@@ -6,3 +6,6 @@ Todo's
       text editor to nothing
     Ok - When closing the app.  Check if the text editor is dirty, if so, save
       the changes, no questions asked. 
+      
+2) Check setting the width of a line (wrapping)
+    - lineWrapMode, lineWrapColumnOrWidth

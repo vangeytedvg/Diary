@@ -69,7 +69,7 @@
      <string>Event&amp;s</string>
     </property>
     <addaction name="action_Add"/>
-    <addaction name="actionErase_and_renew"/>
+    <addaction name="actionErase"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
@@ -89,8 +89,8 @@
     <property name="title">
      <string>Insert</string>
     </property>
-    <addaction name="actionDate"/>
-    <addaction name="actionTime"/>
+    <addaction name="action_insert_date"/>
+    <addaction name="action_insert_time"/>
     <addaction name="actionInsert_numbered_list"/>
    </widget>
    <addaction name="menu_File"/>
@@ -111,7 +111,7 @@
    </attribute>
    <addaction name="actionE_xit"/>
    <addaction name="action_Add"/>
-   <addaction name="actionErase_and_renew"/>
+   <addaction name="actionErase"/>
    <addaction name="actionSave"/>
    <addaction name="action_Print"/>
    <addaction name="separator"/>
@@ -138,8 +138,8 @@
    <addaction name="actionRedo"/>
    <addaction name="actionInsert_bulleted_list"/>
    <addaction name="actionInsert_numbered_list"/>
-   <addaction name="actionDate"/>
-   <addaction name="actionTime"/>
+   <addaction name="action_insert_date"/>
+   <addaction name="action_insert_time"/>
   </widget>
   <action name="actionE_xit">
    <property name="icon">
@@ -270,13 +270,16 @@
     <string>Paste</string>
    </property>
   </action>
-  <action name="actionErase_and_renew">
+  <action name="actionErase">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/tlb/recycle-bin.png</normaloff>:/tlb/recycle-bin.png</iconset>
    </property>
    <property name="text">
     <string>Erase &amp;and renew</string>
+   </property>
+   <property name="toolTip">
+    <string>Erase current diary entry file</string>
    </property>
   </action>
   <action name="actionUndo">
@@ -315,7 +318,7 @@
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="actionDate">
+  <action name="action_insert_date">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/tlb/calendar.png</normaloff>:/tlb/calendar.png</iconset>
@@ -323,14 +326,20 @@
    <property name="text">
     <string>Date</string>
    </property>
+   <property name="toolTip">
+    <string>Insert date stamp</string>
+   </property>
   </action>
-  <action name="actionTime">
+  <action name="action_insert_time">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/tlb/time.png</normaloff>:/tlb/time.png</iconset>
    </property>
    <property name="text">
     <string>Time</string>
+   </property>
+   <property name="toolTip">
+    <string>Insert time stamp</string>
    </property>
   </action>
   <action name="actionStrikethrough">
