@@ -2,6 +2,7 @@
 import sys
 
 from pathlib import Path
+from os import remove
 
 from PyQt5.QtWidgets import (QMainWindow, QApplication,
                              QTextEdit, QMessageBox)
@@ -31,30 +32,28 @@ class Diary(QMainWindow, Ui_MainWindow):
 
         super(Diary, self).__init__()
         self.setupUi(self)
-
         self.loadsettings()
-
         self.ed = EditorProxy(self.txtDiary)
-
         # Some more ui related stuff
         self.cursor = QTextCursor(self.txtDiary.document())
         self.txtDiary.setAutoFormatting(QTextEdit.AutoAll)
         font = QFont('Arial', 12)
         self.txtDiary.setFont(font)
-
         # methods
-        self.load_diary(QDate.currentDate())
+        self.load_diary_page(QDate.currentDate())
         # Make sure no diary entries can be made for future dates
         self.calendarWidget.setMaximumDate(QDate.currentDate())
-        # self.txtDiary.textChanged.connect(self.setdirty)
 
         # signals
+        self.init_signal_handlers()
+
+    def init_signal_handlers(self):
         self.txtDiary.cursorPositionChanged.connect(self.show_cursor_position)
-        self.calendarWidget.clicked[QDate].connect(self.load_diary)
+        self.calendarWidget.clicked[QDate].connect(self.load_diary_page)
         self.calendarWidget.selectionChanged.connect(self.save_changes)
         # actions
         self.action_Add.triggered.connect(self.add_new_file)
-        self.action_Add.setEnabled(False)
+        self.actionErase.triggered.connect(self.erase_diary_entry)
         self.actionSave.triggered.connect(self.save_changes)
         self.action_Print.triggered.connect(self.print_preview)
         # delegated to the editor proxy
@@ -79,6 +78,20 @@ class Diary(QMainWindow, Ui_MainWindow):
         # show it
         preview.exec_()
 
+    def erase_diary_entry(self):
+        """
+        Remove a selected diary page
+        """
+        answer = dvgFileUtils.ask(title="Diary",
+                                  msg="Entry",
+                                  explain="Delete the current page?")
+        if answer == QMessageBox.Ok:
+            remove(self._active_file)
+            self.EnableEditControls(False)
+            self.action_Add.setEnabled(True)
+            self.txtDiary.clear()
+            self.txtDiary.clearFocus()
+
     def show_cursor_position(self):
         """
         Shows the line and column position and sets the flags of the
@@ -86,7 +99,6 @@ class Diary(QMainWindow, Ui_MainWindow):
         """
 
         fmt = self.txtDiary.currentCharFormat()
-
         # Bold
         if fmt.fontWeight() == QFont.Bold:
             self.actionBold.setChecked(True)
@@ -98,32 +110,30 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionUnderline.setChecked(fmt.fontUnderline())
         # strike through
         self.actionStrikethrough.setChecked(fmt.fontStrikeOut())
-
+        # position of the cursor
         cursor = self.txtDiary.textCursor()
         self.statusbar.showMessage(f"Line {cursor.blockNumber()+1} | Column {cursor.columnNumber()}")
 
-    def setdirty(self):
-        """
-        Handle changes in the editor
-        """
-        self._isDirty = True
-
     def save_changes(self):
+        """
+        Save our active file.  If the file is inexisting, clear the content
+        of the text editor.  Otherwise, when we jump to another date the
+        old text remains visible, which may lead to user confusion.
+        """
         if QFile(self._active_file).exists():
-            # Save our active file
             with open(self._active_file, 'w') as my_file:
                 my_file.write(self.txtDiary.toHtml())
-        else:
-            # Clear the text field
-            self.txtDiary.clear()
+            return
+        self.txtDiary.clear()
 
-    def load_diary(self, dateedit):
+    def load_diary_page(self, dateedit):
         """
         Opens a diary day file if it exists.  If it does not exist
         the add new item button will be enabled.
         """
         # Create date object and create a filename based on the
         # dateedit parameter.
+
         file_name = str(QDate(dateedit).toPyDate())
         file_name = file_name.replace("-", "") + ".html"
         self._active_file = file_name
@@ -180,7 +190,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         if answer == QMessageBox.Ok:
             self.create_new_file(file=self._active_file,
                                  date=self._active_date)
-            self.load_diary(self._active_date)
+            self.load_diary_page(self._active_date)
             self.cursor.setPosition(0)
             self.cursor.insertBlock()
             self.cursor.insertHtml(f"<h1>Diary entry {self._active_date.toString()}<br />")
@@ -210,6 +220,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         mySettings = Settings(self, "DenkaTech", "KDiary")
         mySettings.save_form_settings("mainwindow", "frm_main/geometry")
         self.savesettings()
+        # Be sure to save the active diary entry
         self.save_changes()
 
     def savesettings(self):
