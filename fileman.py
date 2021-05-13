@@ -20,7 +20,7 @@ class FileManager():
         return files
 
     @staticmethod
-    def page_exists(filename):
+    def page_exists(filename: str) -> bool:
         """
           Simply test if a diary page (file) exists
         """

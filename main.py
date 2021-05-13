@@ -211,8 +211,6 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.cursor.insertHtml(f"<h1>Diary entry {self._active_date.toString()}<br />")
             self.cursor.insertHtml("<h2>Today's events</h2><br />")
             self.cursor.setPosition(0)
-        else:
-            print("ko")
 
     def create_new_file(self, file="undefined", date="no date", cursor=None):
         """
