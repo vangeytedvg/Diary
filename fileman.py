@@ -27,3 +27,21 @@ class FileManager():
         if QFile(filename).exists():
             return True
         return False
+
+    @staticmethod
+    def page_exists_(year: int, month_nr: int, day_nr: int) -> bool:
+        """
+          Test a date existance file
+        """
+        month = str(month_nr) if month_nr > 9 else "0" + str(month_nr)
+        day = str(day_nr) if day_nr > 9 else "0" + str(day_nr)
+        filename = str(year) + month + day + ".html"
+        if QFile(filename).exists():
+            return True
+        return False
+
+    @staticmethod
+    def make_diary_filename(year: int, month_nr: int, day: int) -> int:
+        month = str(month_nr) if month_nr > 9 else "0" + str(month_nr)
+        day = str(day_nr) if day_nr > 9 else "0" + str(day_nr)
+        return year + month + day + ".html"

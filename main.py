@@ -20,6 +20,7 @@ from utilities import dvgFileUtils
 from utilities.setting import Settings
 from utilities.editor import EditorProxy
 from fileman import FileManager as fm
+from ui.DiaryCalendar import DiaryCalendar
 
 class Diary(QMainWindow, Ui_MainWindow):
 
@@ -45,6 +46,8 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.load_diary_page(QDate.currentDate())
         # Make sure no diary entries can be made for future dates
         self.calendarWidget.setMaximumDate(QDate.currentDate())
+        self.diaryCal = DiaryCalendar()
+        self.testFrame.addWidget(self.diaryCal)
 
         # signals
         self.init_signal_handlers()
