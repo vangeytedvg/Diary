@@ -19,6 +19,7 @@ from frmMain import Ui_MainWindow
 from utilities import dvgFileUtils
 from utilities.setting import Settings
 from utilities.editor import EditorProxy
+from fileman import FileManager as fm
 
 class Diary(QMainWindow, Ui_MainWindow):
 
@@ -39,6 +40,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.txtDiary.setAutoFormatting(QTextEdit.AutoAll)
         font = QFont('Arial', 12)
         self.txtDiary.setFont(font)
+        self.txtDiary.setEnabled(False)
         # methods
         self.load_diary_page(QDate.currentDate())
         # Make sure no diary entries can be made for future dates
@@ -46,6 +48,9 @@ class Diary(QMainWindow, Ui_MainWindow):
 
         # signals
         self.init_signal_handlers()
+
+        # TEST
+        fm.getfiles(".", 2021, 5)
 
     def init_signal_handlers(self):
         self.txtDiary.cursorPositionChanged.connect(self.show_cursor_position)
@@ -70,7 +75,8 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def print_preview(self):
         """
-        Print preview
+          Print preview
+        :return: nothing
         """
         # Create an instance of the preview dialog
         preview = QPrintPreviewDialog()
@@ -80,7 +86,8 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def erase_diary_entry(self):
         """
-        Remove a selected diary page
+          Remove a selected diary page
+        :return: nothing
         """
         answer = dvgFileUtils.ask(title="Diary",
                                   msg="Entry",
@@ -91,11 +98,13 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.action_Add.setEnabled(True)
             self.txtDiary.clear()
             self.txtDiary.clearFocus()
+            self.txtDiary.setEnabled(False)
 
     def show_cursor_position(self):
         """
-        Shows the line and column position and sets the flags of the
-        bold, italic, underline and strikethrough actions
+          Shows the line and column position and sets the flags of the
+          bold, italic, underline and strikethrough actions
+          :return: nothing
         """
 
         fmt = self.txtDiary.currentCharFormat()
@@ -116,9 +125,10 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def save_changes(self):
         """
-        Save our active file.  If the file is inexisting, clear the content
-        of the text editor.  Otherwise, when we jump to another date the
-        old text remains visible, which may lead to user confusion.
+          Save our active file.  If the file is inexisting, clear the content
+          of the text editor.  Otherwise, when we jump to another date the
+          old text remains visible, which may lead to user confusion.
+        :return: nothing
         """
         if QFile(self._active_file).exists():
             with open(self._active_file, 'w') as my_file:
@@ -128,8 +138,9 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def load_diary_page(self, dateedit):
         """
-        Opens a diary day file if it exists.  If it does not exist
-        the add new item button will be enabled.
+          Opens a diary day file if it exists.  If it does not exist
+          the add new item button will be enabled.
+        :return: nothing
         """
         # Create date object and create a filename based on the
         # dateedit parameter.
@@ -139,8 +150,8 @@ class Diary(QMainWindow, Ui_MainWindow):
         self._active_file = file_name
         self._active_date = QDate(dateedit)
 
-        myFile = QFile(file_name)
-        if not myFile.exists():
+        #myFile = QFile(file_name)
+        if not fm.page_exists(file_name):
             self.action_Add.setEnabled(True)
             self.statusbar.showMessage(file_name + " **")
             self.txtDiary.clear()
@@ -160,9 +171,10 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def EnableEditControls(self, state):
         """
-        Enable or Disable actions
-        param state, boolean
+          Enable or Disable actions
+        :param state, boolean
         """
+        self.txtDiary.setEnabled(state)
         self.actionBold.setEnabled(state)
         self.actionItalic.setEnabled(state)
         self.actionUnderline.setEnabled(state)
@@ -179,10 +191,13 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionUndo.setEnabled(state)
         self.actionRedo.setEnabled(state)
         self.action_Print.setEnabled(state)
+        if state:
+            self.txtDiary.setFocus()
 
     def add_new_file(self):
         """
-        Create a file with the selected date as name
+          Create a file with the selected date as name
+        :return: nothing
         """
         answer = dvgFileUtils.ask(title="Diary",
                                   msg="Entry",
@@ -201,8 +216,9 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def create_new_file(self, file="undefined", date="no date", cursor=None):
         """
-        Generate a new diary file using the pathlib module, just like
-        the unix touch command would do.
+          Generate a new diary file using the pathlib module, just like
+          the unix touch command would do.
+        :return: nothing
         """
         Path(file).touch()
         return
@@ -213,7 +229,7 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, event):
         """
-            Overrides the base close event
+          Overrides the base close event
         :param event: event to override
         :return: nothing
         """
@@ -225,7 +241,7 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def savesettings(self):
         """
-            Save settings to the registry (windows) or setting file (linux)
+          Save settings to the registry (windows) or setting file (linux)
         :return: nothing
         """
         settings = QSettings("DenkaTech", "KDiary")
@@ -236,7 +252,7 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def loadsettings(self):
         """
-            Load the settings from the registry (windows) or settings file (linux)
+          Load the settings from the registry (windows) or settings file (linux)
         :return: nothing
         """
         settings = QSettings("DenkaTech", "KDiary")
