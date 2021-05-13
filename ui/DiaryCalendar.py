@@ -8,4 +8,8 @@ class DiaryCalendar(QCalendarWidget):
       Sublassed QCalendarWidget to enable painting dates with 
       an existing diary page.
     """
-    pass
+
+    def paintCell(self, painter, rect, date):
+        painter.setRenderHint(QPainter.Antialiasing, True)
+        print(date)
+        QCalendarWidget.paintCell(self, painter, rect, date)
