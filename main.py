@@ -5,7 +5,7 @@ from pathlib import Path
 from os import remove
 
 from PyQt5.QtWidgets import (QMainWindow, QApplication,
-                             QTextEdit, QMessageBox)
+                             QTextEdit, QMessageBox, QLabel, QFrame)
 from PyQt5.QtPrintSupport import (QPrintDialog,
                                   QPrinter,
                                   QPrintPreviewDialog)
@@ -42,20 +42,52 @@ class Diary(QMainWindow, Ui_MainWindow):
         font = QFont('Arial', 12)
         self.txtDiary.setFont(font)
         self.txtDiary.setEnabled(False)
-        # methods
-        self.load_diary_page(QDate.currentDate())
+
         # Make sure no diary entries can be made for future dates
         self.calendarWidget = DiaryCalendar()
         self.calendarWidget.setMaximumWidth(300)
         self.calendarWidget.setMaximumHeight(300)
         self.calendarWidget.setMaximumDate(QDate.currentDate())
+        # make an option from this
+        self.calendarWidget.setGridVisible(True)
         self.testFrame.addWidget(self.calendarWidget)
+        # configure statusbar
+        self.config_status_bar()
 
         # signals
         self.init_signal_handlers()
 
-        # TEST
-        fm.getfiles(".", 2021, 5)
+        # methods
+        self.load_diary_page(QDate.currentDate())
+
+    def config_status_bar(self):
+        """
+        Add labels to the statusbar for line, col and file name
+        """
+        self.lbl_line_nr_info = QLabel("LINE")
+        self.lbl_line_nr = QLabel("0")
+        self.lbl_line_nr.setFrameShadow(QFrame.Raised)
+        self.lbl_line_nr.setFrameShape(QFrame.Panel)
+        self.lbl_col_nr_info = QLabel("COL")
+        self.lbl_col_nr = QLabel("0")
+        self.lbl_col_nr.setFrameShadow(QFrame.Raised)
+        self.lbl_col_nr.setFrameShape(QFrame.Panel)
+        self.lbl_file_name_info = QLabel("File")
+        self.lbl_file_name = QLabel("none")
+        self.lbl_changed_info = QLabel("Changed")
+        self.lbl_changed = QLabel("no")
+        self.lbl_changed.setFrameShadow(QFrame.Raised)
+        self.lbl_changed.setFrameShape(QFrame.Panel)
+        self.lbl_file_name.setFrameShadow(QFrame.Raised)
+        self.lbl_file_name.setFrameShape(QFrame.Panel)
+        self.statusbar.addPermanentWidget(self.lbl_line_nr_info)
+        self.statusbar.addPermanentWidget(self.lbl_line_nr)
+        self.statusbar.addPermanentWidget(self.lbl_col_nr_info)
+        self.statusbar.addPermanentWidget(self.lbl_col_nr)
+        self.statusbar.addPermanentWidget(self.lbl_file_name_info)
+        self.statusbar.addPermanentWidget(self.lbl_file_name)
+        self.statusbar.addPermanentWidget(self.lbl_changed_info)
+        self.statusbar.addPermanentWidget(self.lbl_changed)
 
     def init_signal_handlers(self):
         self.txtDiary.cursorPositionChanged.connect(self.show_cursor_position)
@@ -126,7 +158,9 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionStrikethrough.setChecked(fmt.fontStrikeOut())
         # position of the cursor
         cursor = self.txtDiary.textCursor()
-        self.statusbar.showMessage(f"Line {cursor.blockNumber()+1} | Column {cursor.columnNumber()}")
+        #self.statusbar.showMessage(f"Line {cursor.blockNumber()+1} | Column {cursor.columnNumber()}")
+        self.lbl_line_nr.setText(str(cursor.blockNumber() + 1))
+        self.lbl_col_nr.setText(str(cursor.columnNumber()))
 
     def save_changes(self):
         """
