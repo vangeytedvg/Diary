@@ -58,3 +58,7 @@ class EditorProxy:
         """
         cursor = self.parent.textCursor()
         cursor.insertList(QTextListFormat.ListDecimal)
+
+    def insert_date_text(self):
+        cursor = self.parent.textCursor()
+        cursor.insertText(QDate().currentDate().toString())

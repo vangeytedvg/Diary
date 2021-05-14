@@ -90,6 +90,9 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.statusbar.addPermanentWidget(self.lbl_changed)
 
     def init_signal_handlers(self):
+        """
+        Connect the signals on our actions
+        """
         self.txtDiary.cursorPositionChanged.connect(self.show_cursor_position)
         self.txtDiary.textChanged.connect(self.set_dirty)
         self.calendarWidget.clicked[QDate].connect(self.load_diary_page)
@@ -107,9 +110,13 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionUnderline.triggered.connect(self.ed.set_fontunderline)
         self.actionStrikethrough.triggered.connect(self.ed.set_fontstrikethrough)
         # shorthand actions
+        self.actionUndo.triggered.connect(self.txtDiary.undo)
+        self.actionRedo.triggered.connect(self.txtDiary.redo)
         self.actionCut.triggered.connect(self.txtDiary.cut)
         self.actionCopy.triggered.connect(self.txtDiary.copy)
         self.actionPaste.triggered.connect(self.txtDiary.paste)
+        self.action_insert_date.triggered.connect(self.ed.insert_date_text)
+        # self.action_insert_time.triggered.connect
 
     def set_dirty(self):
         """
