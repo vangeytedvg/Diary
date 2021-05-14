@@ -47,8 +47,8 @@ class Diary(QMainWindow, Ui_MainWindow):
 
         # Make sure no diary entries can be made for future dates
         self.calendarWidget = DiaryCalendar()
-        self.calendarWidget.setMaximumWidth(300)
-        self.calendarWidget.setMaximumHeight(300)
+        self.calendarWidget.setMaximumWidth(350)
+        self.calendarWidget.setMaximumHeight(350)
         self.calendarWidget.setMaximumDate(QDate.currentDate())
         # make an option from this
         self.calendarWidget.setGridVisible(True)
@@ -169,7 +169,6 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionStrikethrough.setChecked(fmt.fontStrikeOut())
         # position of the cursor
         cursor = self.txtDiary.textCursor()
-        #self.statusbar.showMessage(f"Line {cursor.blockNumber()+1} | Column {cursor.columnNumber()}")
         self.lbl_line_nr.setText(str(cursor.blockNumber() + 1))
         self.lbl_col_nr.setText(str(cursor.columnNumber()))
 
@@ -214,7 +213,6 @@ class Diary(QMainWindow, Ui_MainWindow):
             return
 
         self.action_Add.setEnabled(False)
-        self.statusbar.showMessage(self._active_file)
         with open(file_name, 'r') as f:
             self.txtDiary.setHtml(f.read())
         self._editorDirty = False

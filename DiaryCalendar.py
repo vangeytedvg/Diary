@@ -22,7 +22,6 @@ class DiaryCalendar(QCalendarWidget):
         if fm.page_exists(filename):
             # We have a diary entry for this date, let the user know
             painter.save()
-
             painter.setPen(Qt.darkGreen)
             painter.fillRect(rect, self.myQColor)
             # painter.drawEllipse(rect)
