@@ -34,6 +34,8 @@ class Diary(QMainWindow, Ui_MainWindow):
 
         super(Diary, self).__init__()
         self.setupUi(self)
+        self.config_status_bar()
+        # configure statusbar
         self.loadsettings()
         self.ed = EditorProxy(self.txtDiary)
         # Some more ui related stuff
@@ -51,8 +53,6 @@ class Diary(QMainWindow, Ui_MainWindow):
         # make an option from this
         self.calendarWidget.setGridVisible(True)
         self.testFrame.addWidget(self.calendarWidget)
-        # configure statusbar
-        self.config_status_bar()
 
         # signals
         self.init_signal_handlers()
@@ -91,6 +91,7 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def init_signal_handlers(self):
         self.txtDiary.cursorPositionChanged.connect(self.show_cursor_position)
+        self.txtDiary.textChanged.connect(self.set_dirty)
         self.calendarWidget.clicked[QDate].connect(self.load_diary_page)
         self.calendarWidget.selectionChanged.connect(self.save_changes)
         # actions
@@ -109,6 +110,13 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionCut.triggered.connect(self.txtDiary.cut)
         self.actionCopy.triggered.connect(self.txtDiary.copy)
         self.actionPaste.triggered.connect(self.txtDiary.paste)
+
+    def set_dirty(self):
+        """
+        Flags when the text has been changed by the user.
+        """
+        self._isDirty = True
+        self.lbl_changed.setText("yes")
 
     def print_preview(self):
         """
@@ -136,6 +144,9 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.txtDiary.clear()
             self.txtDiary.clearFocus()
             self.txtDiary.setEnabled(False)
+            self._isDirty = False
+            self.lbl_file_name.setText("not existing")
+            self.lbl_changed.setText("no")
 
     def show_cursor_position(self):
         """
@@ -172,6 +183,8 @@ class Diary(QMainWindow, Ui_MainWindow):
         if QFile(self._active_file).exists():
             with open(self._active_file, 'w') as my_file:
                 my_file.write(self.txtDiary.toHtml())
+            self._isDirty = False
+            self.lbl_changed.setText("no")
             return
         self.txtDiary.clear()
 
@@ -188,25 +201,27 @@ class Diary(QMainWindow, Ui_MainWindow):
         file_name = file_name.replace("-", "") + ".html"
         self._active_file = file_name
         self._active_date = QDate(dateedit)
-
+        self.lbl_file_name.setText(file_name)
         #myFile = QFile(file_name)
         if not fm.page_exists(file_name):
             self.action_Add.setEnabled(True)
-            self.statusbar.showMessage(file_name + " **")
             self.txtDiary.clear()
             # As long as we have no file, disable all the cut, paste etc controls
             self.EnableEditControls(False)
             self.action_Add.setEnabled(True)
+            self.lbl_file_name.setText("not existing")
+            self.lbl_changed.setText("no")
             return
 
         self.action_Add.setEnabled(False)
         self.statusbar.showMessage(self._active_file)
         with open(file_name, 'r') as f:
             self.txtDiary.setHtml(f.read())
-        self._editorDirty = True
+        self._editorDirty = False
         self.txtDiary.moveCursor(QTextCursor.End)
         self.txtDiary.setFocus()
         self.EnableEditControls(True)
+        self.lbl_changed.setText("no")
 
     def EnableEditControls(self, state):
         """
