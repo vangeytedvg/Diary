@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QDate, QDateTime, QFile
+from PyQt5.QtCore import QDate, QDateTime, QFile, QTime, Qt
 from PyQt5.QtGui import QFont, QTextCursor, QTextListFormat, QFont
 from PyQt5.QtWidgets import QTextEdit
 
@@ -62,3 +62,7 @@ class EditorProxy:
     def insert_date_text(self):
         cursor = self.parent.textCursor()
         cursor.insertText(QDate().currentDate().toString())
+
+    def insert_time_text(self):
+        cursor = self.parent.textCursor()
+        cursor.insertText(QTime().currentTime().toString(Qt.DefaultLocaleShortDate))

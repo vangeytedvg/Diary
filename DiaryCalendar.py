@@ -15,17 +15,22 @@ class DiaryCalendar(QCalendarWidget):
       or added.
     """
     myQColor = QColor(25, 30, 30)
+    myQColorWE = QColor(25, 30, 40)
+    myColorWEDay = QColor(168, 160, 50)
 
     def paintCell(self, painter, rect, date):
         painter.setRenderHint(QPainter.Antialiasing, True)
         filename = fm.make_diary_filename(date.year(), date.month(), date.day())
+        print(date.dayOfWeek())
         if fm.page_exists(filename):
             # We have a diary entry for this date, let the user know
             painter.save()
-            painter.setPen(Qt.darkGreen)
-            painter.fillRect(rect, self.myQColor)
-            # painter.drawEllipse(rect)
-            painter.setPen(Qt.green)
+            if date.dayOfWeek() > 5:
+                painter.fillRect(rect, self.myQColorWE)
+                painter.setPen(self.myColorWEDay)
+            else:
+                painter.fillRect(rect, self.myQColor)
+                painter.setPen(Qt.darkGreen)
             painter.drawText(QRectF(rect), Qt.TextSingleLine | Qt.AlignCenter, str(date.day()))
             painter.restore()
         else:

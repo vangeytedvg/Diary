@@ -116,7 +116,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionCopy.triggered.connect(self.txtDiary.copy)
         self.actionPaste.triggered.connect(self.txtDiary.paste)
         self.action_insert_date.triggered.connect(self.ed.insert_date_text)
-        # self.action_insert_time.triggered.connect
+        self.action_insert_time.triggered.connect(self.ed.insert_time_text)
 
     def set_dirty(self):
         """
