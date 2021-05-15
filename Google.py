@@ -1,48 +1,78 @@
+# import the required libraries
 import pickle
-import os
-from google_auth_oauthlib.flow import Flow, InstalledAppFlow
+import os.path
 from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
+from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 
-def Create_Service(client_secret_file, api_name, api_version, *scopes):
-    print(client_secret_file, api_name, api_version, scopes, sep='-')
-    CLIENT_SECRET_FILE = client_secret_file
-    API_SERVICE_NAME = api_name
-    API_VERSION = api_version
-    SCOPES = [scope for scope in scopes[0]]
-    print(SCOPES)
+# Define the SCOPES. If modifying it,
+# delete the token.pickle file.
+SCOPES = ['https://www.googleapis.com/auth/drive']
 
-    cred = None
 
-    pickle_file = f'token_{API_SERVICE_NAME}_{API_VERSION}.pickle'
-    # print(pickle_file)
+# Create a function getFileList with
+# parameter N which is the length of
+# the list of files.
+def getFileList(N):
 
-    if os.path.exists(pickle_file):
-        with open(pickle_file, 'rb') as token:
-            cred = pickle.load(token)
+    # Variable creds will store the user access token.
+    # If no valid token found, we will create one.
+    creds = None
 
-    if not cred or not cred.valid:
-        if cred and cred.expired and cred.refresh_token:
-            cred.refresh(Request())
+    # The file token.pickle stores the
+    # user's access and refresh tokens. It is
+    # created automatically when the authorization
+    # flow completes for the first time.
+
+    # Check if file token.pickle exists
+    if os.path.exists('token.pickle'):
+
+        # Read the token from the file and
+        # store it in the variable creds
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+
+    # If no valid credentials are available,
+    # request the user to log in.
+    if not creds or not creds.valid:
+
+        # If token is expired, it will be refreshed,
+        # else, we will request a new one.
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-            cred = flow.run_local_server()
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
 
-        with open(pickle_file, 'wb') as token:
-            pickle.dump(cred, token)
+        # Save the access token in token.pickle
+        # file for future usage
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
 
-    try:
-        service = build(API_SERVICE_NAME, API_VERSION, credentials=cred)
-        print(API_SERVICE_NAME, 'service created successfully')
-        return service
-    except Exception as e:
-        print('Unable to connect.')
-        print(e)
-        return None
+    # Connect to the API service
+    service = build('drive', 'v3', credentials=creds)
+
+    # request a list of first N files or
+    # folders with name and id from the API.
+    resource = service.files()
+    result = resource.list(pageSize=N, fields="files(id, name)").execute()
+
+    # return the result dictionary containing
+    # the information about the files
+    return result
 
 
-def convert_to_RFC_datetime(year=1900, month=1, day=1, hour=0, minute=0):
-    dt = datetime.datetime(year, month, day, hour, minute, 0).isoformat() + 'Z'
-    return dt
+# Get list of first 5 files or
+# folders from our Google Drive Storage
+result_dict = getFileList(5)
+
+
+# Extract the list from the dictionary
+file_list = result_dict.get('files')
+
+
+# Print every file's name
+for file in file_list:
+    print(file['name'])
