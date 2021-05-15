@@ -121,9 +121,9 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionBackup_to_Google_Drive.triggered.connect(self.cloud_backup)
 
     def cloud_backup(self):
-        google_backup = GoogleBackup()
+        google_backup = GoogleBackup("Zipperkendezip.zip")
         google_backup.backup()
-        pass
+        google_backup.push_to_google()
 
     def set_dirty(self):
         """
