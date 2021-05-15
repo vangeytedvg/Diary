@@ -102,9 +102,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionUndo"/>
-   <addaction name="actionRedo"/>
-   <addaction name="separator"/>
    <addaction name="actionInsert_bulleted_list"/>
    <addaction name="actionInsert_numbered_list"/>
    <addaction name="action_insert_date"/>
@@ -136,6 +133,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionUndo"/>
+   <addaction name="actionRedo"/>
    <addaction name="actionCut"/>
    <addaction name="actionCopy"/>
    <addaction name="actionPaste"/>

@@ -16,12 +16,11 @@ class DiaryCalendar(QCalendarWidget):
     """
     myQColor = QColor(25, 30, 30)
     myQColorWE = QColor(25, 30, 40)
-    myColorWEDay = QColor(168, 160, 50)
+    myColorWEDay = QColor(168, 88, 50)
 
     def paintCell(self, painter, rect, date):
         painter.setRenderHint(QPainter.Antialiasing, True)
         filename = fm.make_diary_filename(date.year(), date.month(), date.day())
-        print(date.dayOfWeek())
         if fm.page_exists(filename):
             # We have a diary entry for this date, let the user know
             painter.save()
