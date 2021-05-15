@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="tlb">
+    <file>sync.png</file>
     <file>strikethrough.png</file>
     <file>printer.png</file>
     <file>calendar.png</file>

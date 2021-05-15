@@ -55,11 +55,13 @@
     </property>
     <addaction name="actionSave"/>
     <addaction name="action_Print"/>
+    <addaction name="actionBackup_to_Google_Drive"/>
+    <addaction name="separator"/>
     <addaction name="actionE_xit"/>
    </widget>
    <widget class="QMenu" name="menuEvent_s">
     <property name="title">
-     <string>Event&amp;s</string>
+     <string>Ev&amp;ents</string>
     </property>
     <addaction name="action_Add"/>
     <addaction name="actionErase"/>
@@ -70,9 +72,11 @@
     </property>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
+    <addaction name="separator"/>
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
+    <addaction name="separator"/>
     <addaction name="actionBold"/>
     <addaction name="actionItalic"/>
     <addaction name="actionUnderline"/>
@@ -80,10 +84,11 @@
    </widget>
    <widget class="QMenu" name="menuInsert">
     <property name="title">
-     <string>Insert</string>
+     <string>&amp;Insert</string>
     </property>
     <addaction name="action_insert_date"/>
     <addaction name="action_insert_time"/>
+    <addaction name="actionInsert_bulleted_list"/>
     <addaction name="actionInsert_numbered_list"/>
    </widget>
    <addaction name="menu_File"/>
@@ -119,6 +124,7 @@
    </attribute>
    <addaction name="actionSave"/>
    <addaction name="action_Print"/>
+   <addaction name="actionBackup_to_Google_Drive"/>
    <addaction name="action_Add"/>
    <addaction name="separator"/>
    <addaction name="actionE_xit"/>
@@ -355,6 +361,15 @@
    </property>
    <property name="text">
     <string>Strikethrough</string>
+   </property>
+  </action>
+  <action name="actionBackup_to_Google_Drive">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/sync.png</normaloff>:/tlb/sync.png</iconset>
+   </property>
+   <property name="text">
+    <string>Backup to &amp;Google Drive</string>
    </property>
   </action>
  </widget>

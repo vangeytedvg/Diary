@@ -19,6 +19,7 @@ from frmMain import Ui_MainWindow
 from utilities import dvgFileUtils
 from utilities.setting import Settings
 from utilities.editor import EditorProxy
+from utilities.cloudbackup import GoogleBackup
 from fileman import FileManager as fm
 from DiaryCalendar import DiaryCalendar
 
@@ -117,6 +118,12 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionPaste.triggered.connect(self.txtDiary.paste)
         self.action_insert_date.triggered.connect(self.ed.insert_date_text)
         self.action_insert_time.triggered.connect(self.ed.insert_time_text)
+        self.actionBackup_to_Google_Drive.triggered.connect(self.cloud_backup)
+
+    def cloud_backup(self):
+        google_backup = GoogleBackup()
+        google_backup.backup()
+        pass
 
     def set_dirty(self):
         """
