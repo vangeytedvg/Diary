@@ -82,7 +82,7 @@
     <addaction name="actionUnderline"/>
     <addaction name="actionStrikethrough"/>
     <addaction name="separator"/>
-    <addaction name="actionPreferences"/>
+    <addaction name="action_Preferences"/>
    </widget>
    <widget class="QMenu" name="menuInsert">
     <property name="title">
@@ -374,7 +374,7 @@
     <string>Backup to &amp;Google Drive</string>
    </property>
   </action>
-  <action name="actionPreferences">
+  <action name="action_Preferences">
    <property name="text">
     <string>Preferences</string>
    </property>

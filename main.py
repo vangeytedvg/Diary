@@ -16,6 +16,7 @@ from PyQt5.QtCore import (QDate, QDateTime,
                           QSettings, QByteArray)
 
 from frmMain import Ui_MainWindow
+from FrmSettings import FrmSettings
 from utilities import dvgFileUtils
 from utilities.setting import Settings
 from utilities.editor import EditorProxy
@@ -103,6 +104,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionErase.triggered.connect(self.erase_diary_entry)
         self.actionSave.triggered.connect(self.save_changes)
         self.action_Print.triggered.connect(self.print_preview)
+        self.action_Preferences.triggered.connect(self.open_settings)
         # delegated to the editor proxy
         self.actionInsert_bulleted_list.triggered.connect(self.ed.insert_bulleted_list)
         self.actionInsert_numbered_list.triggered.connect(self.ed.insert_numbered_list)
@@ -119,6 +121,10 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.action_insert_date.triggered.connect(self.ed.insert_date_text)
         self.action_insert_time.triggered.connect(self.ed.insert_time_text)
         self.actionBackup_to_Google_Drive.triggered.connect(self.cloud_backup)
+
+    def open_settings(self):
+        settings = FrmSettings(self)
+        res = settings.exec_()
 
     def cloud_backup(self):
         """

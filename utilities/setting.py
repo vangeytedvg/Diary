@@ -39,13 +39,13 @@ class Settings:
         settings.setValue(item, data)
         settings.endGroup()
 
-    def load_setting(self, group, item, data):
+    def load_setting(self, group, item):
         """
         Load generic data
         """
         settings = QSettings(self._company, self._section)
         settings.beginGroup(group)
-        my_settings[setting] = settings.value(setting, "Nothing")
+        setting = settings.value(item, "Nothing")
         settings.endGroup()
-        return my_settings
+        return setting
 
