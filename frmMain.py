@@ -154,6 +154,8 @@ class Ui_MainWindow(object):
         icon18.addPixmap(QtGui.QPixmap(":/tlb/sync.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionBackup_to_Google_Drive.setIcon(icon18)
         self.actionBackup_to_Google_Drive.setObjectName("actionBackup_to_Google_Drive")
+        self.actionPreferences = QtWidgets.QAction(MainWindow)
+        self.actionPreferences.setObjectName("actionPreferences")
         self.menu_File.addAction(self.actionSave)
         self.menu_File.addAction(self.action_Print)
         self.menu_File.addAction(self.actionBackup_to_Google_Drive)
@@ -172,6 +174,8 @@ class Ui_MainWindow(object):
         self.menu_Edit.addAction(self.actionItalic)
         self.menu_Edit.addAction(self.actionUnderline)
         self.menu_Edit.addAction(self.actionStrikethrough)
+        self.menu_Edit.addSeparator()
+        self.menu_Edit.addAction(self.actionPreferences)
         self.menuInsert.addAction(self.action_insert_date)
         self.menuInsert.addAction(self.action_insert_time)
         self.menuInsert.addAction(self.actionInsert_bulleted_list)
@@ -246,4 +250,5 @@ class Ui_MainWindow(object):
         self.action_insert_time.setToolTip(_translate("MainWindow", "Insert time stamp"))
         self.actionStrikethrough.setText(_translate("MainWindow", "Strikethrough"))
         self.actionBackup_to_Google_Drive.setText(_translate("MainWindow", "Backup to &Google Drive"))
+        self.actionPreferences.setText(_translate("MainWindow", "Preferences"))
 import icons_rc

@@ -121,7 +121,15 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionBackup_to_Google_Drive.triggered.connect(self.cloud_backup)
 
     def cloud_backup(self):
-        google_backup = GoogleBackup("Zipperkendezip.zip")
+        """
+        Make a backup to google drive
+        """
+        google_backup = GoogleBackup("diary.zip")
+        status_check = google_backup.is_google_alive(5)
+        if len(status_check) == 0:
+            print("No file found")
+        else:
+            print(f"{len(status_check)} file(s) found")
         google_backup.backup()
         google_backup.push_to_google()
 
