@@ -49,19 +49,28 @@ class GoogleDrive():
             return("No items found")
         else:
             return items
-        # print('Files:')
-        # for item in items:
-        #print(u'{0} ({1})'.format(item['name'], item['id']))
 
 
-class CloudBackup():
+class Backup():
+    def __init__(self, zipname):
+        self.zipname = zipname
+        pass
+
+    def backup(self):
+        pass
+
+    def zip_file(self):
+        pass
+
+
+class CloudBackup(Backup):
     """
     Base class for cloud backups
     """
     _zipname = ""
 
     def __init__(self, zipname):
-        self._zipname = zipname
+        super(CloudBackup, self).__init__(zipname)
         pass
 
     def backup(self):

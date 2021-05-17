@@ -25,6 +25,7 @@ class DiaryCalendar(QCalendarWidget):
             # We have a diary entry for this date, let the user know
             painter.save()
             if date.dayOfWeek() > 5:
+                # Weekend colors
                 painter.fillRect(rect, self.myQColorWE)
                 painter.setPen(self.myColorWEDay)
             else:

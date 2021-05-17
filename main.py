@@ -136,6 +136,8 @@ class Diary(QMainWindow, Ui_MainWindow):
             print("No file found")
         else:
             print(f"{len(status_check)} file(s) found")
+            for file in status_check:
+                print(file['name'])
         google_backup.backup()
         google_backup.push_to_google()
 
