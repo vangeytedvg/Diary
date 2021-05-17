@@ -50,6 +50,11 @@ class FrmSettings(QDialog, Ui_frmSettings):
         # in the future, like planning etc...
 
     def set_local_backup(self):
+        self.__backup_local = True
+        # Disable other controls
+        self.rb_CloudBackup.setEnabled(False)
+        self.rb_google.setEnabled(False)
+        self.rb_other.setEnabled(False)
         pass
 
     def set_cloud_backup(self):

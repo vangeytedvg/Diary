@@ -52,20 +52,8 @@ class GoogleDrive():
 
 
 class Backup():
-    def __init__(self, zipname):
-        self.zipname = zipname
-        pass
-
-    def backup(self):
-        pass
-
-    def zip_file(self):
-        pass
-
-
-class CloudBackup(Backup):
     """
-    Base class for cloud backups
+    Base class for backups
     """
     _zipname = ""
 
@@ -74,17 +62,23 @@ class CloudBackup(Backup):
         pass
 
     def backup(self):
-        """
-        Do work preparation
-        """
-        print("Zipping files")
-        self.zipfile()
+        raise NotImplementedError("<backup> must be overriden")
 
     def zipfile(self):
-        print("Zipped " + self._zipname)
+        raise NotImplementedError("<zipfile> must be overriden")
+
+    def push_to_path(self):
+        raise NotImplementedError("<pushtopath> must be overriden")
+
+    def is_alive(self):
+        raise NotImplementedError("<is_alive> must be overriden")
 
 
-class GoogleBackup(CloudBackup):
+class LocalBackup(Backup):
+    pass
+
+
+class GoogleBackup(Backup):
     """
     Backup to google
     """
@@ -94,10 +88,10 @@ class GoogleBackup(CloudBackup):
         self.my_google_drive = GoogleDrive()
 
     def backup(self):
-        super(GoogleBackup, self).backup()
+        print("Google Backup Started")
 
-    def push_to_google(self):
-        print("Bye bye from " + self._zipname)
+    def push_to_path(self):
+        print("Pushing to Google")
 
     def is_google_alive(self, l):
         """
