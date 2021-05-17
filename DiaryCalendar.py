@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt, QRectF
+from PyQt5.QtCore import Qt, QRectF, QDate
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QCalendarWidget
 from fileman import FileManager as fm
@@ -16,11 +16,15 @@ class DiaryCalendar(QCalendarWidget):
     """
     myQColor = QColor(25, 30, 30)
     myQColorWE = QColor(25, 30, 40)
+    myQColor_sel_bg = QColor(40, 172, 212)
+    myQColor_sel_fg = QColor(255, 255, 255)
     myColorWEDay = QColor(168, 88, 50)
 
     def paintCell(self, painter, rect, date):
         painter.setRenderHint(QPainter.Antialiasing, True)
         filename = fm.make_diary_filename(date.year(), date.month(), date.day())
+        # if date.day() == QDate().currentDate().day():
+        # print("today")
         if fm.page_exists(filename):
             # We have a diary entry for this date, let the user know
             painter.save()
@@ -31,6 +35,9 @@ class DiaryCalendar(QCalendarWidget):
             else:
                 painter.fillRect(rect, self.myQColor)
                 painter.setPen(Qt.darkGreen)
+            if self.selectedDate().day() == date.day():
+                painter.setPen(self.myQColor_sel_fg)
+                painter.fillRect(rect, self.myQColor_sel_bg)
             painter.drawText(QRectF(rect), Qt.TextSingleLine | Qt.AlignCenter, str(date.day()))
             painter.restore()
         else:
