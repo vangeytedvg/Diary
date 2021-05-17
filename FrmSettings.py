@@ -22,6 +22,7 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.__color_weekday_foreground = ""
         self.__color_weekend_background = ""
         self.__color_weekend_foreground = ""
+        self.rb_LocalBackup.setChecked(True)
         self.rb_google.setEnabled(False)
         self.rb_other.setEnabled(False)
         self.load_settings()
