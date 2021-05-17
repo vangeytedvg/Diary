@@ -23,7 +23,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -156,7 +156,7 @@
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QLabel" name="btn_color_weekend_background_2">
+          <widget class="QLabel" name="lbl_color_weekend_background">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(0, 85, 0);</string>
            </property>
@@ -166,7 +166,7 @@
           </widget>
          </item>
          <item row="7" column="0">
-          <widget class="QLabel" name="btn_color_weekend_foreground_2">
+          <widget class="QLabel" name="lbl_color_weekend_foreground">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(0, 85, 0);</string>
            </property>
@@ -188,15 +188,108 @@
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
-       <string>Cloud backup</string>
+       <string>Backup</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="checkBox">
-         <property name="text">
-          <string>Allow backups to Google Drive</string>
+       <item row="2" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
+            <string>Type of backup</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QRadioButton" name="rb_LocalBackup">
+              <property name="text">
+               <string>Local Backup</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="rb_CloudBackup">
+              <property name="text">
+               <string>Cloud Backup</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QLabel" name="lbl_backup_folder">
+                <property name="text">
+                 <string>Backup folder:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="txt_backup_folder"/>
+              </item>
+              <item>
+               <widget class="QToolButton" name="btn_select_backup_folder">
+                <property name="text">
+                 <string>...</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Cloud settings</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Maximum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="rb_google">
+              <property name="text">
+               <string>Google Drive</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="rb_other">
+              <property name="text">
+               <string>Other</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

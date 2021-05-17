@@ -16,7 +16,7 @@ class DiaryCalendar(QCalendarWidget):
     """
     myQColor = QColor(25, 30, 30)
     myQColorWE = QColor(25, 30, 40)
-    myQColor_sel_bg = QColor(40, 172, 212)
+    myQColor_sel_bg = QColor(30, 150, 22)
     myQColor_sel_fg = QColor(255, 255, 255)
     myColorWEDay = QColor(168, 88, 50)
 
@@ -36,9 +36,11 @@ class DiaryCalendar(QCalendarWidget):
                 painter.fillRect(rect, self.myQColor)
                 painter.setPen(Qt.darkGreen)
             if self.selectedDate().day() == date.day():
+                # ignore the above color when the date is selected by the user
                 painter.setPen(self.myQColor_sel_fg)
                 painter.fillRect(rect, self.myQColor_sel_bg)
             painter.drawText(QRectF(rect), Qt.TextSingleLine | Qt.AlignCenter, str(date.day()))
             painter.restore()
         else:
+            # Just a normal date, no diary entry
             QCalendarWidget.paintCell(self, painter, rect, date)
