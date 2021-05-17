@@ -22,6 +22,12 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.__color_weekday_foreground = ""
         self.__color_weekend_background = ""
         self.__color_weekend_foreground = ""
+        self.__backup_local = False
+        self.__backup_cloud = False
+        self.__backup_google_drive = False
+        self.__backup_cloud_other = False
+        self.__back_file_path = ""
+
         self.rb_LocalBackup.setChecked(True)
         self.rb_google.setEnabled(False)
         self.rb_other.setEnabled(False)
@@ -37,26 +43,31 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.btn_color_weekend_background.clicked.connect(self.set_color_weekend_background)
         self.btn_color_weekend_foreground.clicked.connect(self.set_color_weekend_foreground)
         # Backup
-        self.rb_LocalBackup.toggled.connect(lambda: self.set_backup_type(self.rb_LocalBackup))
-        self.rb_CloudBackup.toggled.connect(lambda: self.set_backup_type(self.rb_CloudBackup))
+        self.rb_LocalBackup.toggled.connect(self.set_local_backup)
+        self.rb_CloudBackup.toggled.connect(self.set_cloud_backup)
+        self.rb_google.toggled.connect(self.set_google_backup)
+        # TODO : Add agenda mode setting, agenda mode allows the user to enter events
+        # in the future, like planning etc...
+
+    def set_local_backup(self):
+        pass
+
+    def set_cloud_backup(self):
+        pass
+
+    def set_google_backup(self):
+        if self.sender().isChecked() == True:
+            self.__backup_google_drive = True
+        else:
+            self.__backup_google_drive = False
 
     def set_backup_type(self, rb):
+        """
+        Handle backup type selection
+        """
         if rb.text() == "Local Backup":
-            self.rb_google.setEnabled(False)
-            self.rb_other.setEnabled(False)
-            self.txt_backup_folder.setEnabled(True)
-            self.lbl_backup_folder.setEnabled(True)
-            self.btn_select_backup_folder.setEnabled(True)
             pass
         if rb.text() == "Cloud Backup":
-            self.rb_google.setEnabled(True)
-            self.rb_google.setFocus()
-            self.rb_other.setEnabled(True)
-            self.rb_other.setEnabled(False)
-            self.txt_backup_folder.setEnabled(False)
-            self.lbl_backup_folder.setEnabled(False)
-            self.btn_select_backup_folder.setEnabled(False)
-
             pass
 
     def set_color_workday_background(self):
@@ -76,6 +87,9 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.lbl_color_weekend_foreground.setStyleSheet("background-color: %s" % self.__color_weekend_foreground)
 
     def load_settings(self):
+        """
+        Restore the saved settings
+        """
         params = Settings(self, "DenkaTech", "KDiary")
         # file settings
         file_path = params.load_setting("paths", "file_location")
@@ -93,17 +107,27 @@ class FrmSettings(QDialog, Ui_frmSettings):
             self.lbl_color_weekend_background.setStyleSheet("background-color: %s" % self.__color_weekend_background)
         if self.__color_weekend_foreground:
             self.lbl_color_weekend_foreground.setStyleSheet("background-color: %s" % self.__color_weekend_foreground)
+        # Backup settings
+        self.__backup_local = params.load_setting("backup", "backup_to_local_file")
+        self.__backup_cloud = params.load_setting("backup", "backup_to_cloud")
+        self.__backup_google_drive = params.load_setting("backup", "backup_to_google_drive")
 
     def save_and_close(self):
         """
-        Write the settings 
+        Write the settings to disk
         """
         params = Settings(self, "DenkaTech", "KDiary")
+        # Diary location
         params.save_setting("paths", "file_location", self.txtPathToDiary.text())
+        # Colors
         params.save_setting("colors", "weekday_background", self.__color_weekday_background)
         params.save_setting("colors", "weekday_foreground", self.__color_weekday_foreground)
         params.save_setting("colors", "weekend_background", self.__color_weekend_background)
         params.save_setting("colors", "weekend_foreground", self.__color_weekend_foreground)
+        # Backup settings
+        params.save_setting("backup", "backup_to_local_file", self.__backup_local)
+        params.save_setting("backup", "backup_to_cloud", self.__backup_cloud)
+        params.save_setting("backup", "backup_to_google_drive", self.__backup_google_drive)
         self.close()
 
     def choose_folder(self):
@@ -112,8 +136,8 @@ class FrmSettings(QDialog, Ui_frmSettings):
         """
         dir = QFileDialog.getExistingDirectory(self, "Open Directory",
                                                "/home",
-                                               QFileDialog.ShowDirsOnly |
-                                               QFileDialog.DontResolveSymlinks)
+                                               QFileDialog.ShowDirsOnly
+                                               | QFileDialog.DontResolveSymlinks)
         if dir:
             self.txtPathToDiary.setText(dir)
 
