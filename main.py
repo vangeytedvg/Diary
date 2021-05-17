@@ -131,7 +131,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         Make a backup to google drive
         """
         google_backup = GoogleBackup("diary.zip")
-        status_check = google_backup.is_google_alive(5)
+        status_check = google_backup.is_alive(5)
         if len(status_check) == 0:
             print("No file found")
         else:
@@ -139,7 +139,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             for file in status_check:
                 print(file['name'])
         google_backup.backup()
-        google_backup.push_to_google()
+        google_backup.push_to_path()
 
     def set_dirty(self):
         """

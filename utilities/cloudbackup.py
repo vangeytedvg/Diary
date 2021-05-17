@@ -58,7 +58,7 @@ class Backup():
     _zipname = ""
 
     def __init__(self, zipname):
-        super(CloudBackup, self).__init__(zipname)
+        super(Backup, self).__init__()
         pass
 
     def backup(self):
@@ -90,10 +90,13 @@ class GoogleBackup(Backup):
     def backup(self):
         print("Google Backup Started")
 
+    def zipfile(self):
+        print("Zipping")
+
     def push_to_path(self):
         print("Pushing to Google")
 
-    def is_google_alive(self, l):
+    def is_alive(self, l):
         """
         Perform a simple connection test
         """
