@@ -168,7 +168,7 @@ class Ui_frmSettings(object):
         self.horizontalLayout.addLayout(self.verticalLayout_2)
 
         self.retranslateUi(frmSettings)
-        self.tabSettings.setCurrentIndex(0)
+        self.tabSettings.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(frmSettings)
 
     def retranslateUi(self, frmSettings):

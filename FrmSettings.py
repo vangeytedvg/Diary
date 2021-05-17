@@ -43,11 +43,19 @@ class FrmSettings(QDialog, Ui_frmSettings):
         if rb.text() == "Local Backup":
             self.rb_google.setEnabled(False)
             self.rb_other.setEnabled(False)
+            self.txt_backup_folder.setEnabled(True)
+            self.lbl_backup_folder.setEnabled(True)
+            self.btn_select_backup_folder.setEnabled(True)
             pass
         if rb.text() == "Cloud Backup":
             self.rb_google.setEnabled(True)
             self.rb_google.setFocus()
             self.rb_other.setEnabled(True)
+            self.rb_other.setEnabled(False)
+            self.txt_backup_folder.setEnabled(False)
+            self.lbl_backup_folder.setEnabled(False)
+            self.btn_select_backup_folder.setEnabled(False)
+
             pass
 
     def set_color_workday_background(self):
