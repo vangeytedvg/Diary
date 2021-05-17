@@ -52,13 +52,18 @@ class FrmSettings(QDialog, Ui_frmSettings):
     def set_local_backup(self):
         self.__backup_local = True
         # Disable other controls
+        self.lbl_backup_folder.setEnabled(True)
+        self.txt_backup_folder.setEnabled(True)
         self.rb_CloudBackup.setEnabled(False)
         self.rb_google.setEnabled(False)
         self.rb_other.setEnabled(False)
-        pass
 
     def set_cloud_backup(self):
-        pass
+        self.lbl_backup_folder.setEnabled(False)
+        self.txt_backup_folder.setEnabled(False)
+        self.rb_CloudBackup.setEnabled(True)
+        self.rb_google.setEnabled(True)
+        self.rb_other.setEnabled(True)
 
     def set_google_backup(self):
         if self.sender().isChecked() == True:
@@ -130,9 +135,10 @@ class FrmSettings(QDialog, Ui_frmSettings):
         params.save_setting("colors", "weekend_background", self.__color_weekend_background)
         params.save_setting("colors", "weekend_foreground", self.__color_weekend_foreground)
         # Backup settings
-        params.save_setting("backup", "backup_to_local_file", self.__backup_local)
-        params.save_setting("backup", "backup_to_cloud", self.__backup_cloud)
-        params.save_setting("backup", "backup_to_google_drive", self.__backup_google_drive)
+        params.save_setting("backup", "backup_to_local_file", self.rb_LocalBackup.isEnabled())
+        params.save_setting("backup", "backup_to_cloud", self.rb_CloudBackup.isEnabled())
+        params.save_setting("backup", "backup_to_google_drive", self.rb_google.isEnabled())
+        params.save_setting("backup", "backup_to_other", self.rb_other.isEnabled())
         self.close()
 
     def choose_folder(self):
