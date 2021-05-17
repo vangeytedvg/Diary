@@ -375,6 +375,10 @@
    </property>
   </action>
   <action name="action_Preferences">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/settings-3.png</normaloff>:/tlb/settings-3.png</iconset>
+   </property>
    <property name="text">
     <string>Preferences</string>
    </property>
