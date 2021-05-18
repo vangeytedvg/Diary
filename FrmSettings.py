@@ -23,15 +23,6 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.__color_weekday_foreground = ""
         self.__color_weekend_background = ""
         self.__color_weekend_foreground = ""
-        self.__backup_local = False
-        self.__backup_cloud = False
-        self.__backup_google_drive = False
-        self.__backup_cloud_other = False
-        self.__back_file_path = ""
-
-        self.rb_LocalBackup.setChecked(True)
-        self.rb_google.setEnabled(False)
-        self.rb_other.setEnabled(False)
         self.load_settings()
         # Actions
         self.btnSave.clicked.connect(self.save_and_close)
@@ -55,14 +46,15 @@ class FrmSettings(QDialog, Ui_frmSettings):
         # Disable other controls
         self.lbl_backup_folder.setEnabled(True)
         self.txt_backup_folder.setEnabled(True)
-        self.rb_CloudBackup.setEnabled(False)
+        self.btn_select_backup_folder.setEnabled(True)
         self.rb_google.setEnabled(False)
         self.rb_other.setEnabled(False)
 
     def set_cloud_backup(self):
+        self.__backup_local = False
         self.lbl_backup_folder.setEnabled(False)
         self.txt_backup_folder.setEnabled(False)
-        self.rb_CloudBackup.setEnabled(True)
+        self.btn_select_backup_folder.setEnabled(False)
         self.rb_google.setEnabled(True)
         self.rb_other.setEnabled(True)
 
@@ -119,14 +111,16 @@ class FrmSettings(QDialog, Ui_frmSettings):
         if self.__color_weekend_foreground:
             self.lbl_color_weekend_foreground.setStyleSheet("background-color: %s" % self.__color_weekend_foreground)
         # Backup settings
-        self.__backup_local = params.load_setting("backup", "backup_to_local_file")
-        self.__back_file_path = params.load_setting("backup", "back_to_local_file_path")
-        self.__backup_cloud = params.load_setting("backup", "backup_to_cloud")
-        self.__backup_google_drive = params.load_setting("backup", "backup_to_google_drive")
-        self.__backup_other = params.load_setting("backup", "backup_to_other")
-        # Take care of booleans
-        self.rb_LocalBackup.setChecked(str_to_bool(self.__backup_local))
-        self.rb_CloudBackup.setChecked(str_to_bool(self.__backup_cloud))
+        self.rb_LocalBackup.setChecked(str_to_bool(params.load_setting("backup", "backup_to_local_file")))
+        self.txt_backup_folder.setText(params.load_setting("backup", "back_to_local_file_path"))
+        self.rb_CloudBackup.setChecked(str_to_bool(params.load_setting("backup", "backup_to_cloud")))
+        self.rb_google.setChecked(str_to_bool(params.load_setting("backup", "backup_to_google_drive")))
+        self.rb_other.setChecked(str_to_bool(params.load_setting("backup", "backup_to_other")))
+        # Some actions to set everything ok in the UI
+        if self.rb_LocalBackup.isChecked():
+            self.set_local_backup()
+        else:
+            self.set_cloud_backup()
 
     def save_and_close(self):
         """
@@ -141,11 +135,11 @@ class FrmSettings(QDialog, Ui_frmSettings):
         params.save_setting("colors", "weekend_background", self.__color_weekend_background)
         params.save_setting("colors", "weekend_foreground", self.__color_weekend_foreground)
         # Backup settings
-        params.save_setting("backup", "backup_to_local_file", self.rb_LocalBackup.isEnabled())
+        params.save_setting("backup", "backup_to_local_file", self.rb_LocalBackup.isChecked())
         params.save_setting("backup", "back_to_local_file_path", self.txt_backup_folder.text())
-        params.save_setting("backup", "backup_to_cloud", self.rb_CloudBackup.isEnabled())
-        params.save_setting("backup", "backup_to_google_drive", self.rb_google.isEnabled())
-        params.save_setting("backup", "backup_to_other", self.rb_other.isEnabled())
+        params.save_setting("backup", "backup_to_cloud", self.rb_CloudBackup.isChecked())
+        params.save_setting("backup", "backup_to_google_drive", self.rb_google.isChecked())
+        params.save_setting("backup", "backup_to_other", self.rb_other.isChecked())
         self.close()
 
     def choose_folder(self):
@@ -154,8 +148,8 @@ class FrmSettings(QDialog, Ui_frmSettings):
         """
         dir = QFileDialog.getExistingDirectory(self, "Open Directory",
                                                "/home",
-                                               QFileDialog.ShowDirsOnly |
-                                               QFileDialog.DontResolveSymlinks)
+                                               QFileDialog.ShowDirsOnly
+                                               | QFileDialog.DontResolveSymlinks)
         if dir:
             self.txtPathToDiary.setText(dir)
 

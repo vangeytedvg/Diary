@@ -31,6 +31,8 @@ def str_to_bool(comp):
     Simple trick to convert string values to boolean
     return : True or False
     """
+    if comp == True or comp == False:
+        return comp
     return comp.lower() in ("true", "TRUE", "True", "yes", "Yes", "YES")
 
 
