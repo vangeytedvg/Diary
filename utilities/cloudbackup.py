@@ -13,7 +13,7 @@ from apiclient.http import MediaFileUpload
 
 
 class GoogleDrive():
-    def __init__(self, folder_id):
+    def __init__(self, folder_id: str):
         # If modifying these scopes, delete the file token.json.
         SCOPES = ['https://www.googleapis.com/auth/drive']
 
@@ -42,18 +42,18 @@ class GoogleDrive():
         self.service = build('drive', 'v3', credentials=creds)
         self.__folder_id = folder_id
 
-    def upload_file(self, filename, path, folder_id):
+    def upload_file(self, filename: str, path: str):
         """ Load a new file or update an existing one """
         media = MediaFileUpload(f"{path}{filename}")
         response = self.service.files().list(
-            q=f"name='{filename}' and parents = '{folder_id}'",
+            q=f"name='{filename}' and parents = '{self.__folder_id}'",
             spaces='drive',
             fields='nextPageToken, files(id, name)',
             pageToken=None).execute()
 
         return true
 
-    def test_run(self, l):
+    def test_run(self, l: int):
         # Call the Drive v3 API
         results = self.service.files().list(
             pageSize=l, fields="nextPageToken, files(id, name)").execute()
@@ -71,11 +71,11 @@ class Backup():
     _zipname = ""
     _source_path = ""
 
-    def __init__(self, zipname, source_path):
+    def __init__(self, zipname: str, source_path: str):
         self._zipname = zipname
         self._source_path = source_path
 
-    def zipfile(self, source_path, zipname):
+    def zipfile(self, source_path: str, zipname: str):
         self.__zipname = zipname
         self.__source_path = source_path
         print("SOURCE PATH ", source_path)
@@ -108,13 +108,13 @@ class GoogleBackup(Backup):
     Backup to google
     """
 
-    def __init__(self, zipname=zipname, source_path=source_path, folder_id=folder_id):
+    def __init__(self, zipname, source_path, folder_id):
         super(GoogleBackup, self).__init__(zipname, source_path)
+        # folder_id is local to this class
         self.my_google_drive = GoogleDrive(folder_id)
 
     def push_to_path(self):
-        self.my_folder_id = folder_id
-        result = self.my_google_drive.upload_file(self.__zipname, folder_id)
+        result = self.my_google_drive.upload_file(self._zipname, self._source_path)
 
     def is_alive(self, l):
         """

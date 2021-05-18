@@ -138,6 +138,7 @@ class Diary(QMainWindow, Ui_MainWindow):
     def open_settings(self):
         settings = FrmSettings(self)
         res = settings.exec_()
+        self.loadsettings()
 
     def backup(self, destination: Backup):
         """
@@ -169,7 +170,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             # use polymorphism here
             self.backup(my_backup)
         if self.__backup_to_google:
-            my_backup = GoogleBackup(self.__google_folder_id)
+            my_backup = GoogleBackup("zip.zip", self.__google_folder_id, self.__diary_pages_path)
             # use polymorphism here
             self.backup(my_backup)
 
