@@ -119,8 +119,10 @@ class FrmSettings(QDialog, Ui_frmSettings):
             self.lbl_color_weekend_foreground.setStyleSheet("background-color: %s" % self.__color_weekend_foreground)
         # Backup settings
         self.__backup_local = params.load_setting("backup", "backup_to_local_file")
+        self.__back_file_path = params.load_setting("backup", "back_to_local_file_path")
         self.__backup_cloud = params.load_setting("backup", "backup_to_cloud")
         self.__backup_google_drive = params.load_setting("backup", "backup_to_google_drive")
+        self.__backup_other = params.load_setting("backup", "backup_to_other")
 
     def save_and_close(self):
         """
@@ -136,6 +138,7 @@ class FrmSettings(QDialog, Ui_frmSettings):
         params.save_setting("colors", "weekend_foreground", self.__color_weekend_foreground)
         # Backup settings
         params.save_setting("backup", "backup_to_local_file", self.rb_LocalBackup.isEnabled())
+        params.save_setting("backup", "back_to_local_file_path", self.txt_backup_folder.text())
         params.save_setting("backup", "backup_to_cloud", self.rb_CloudBackup.isEnabled())
         params.save_setting("backup", "backup_to_google_drive", self.rb_google.isEnabled())
         params.save_setting("backup", "backup_to_other", self.rb_other.isEnabled())
@@ -147,8 +150,8 @@ class FrmSettings(QDialog, Ui_frmSettings):
         """
         dir = QFileDialog.getExistingDirectory(self, "Open Directory",
                                                "/home",
-                                               QFileDialog.ShowDirsOnly
-                                               | QFileDialog.DontResolveSymlinks)
+                                               QFileDialog.ShowDirsOnly |
+                                               QFileDialog.DontResolveSymlinks)
         if dir:
             self.txtPathToDiary.setText(dir)
 

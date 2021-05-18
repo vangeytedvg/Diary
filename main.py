@@ -20,7 +20,7 @@ from FrmSettings import FrmSettings
 from utilities import dvgFileUtils
 from utilities.setting import Settings
 from utilities.editor import EditorProxy
-from utilities.cloudbackup import GoogleBackup
+from utilities.cloudbackup import GoogleBackup, Backup
 from fileman import FileManager as fm
 from DiaryCalendar import DiaryCalendar
 

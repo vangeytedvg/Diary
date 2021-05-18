@@ -58,8 +58,7 @@ class Backup():
     _zipname = ""
 
     def __init__(self, zipname):
-        super(Backup, self).__init__()
-        pass
+        self.zipname = zipname
 
     def backup(self):
         raise NotImplementedError("<backup> must be overriden")
@@ -75,7 +74,22 @@ class Backup():
 
 
 class LocalBackup(Backup):
-    pass
+
+    def backup(self):
+        print("Google Backup Started")
+
+    def zipfile(self):
+        print("Zipping")
+
+    def push_to_path(self):
+        print("Pushing to Google")
+
+    def is_alive(self, l):
+        """
+        Perform a simple connection test
+        """
+        my_test = self.my_google_drive.test_run(l)
+        return my_test
 
 
 class GoogleBackup(Backup):
