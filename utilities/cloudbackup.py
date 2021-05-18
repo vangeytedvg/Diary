@@ -65,7 +65,7 @@ class Backup():
         raise NotImplementedError("<backup> must be overriden")
 
     def zipfile(self):
-        raise NotImplementedError("<zipfile> must be overriden")
+        print(f"Daddy is zipping {self.zipname}!")
 
     def push_to_path(self):
         raise NotImplementedError("<pushtopath> must be overriden")
@@ -81,8 +81,8 @@ class LocalBackup(Backup):
     def backup(self):
         print("Local Backup Started")
 
-    def zipfile(self):
-        print("Zipping")
+    # def zipfile(self):
+        # print("Zipping")
 
     def push_to_path(self):
         print("Pushing to Google")
@@ -107,8 +107,8 @@ class GoogleBackup(Backup):
     def backup(self):
         print("Google Backup Started")
 
-    def zipfile(self):
-        print("Zipping")
+    # def zipfile(self):
+        # print("Zipping")
 
     def push_to_path(self):
         print("Pushing to Google")

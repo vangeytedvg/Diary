@@ -139,9 +139,12 @@ class Diary(QMainWindow, Ui_MainWindow):
         res = settings.exec_()
 
     def backup(self, destination: Backup):
+        """
+        Perform the backup using Polymorphism!
+        """
         if not destination:
-            raise
-        print(type(destination))
+            raise Excepion("No destination class set")
+
         is_alive = destination.is_alive(4)
         if len(is_alive) == 0:
             print("No file found")
