@@ -135,11 +135,18 @@ class FrmSettings(QDialog, Ui_frmSettings):
         params.save_setting("colors", "weekend_background", self.__color_weekend_background)
         params.save_setting("colors", "weekend_foreground", self.__color_weekend_foreground)
         # Backup settings
-        params.save_setting("backup", "backup_to_local_file", self.rb_LocalBackup.isChecked())
-        params.save_setting("backup", "back_to_local_file_path", self.txt_backup_folder.text())
-        params.save_setting("backup", "backup_to_cloud", self.rb_CloudBackup.isChecked())
-        params.save_setting("backup", "backup_to_google_drive", self.rb_google.isChecked())
-        params.save_setting("backup", "backup_to_other", self.rb_other.isChecked())
+        if self.rb_LocalBackup.isChecked():
+            params.save_setting("backup", "backup_to_local_file", self.rb_LocalBackup.isChecked())
+            params.save_setting("backup", "backup_to_cloud", False)
+            params.save_setting("backup", "backup_to_google_drive", False)
+            params.save_setting("backup", "backup_to_other", False)
+            params.save_setting("backup", "back_to_local_file_path", self.txt_backup_folder.text())
+        if self.rb_CloudBackup.isChecked():
+            params.save_setting("backup", "backup_to_local_file", False)
+            params.save_setting("backup", "backup_to_cloud", True)
+            params.save_setting("backup", "backup_to_google_drive", self.rb_google.isChecked())
+            params.save_setting("backup", "backup_to_other", self.rb_other.isChecked())
+            params.save_setting("backup", "back_to_local_file_path", "")
         self.close()
 
     def choose_folder(self):
@@ -148,8 +155,8 @@ class FrmSettings(QDialog, Ui_frmSettings):
         """
         dir = QFileDialog.getExistingDirectory(self, "Open Directory",
                                                "/home",
-                                               QFileDialog.ShowDirsOnly
-                                               | QFileDialog.DontResolveSymlinks)
+                                               QFileDialog.ShowDirsOnly |
+                                               QFileDialog.DontResolveSymlinks)
         if dir:
             self.txtPathToDiary.setText(dir)
 

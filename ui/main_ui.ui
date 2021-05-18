@@ -55,7 +55,7 @@
     </property>
     <addaction name="actionSave"/>
     <addaction name="action_Print"/>
-    <addaction name="actionBackup_to_Google_Drive"/>
+    <addaction name="action_backup"/>
     <addaction name="separator"/>
     <addaction name="actionE_xit"/>
    </widget>
@@ -126,7 +126,7 @@
    </attribute>
    <addaction name="actionSave"/>
    <addaction name="action_Print"/>
-   <addaction name="actionBackup_to_Google_Drive"/>
+   <addaction name="action_backup"/>
    <addaction name="action_Add"/>
    <addaction name="separator"/>
    <addaction name="actionE_xit"/>
@@ -365,13 +365,16 @@
     <string>Strikethrough</string>
    </property>
   </action>
-  <action name="actionBackup_to_Google_Drive">
+  <action name="action_backup">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/tlb/sync.png</normaloff>:/tlb/sync.png</iconset>
    </property>
    <property name="text">
-    <string>Backup to &amp;Google Drive</string>
+    <string>Backup diary files</string>
+   </property>
+   <property name="toolTip">
+    <string>Backup</string>
    </property>
   </action>
   <action name="action_Preferences">

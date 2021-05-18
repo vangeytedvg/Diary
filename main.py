@@ -20,11 +20,23 @@ from FrmSettings import FrmSettings
 from utilities import dvgFileUtils
 from utilities.setting import Settings
 from utilities.editor import EditorProxy
-from utilities.cloudbackup import GoogleBackup, Backup
+from utilities.cloudbackup import *
 from fileman import FileManager as fm
 from DiaryCalendar import DiaryCalendar
 
 class Diary(QMainWindow, Ui_MainWindow):
+
+    # These are class variables, the go with each copy of the class
+    __diary_pages_path = ""
+    __color_weekday_background = ""
+    __color_weekday_foreground = ""
+    __color_weekend_foreground = ""
+    __color_weekend_background = ""
+    __local_backup = False
+    __local_backup_folder = ""
+    __cloudBackup = False
+    __backup_to_google = False
+    __backup_to_other = False
 
     def __init__(self):
 
@@ -120,26 +132,41 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionPaste.triggered.connect(self.txtDiary.paste)
         self.action_insert_date.triggered.connect(self.ed.insert_date_text)
         self.action_insert_time.triggered.connect(self.ed.insert_time_text)
-        self.actionBackup_to_Google_Drive.triggered.connect(self.cloud_backup)
+        self.action_backup.triggered.connect(self._backup)
 
     def open_settings(self):
         settings = FrmSettings(self)
         res = settings.exec_()
 
-    def cloud_backup(self):
-        """
-        Make a backup to google drive
-        """
-        google_backup = GoogleBackup("diary.zip")
-        status_check = google_backup.is_alive(5)
-        if len(status_check) == 0:
+    def backup(self, destination: Backup):
+        if not destination:
+            raise
+        print(type(destination))
+        is_alive = destination.is_alive(4)
+        if len(is_alive) == 0:
             print("No file found")
         else:
-            print(f"{len(status_check)} file(s) found")
-            for file in status_check:
+            print(f"{len(is_alive)} file(s) found")
+            for file in is_alive:
                 print(file['name'])
-        google_backup.backup()
-        google_backup.push_to_path()
+        destination.zipfile()
+        destination.backup()
+        destination.push_to_path()
+
+    def _backup(self):
+        """
+        Make a backup to google drive or local.  The 'other' option
+        is not yet implemented.
+        """
+        # Check what kind of backup to perform
+        my_backup = None
+        if self.__local_backup:
+            # local backup
+            my_backup = LocalBackup("diary.zip")
+        if self.__backup_to_google:
+            my_backup = GoogleBackup("webdiary.zip")
+        # use polymorphism here
+        self.backup(my_backup)
 
     def set_dirty(self):
         """
@@ -147,6 +174,9 @@ class Diary(QMainWindow, Ui_MainWindow):
         """
         self._isDirty = True
         self.lbl_changed.setText("yes")
+
+    def set_calendar_colors(self):
+        pass
 
     def print_preview(self):
         """
@@ -335,11 +365,28 @@ class Diary(QMainWindow, Ui_MainWindow):
           Load the settings from the registry (windows) or settings file (linux)
         :return: nothing
         """
+        # -- > this part needs to be migrated to the Settings class
         settings = QSettings("DenkaTech", "KDiary")
         settings.beginGroup("mainwindow")
         self.restoreState(settings.value("frm_main/state", QByteArray()))
         self.restoreGeometry(settings.value("frm_main/geometry", QByteArray()))
         settings.endGroup()
+        # Document settings
+
+        # color settings
+        params = Settings(self, "DenkaTech", "KDiary")
+        self.__diary_pages_path = params.load_setting("paths", "file_location")
+        self.__color_weekday_background = params.load_setting("colors", "weekday_background")
+        self.__color_weekday_foreground = params.load_setting("colors", "weekday_foreground")
+        self.__color_weekend_foreground = params.load_setting("colors", "weekend_foreground")
+        self.__color_weekend_background = params.load_setting("colors", "weekend_background")
+        self.set_calendar_colors()
+        # Backup settings
+        self.__local_backup = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_local_file"))
+        self.__local_backup_folder = params.load_setting("backup", "back_to_local_file_path")
+        self.__cloudBackup = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_cloud"))
+        self.__backup_to_google = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_google_drive"))
+        self.__backup_to_other = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_other"))
 
 
 if __name__ == '__main__':
