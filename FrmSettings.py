@@ -2,11 +2,12 @@ from PyQt5.QtWidgets import QDialog, QFileDialog, QColorDialog
 from PyQt5.QtCore import QDate
 from frmSettings import Ui_frmSettings
 from utilities.setting import Settings
+from utilities.dvgFileUtils import str_to_bool
 
 
 class FrmSettings(QDialog, Ui_frmSettings):
     """
-    Settings form 
+    Settings form
     """
 
     def __init__(self, parent):
@@ -123,6 +124,9 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.__backup_cloud = params.load_setting("backup", "backup_to_cloud")
         self.__backup_google_drive = params.load_setting("backup", "backup_to_google_drive")
         self.__backup_other = params.load_setting("backup", "backup_to_other")
+        # Take care of booleans
+        self.rb_LocalBackup.setChecked(str_to_bool(self.__backup_local))
+        self.rb_CloudBackup.setChecked(str_to_bool(self.__backup_cloud))
 
     def save_and_close(self):
         """

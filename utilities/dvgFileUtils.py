@@ -1,7 +1,8 @@
 """
-    Filename  and other utilities
-    Author : Danny Van Geyte
-    Last Modified : March 2019
+    Filename and other utilities
+    Author        : Danny Van Geyte
+    Created       : March 2019
+    Last Modified : May 2021
 """
 import os
 from PyQt5.QtCore import QDate
@@ -25,17 +26,34 @@ def isMailOk(address):
         return False
 
 
+def str_to_bool(comp):
+    """
+    Simple trick to convert string values to boolean
+    return : True or False
+    """
+    return comp.lower() in ("true", "TRUE", "True", "yes", "Yes", "YES")
+
+
 def extractFileNameOnly(filepath):
+    """
+    return the filename of the given path
+    """
     head, tail = os.path.split(filepath)
     return tail
 
 
 def extractPathOnly(filepath):
+    """
+    Return the path 
+    """
     head, tail = os.path.split(filepath)
     return head
 
 
 def extractExtension(filepath):
+    """
+    Return the extension of the given path
+    """
     filename, file_extension = os.path.splitext(filepath)
     return file_extension
 
@@ -60,6 +78,9 @@ def next_filename(catalogLocation, imgPrefix):
 
 
 def nukeFile(filename):
+    """
+    Remove a file
+    """
     os.remove(filename)
 
 
