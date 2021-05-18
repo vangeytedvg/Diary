@@ -9,6 +9,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from apiclient.http import MediaFileUpload
 
 
 class GoogleDrive():
@@ -42,7 +43,15 @@ class GoogleDrive():
         self.__folder_id = folder_id
 
     def upload_file(self, filename, path, folder_id):
-        pass
+        """ Load a new file or update an existing one """
+        media = MediaFileUpload(f"{path}{filename}")
+        response = self.service.files().list(
+            q=f"name='{filename}' and parents = '{folder_id}'",
+            spaces='drive',
+            fields='nextPageToken, files(id, name)',
+            pageToken=None).execute()
+
+        return true
 
     def test_run(self, l):
         # Call the Drive v3 API
@@ -60,16 +69,17 @@ class Backup():
     Base class for backups
     """
     _zipname = ""
+    _source_path = ""
 
-    def __init__(self, zipname):
-        self.zipname = zipname
-        print(self.zipname)
+    def __init__(self, zipname, source_path):
+        self._zipname = zipname
+        self._source_path = source_path
 
-    def backup(self):
-        raise NotImplementedError("<backup> must be overriden")
-
-    def zipfile(self):
-        print(f"Daddy is zipping {self.zipname}!")
+    def zipfile(self, source_path, zipname):
+        self.__zipname = zipname
+        self.__source_path = source_path
+        print("SOURCE PATH ", source_path)
+        print("ZIPKEN ", zipname)
 
     def push_to_path(self):
         raise NotImplementedError("<pushtopath> must be overriden")
@@ -79,14 +89,11 @@ class Backup():
 
 
 class LocalBackup(Backup):
-    def __init__(self, zipname):
-        super(LocalBackup, self).__init__(zipname)
-
-    def backup(self):
-        print("Local Backup Started")
+    def __init__(self):
+        pass
 
     def push_to_path(self):
-        print("Pushing to Google")
+        print("Pushing to local")
 
     def is_alive(self, l):
         """
@@ -101,15 +108,13 @@ class GoogleBackup(Backup):
     Backup to google
     """
 
-    def __init__(self, zipname, folder_id):
-        super(GoogleBackup, self).__init__(zipname)
+    def __init__(self, zipname=zipname, source_path=source_path, folder_id=folder_id):
+        super(GoogleBackup, self).__init__(zipname, source_path)
         self.my_google_drive = GoogleDrive(folder_id)
 
-    def backup(self):
-        print("Google Backup Started")
-
     def push_to_path(self):
-        print("Pushing to Google")
+        self.my_folder_id = folder_id
+        result = self.my_google_drive.upload_file(self.__zipname, folder_id)
 
     def is_alive(self, l):
         """

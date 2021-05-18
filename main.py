@@ -153,8 +153,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             print(f"Destination folder {len(is_alive)} file(s) found")
             for file in is_alive:
                 print(file['name'])
-        destination.zipfile()
-        destination.backup()
+        destination.zipfile(source_path=self.__diary_pages_path, zipname="now.zip")
         destination.push_to_path()
 
     def _backup(self):
@@ -166,11 +165,13 @@ class Diary(QMainWindow, Ui_MainWindow):
         my_backup = None
         if self.__local_backup:
             # local backup
-            my_backup = LocalBackup("diary.zip")
+            my_backup = LocalBackup()
+            # use polymorphism here
+            self.backup(my_backup)
         if self.__backup_to_google:
-            my_backup = GoogleBackup("webdiary.zip", self.__google_folder_id)
-        # use polymorphism here
-        self.backup(my_backup)
+            my_backup = GoogleBackup(self.__google_folder_id)
+            # use polymorphism here
+            self.backup(my_backup)
 
     def set_dirty(self):
         """
