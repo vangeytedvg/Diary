@@ -36,6 +36,7 @@ class Diary(QMainWindow, Ui_MainWindow):
     __local_backup_folder = ""
     __cloudBackup = False
     __backup_to_google = False
+    __google_folder_id = ""
     __backup_to_other = False
 
     def __init__(self):
@@ -149,7 +150,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         if len(is_alive) == 0:
             print("No file found")
         else:
-            print(f"{len(is_alive)} file(s) found")
+            print(f"Destination folder {len(is_alive)} file(s) found")
             for file in is_alive:
                 print(file['name'])
         destination.zipfile()
@@ -167,7 +168,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             # local backup
             my_backup = LocalBackup("diary.zip")
         if self.__backup_to_google:
-            my_backup = GoogleBackup("webdiary.zip")
+            my_backup = GoogleBackup("webdiary.zip", self.__google_folder_id)
         # use polymorphism here
         self.backup(my_backup)
 
@@ -389,6 +390,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.__local_backup_folder = params.load_setting("backup", "back_to_local_file_path")
         self.__cloudBackup = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_cloud"))
         self.__backup_to_google = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_google_drive"))
+        self.__google_folder_id = params.load_setting("backup", "google_id")
         self.__backup_to_other = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_other"))
 
 

@@ -12,7 +12,7 @@ from google.oauth2.credentials import Credentials
 
 
 class GoogleDrive():
-    def __init__(self):
+    def __init__(self, folder_id):
         # If modifying these scopes, delete the file token.json.
         SCOPES = ['https://www.googleapis.com/auth/drive']
 
@@ -39,6 +39,10 @@ class GoogleDrive():
                 token.write(creds.to_json())
 
         self.service = build('drive', 'v3', credentials=creds)
+        self.__folder_id = folder_id
+
+    def upload_file(self, filename, path, folder_id):
+        pass
 
     def test_run(self, l):
         # Call the Drive v3 API
@@ -81,9 +85,6 @@ class LocalBackup(Backup):
     def backup(self):
         print("Local Backup Started")
 
-    # def zipfile(self):
-        # print("Zipping")
-
     def push_to_path(self):
         print("Pushing to Google")
 
@@ -100,15 +101,12 @@ class GoogleBackup(Backup):
     Backup to google
     """
 
-    def __init__(self, zipname):
+    def __init__(self, zipname, folder_id):
         super(GoogleBackup, self).__init__(zipname)
-        self.my_google_drive = GoogleDrive()
+        self.my_google_drive = GoogleDrive(folder_id)
 
     def backup(self):
         print("Google Backup Started")
-
-    # def zipfile(self):
-        # print("Zipping")
 
     def push_to_path(self):
         print("Pushing to Google")
