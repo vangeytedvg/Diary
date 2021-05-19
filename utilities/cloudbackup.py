@@ -13,6 +13,8 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from apiclient.http import MediaFileUpload
 
+from .dvgFileUtils import next_filename, extractFileNameOnly
+
 
 class NoDiaryPagesFound(Exception):
     """
@@ -120,8 +122,9 @@ class Backup():
 
         # Start zipping if we have files
         if len(file_list) > 0:
-            q = self._source_path + "/" + self._zipname
-            with zipfile.ZipFile(q, "w") as my_zip:
+            new_zip_name = next_filename(self._source_path, "bck_")
+            self._zipname = extractFileNameOnly(new_zip_name)
+            with zipfile.ZipFile(new_zip_name, "w") as my_zip:
                 for file in file_list:
                     my_zip.write(file, compress_type=zipfile.ZIP_DEFLATED)
         else:

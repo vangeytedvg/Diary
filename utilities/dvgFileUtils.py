@@ -69,7 +69,7 @@ def next_filename(catalogLocation, imgPrefix):
     """
     dateString = QDate.currentDate().toString("yyyyMMdd")
     pattern = catalogLocation + "/" + imgPrefix + \
-        '_' + dateString + "_{:03d}.html"
+        '_' + dateString + "_{:03d}.zip"
     n = 1
 
     while True:
