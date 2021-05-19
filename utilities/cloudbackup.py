@@ -90,7 +90,9 @@ class GoogleDrive():
     def test_run(self, l: int):
         # Call the Drive v3 API
         results = self.service.files().list(
-            pageSize=l, fields="nextPageToken, files(id, name)").execute()
+            pageSize=l,
+            fields="nextPageToken, files(id, name)"
+        ).execute()
         items = results.get('files', [])
         if not items:
             return("No items found")
@@ -163,7 +165,8 @@ class GoogleBackup(Backup):
         super(GoogleBackup, self).__init__(zipname, source_path)
 
     def push_to_path(self):
-        result = self.my_google_drive.upload_file(self._zipname, self._source_path)
+        result = self.my_google_drive.upload_file(self._zipname,
+                                                  self._source_path)
 
     def is_alive(self, l):
         """

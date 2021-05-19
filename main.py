@@ -182,7 +182,9 @@ class Diary(QMainWindow, Ui_MainWindow):
             # use polymorphism here
             self.backup(my_backup)
         if self.__backup_to_google:
-            my_backup = GoogleBackup("DiaryPages20.zip", self.__diary_pages_path, self.__google_folder_id)
+            my_backup = GoogleBackup("DiaryPages20.zip",
+                                     self.__diary_pages_path,
+                                     self.__google_folder_id)
             # use polymorphism here
             self.backup(my_backup)
 
