@@ -161,7 +161,8 @@ class Diary(QMainWindow, Ui_MainWindow):
             # contructor call in the _backup method
             destination.zip_diary()
             result = destination.push_to_path()
-            print(result)
+            print("KWAK", result)
+
         except FileNotFoundError:
             dvgFileUtils.warn(self, "IO Error", "Path not found!", destination._source_path)
             # destination.push_to_path()
@@ -181,7 +182,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             # use polymorphism here
             self.backup(my_backup)
         if self.__backup_to_google:
-            my_backup = GoogleBackup("DiaryPages14.zip", self.__diary_pages_path, self.__google_folder_id)
+            my_backup = GoogleBackup("DiaryPages20.zip", self.__diary_pages_path, self.__google_folder_id)
             # use polymorphism here
             self.backup(my_backup)
 

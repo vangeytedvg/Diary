@@ -82,9 +82,8 @@ class GoogleDrive():
                 update_file = self.service.files().update(
                     fileId=myfile.get('id'),
                     media_body=media,).execute()
-            return "updated"
 
-        return response
+            return "Updated"
 
     def test_run(self, l: int):
         # Call the Drive v3 API
