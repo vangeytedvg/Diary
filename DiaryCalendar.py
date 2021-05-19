@@ -20,9 +20,17 @@ class DiaryCalendar(QCalendarWidget):
     myQColor_sel_fg = QColor(255, 255, 255)
     myColorWEDay = QColor(168, 88, 50)
 
+    def __init__(self, file_path):
+        """
+        Constructore override, need the path to the diary pages,
+        so it is passed in the constructor.
+        """
+        self._file_path = file_path
+        super(DiaryCalendar, self).__init__()
+
     def paintCell(self, painter, rect, date):
         painter.setRenderHint(QPainter.Antialiasing, True)
-        filename = fm.make_diary_filename(date.year(), date.month(), date.day())
+        filename = self._file_path + "/" + fm.make_diary_filename(date.year(), date.month(), date.day())
         # if date.day() == QDate().currentDate().day():
         # print("today")
         if fm.page_exists(filename):

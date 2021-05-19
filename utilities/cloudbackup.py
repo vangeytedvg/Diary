@@ -30,6 +30,20 @@ class NoDiaryPagesFound(Exception):
         return f"{self.path} {self.message}"
 
 
+class DiaryPagesDirectoryNotFound(Exception):
+    """
+    Custom exception in case no content can be found in the given location.
+    This exception is known directly in the main.py class.
+    """
+
+    def __init__(self, path, msg="Provided diary folder not found"):
+        self.path = path
+        self.message = msg
+
+    def __str__(self):
+        return f"{self.path} {self.message}"
+
+
 class GoogleDrive():
     def __init__(self, folder_id: str):
         # If modifying these scopes, delete the file token.json.
@@ -107,8 +121,7 @@ class Backup():
     _zipname = ""
     _source_path = ""
 
-    def __init__(self, zipname: str, source_path: str):
-        self._zipname = zipname
+    def __init__(self, source_path: str):
         self._source_path = source_path
 
     def zip_diary(self):
@@ -120,7 +133,7 @@ class Backup():
         file_list.setNameFilters(["*.html"])
 
         if not file_list.exists():
-            raise FileNotFoundError
+            raise DiaryPagesDirectoryNotFound
 
         # Start zipping if we have files
         if len(file_list) > 0:
@@ -128,9 +141,11 @@ class Backup():
             self._zipname = extractFileNameOnly(new_zip_name)
             with zipfile.ZipFile(new_zip_name, "w") as my_zip:
                 for file in file_list:
-                    my_zip.write(file, compress_type=zipfile.ZIP_DEFLATED)
+                    my_file = self._source_path + "/" + file
+                    my_zip.write(my_file, compress_type=zipfile.ZIP_DEFLATED)
         else:
-            raise NoDiaryPagesFound(self._source_path)
+            #raise NoDiaryPagesFound(self._source_path)
+            pass
 
     def push_to_path(self):
         raise NotImplementedError("<pushtopath> must be overriden")
@@ -159,10 +174,10 @@ class GoogleBackup(Backup):
     Backup to google
     """
 
-    def __init__(self, zipname, source_path, folder_id):
+    def __init__(self, source_path, folder_id):
         # folder_id is local to this class
         self.my_google_drive = GoogleDrive(folder_id)
-        super(GoogleBackup, self).__init__(zipname, source_path)
+        super(GoogleBackup, self).__init__(source_path)
 
     def push_to_path(self):
         result = self.my_google_drive.upload_file(self._zipname,

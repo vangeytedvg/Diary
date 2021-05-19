@@ -195,6 +195,7 @@ class Ui_MainWindow(object):
         self.toolBar_3.addAction(self.action_Print)
         self.toolBar_3.addAction(self.action_backup)
         self.toolBar_3.addAction(self.action_Add)
+        self.toolBar_3.addAction(self.actionErase)
         self.toolBar_3.addSeparator()
         self.toolBar_3.addAction(self.actionE_xit)
         self.toolBar.addAction(self.actionUndo)

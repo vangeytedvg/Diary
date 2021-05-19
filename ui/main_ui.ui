@@ -128,6 +128,7 @@
    <addaction name="action_Print"/>
    <addaction name="action_backup"/>
    <addaction name="action_Add"/>
+   <addaction name="actionErase"/>
    <addaction name="separator"/>
    <addaction name="actionE_xit"/>
   </widget>

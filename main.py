@@ -61,7 +61,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.txtDiary.setEnabled(False)
 
         # Make sure no diary entries can be made for future dates
-        self.calendarWidget = DiaryCalendar()
+        self.calendarWidget = DiaryCalendar(self.__diary_pages_path)
         self.calendarWidget.setMaximumWidth(350)
         self.calendarWidget.setMaximumHeight(350)
         self.calendarWidget.setMaximumDate(QDate.currentDate())
@@ -182,8 +182,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             # use polymorphism here
             self.backup(my_backup)
         if self.__backup_to_google:
-            my_backup = GoogleBackup("DiaryPages20.zip",
-                                     self.__diary_pages_path,
+            my_backup = GoogleBackup(self.__diary_pages_path,
                                      self.__google_folder_id)
             # use polymorphism here
             self.backup(my_backup)
@@ -277,7 +276,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         # dateedit parameter.
 
         file_name = str(QDate(dateedit).toPyDate())
-        file_name = file_name.replace("-", "") + ".html"
+        file_name = self.__diary_pages_path + "/" + file_name.replace("-", "") + ".html"
         self._active_file = file_name
         self._active_date = QDate(dateedit)
         self.lbl_file_name.setText(file_name)
@@ -350,6 +349,7 @@ class Diary(QMainWindow, Ui_MainWindow):
           the unix touch command would do.
         :return: nothing
         """
+        print(self.__diary_pages_path + "/" + file)
         Path(file).touch()
         return
 
