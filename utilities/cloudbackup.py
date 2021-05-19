@@ -60,7 +60,7 @@ class GoogleDrive():
 
     def upload_file(self, filename: str, path: str):
         """ Load a new file or update an existing one """
-        media = MediaFileUpload(f"{path}{filename}")
+        media = MediaFileUpload(f"{path}/{filename}")
         response = self.service.files().list(
             q=f"name='{filename}' and parents = '{self.__folder_id}'",
             spaces='drive',
@@ -68,13 +68,23 @@ class GoogleDrive():
             pageToken=None).execute()
 
         if len(response['files']) == 0:
-            # Create a dictionary
+            # File was not found, so create a brand new file in the google drive
             file_metadata = {
                 'name': filename,
-                'parents': self.__folder_id
+                'parents': [self.__folder_id]
             }
+            file = self.service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+            print(f"New file created : {file.get('id')}")
+            return file
+        else:
+            for myfile in response.get('files', []):
+                # Process changed files
+                update_file = self.service.files().update(
+                    fileId=myfile.get('id'),
+                    media_body=media,).execute()
+            return "updated"
 
-        return true
+        return response
 
     def test_run(self, l: int):
         # Call the Drive v3 API
