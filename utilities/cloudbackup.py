@@ -2,7 +2,8 @@
 Perform a backup to the Cloud.  For the moment there is only one subclass.
 This subclass specializes in working with Google Drive
 """
-from zipfile import ZipFile
+import zipfile
+import zlib
 from PyQt5.QtCore import QFile, QDir
 
 import os.path
@@ -67,6 +68,7 @@ class GoogleDrive():
             pageToken=None).execute()
 
         if len(response['files']) == 0:
+            # Create a dictionary
             file_metadata = {
                 'name': filename,
                 'parents': self.__folder_id
@@ -109,8 +111,10 @@ class Backup():
 
         # Start zipping if we have files
         if len(file_list) > 0:
-            for file in file_list:
-                print(file)
+            q = self._source_path + "/" + self._zipname
+            with zipfile.ZipFile(q, "w") as my_zip:
+                for file in file_list:
+                    my_zip.write(file, compress_type=zipfile.ZIP_DEFLATED)
         else:
             raise NoDiaryPagesFound(self._source_path)
 

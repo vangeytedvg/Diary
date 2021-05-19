@@ -156,7 +156,9 @@ class Diary(QMainWindow, Ui_MainWindow):
                 print(file['name'])
 
         try:
-            # Zip the file and then send it to google
+            # Zip the file and then send it to google. Note, we do not have
+            # to pass any parameters here, they were already set in the
+            # contructor call in the _backup method
             destination.zip_diary()
         except FileNotFoundError:
             dvgFileUtils.warn(self, "IO Error", "Path not found!", destination._source_path)
