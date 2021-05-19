@@ -133,3 +133,7 @@ def ask(title="No Title", msg="No Message", explain="No explanation"):
     msgBox.setDefaultButton(QMessageBox.Cancel)
     return msgBox.exec_()
 
+
+def warn(parent, title="No Title", msg="No Message", explain="No explanation"):
+    reply = QMessageBox.question(parent, msg, explain, QMessageBox.Ok)
+

@@ -2,7 +2,8 @@
 Perform a backup to the Cloud.  For the moment there is only one subclass.
 This subclass specializes in working with Google Drive
 """
-import zipfile
+from zipfile import ZipFile
+from PyQt5.QtCore import QFile, QDir
 
 import os.path
 from googleapiclient.discovery import build
@@ -10,6 +11,20 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from apiclient.http import MediaFileUpload
+
+
+class NoDiaryPagesFound(Exception):
+    """
+    Custom exception in case no content can be found in the given location.
+    This exception is known directly in the main.py class.
+    """
+
+    def __init__(self, path, msg="No diary files in given location"):
+        self.path = path
+        self.message = msg
+
+    def __str__(self):
+        return f"{self.path} {self.message}"
 
 
 class GoogleDrive():
@@ -51,6 +66,12 @@ class GoogleDrive():
             fields='nextPageToken, files(id, name)',
             pageToken=None).execute()
 
+        if len(response['files']) == 0:
+            file_metadata = {
+                'name': filename,
+                'parents': self.__folder_id
+            }
+
         return true
 
     def test_run(self, l: int):
@@ -75,11 +96,23 @@ class Backup():
         self._zipname = zipname
         self._source_path = source_path
 
-    def zipfile(self, source_path: str, zipname: str):
-        self.__zipname = zipname
-        self.__source_path = source_path
-        print("SOURCE PATH ", source_path)
-        print("ZIPKEN ", zipname)
+    def zip_diary(self):
+        """
+        Make a zipfile with the give name.  This method is for
+        all instances the same.
+        """
+        file_list = QDir(self._source_path)
+        file_list.setNameFilters(["*.html"])
+
+        if not file_list.exists():
+            raise FileNotFoundError
+
+        # Start zipping if we have files
+        if len(file_list) > 0:
+            for file in file_list:
+                print(file)
+        else:
+            raise NoDiaryPagesFound(self._source_path)
 
     def push_to_path(self):
         raise NotImplementedError("<pushtopath> must be overriden")
@@ -90,7 +123,7 @@ class Backup():
 
 class LocalBackup(Backup):
     def __init__(self):
-        pass
+        super(LocalBackup, self).__init__(zipname, source_path)
 
     def push_to_path(self):
         print("Pushing to local")
@@ -109,9 +142,9 @@ class GoogleBackup(Backup):
     """
 
     def __init__(self, zipname, source_path, folder_id):
-        super(GoogleBackup, self).__init__(zipname, source_path)
         # folder_id is local to this class
         self.my_google_drive = GoogleDrive(folder_id)
+        super(GoogleBackup, self).__init__(zipname, source_path)
 
     def push_to_path(self):
         result = self.my_google_drive.upload_file(self._zipname, self._source_path)

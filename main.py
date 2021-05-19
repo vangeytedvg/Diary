@@ -154,8 +154,15 @@ class Diary(QMainWindow, Ui_MainWindow):
             print(f"Destination folder {len(is_alive)} file(s) found")
             for file in is_alive:
                 print(file['name'])
-        destination.zipfile(source_path=self.__diary_pages_path, zipname="now.zip")
-        destination.push_to_path()
+
+        try:
+            # Zip the file and then send it to google
+            destination.zip_diary()
+        except FileNotFoundError:
+            dvgFileUtils.warn(self, "IO Error", "Path not found!", destination._source_path)
+            # destination.push_to_path()
+        except NoDiaryPagesFound:
+            dvgFileUtils.warn(self, "IO Error", "No diary files found in", destination._source_path)
 
     def _backup(self):
         """
@@ -170,7 +177,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             # use polymorphism here
             self.backup(my_backup)
         if self.__backup_to_google:
-            my_backup = GoogleBackup("zip.zip", self.__google_folder_id, self.__diary_pages_path)
+            my_backup = GoogleBackup("DiaryPages.zip", self.__diary_pages_path, self.__google_folder_id)
             # use polymorphism here
             self.backup(my_backup)
 
