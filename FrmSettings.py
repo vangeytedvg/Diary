@@ -23,6 +23,8 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.__color_weekday_foreground = ""
         self.__color_weekend_background = ""
         self.__color_weekend_foreground = ""
+        self.__color_select_foreground = ""
+        self.__color_select_background = ""
         self.load_settings()
         # Actions
         self.btnSave.clicked.connect(self.save_and_close)
@@ -34,6 +36,8 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.btn_color_weekday_foreground.clicked.connect(self.set_color_workday_foreground)
         self.btn_color_weekend_background.clicked.connect(self.set_color_weekend_background)
         self.btn_color_weekend_foreground.clicked.connect(self.set_color_weekend_foreground)
+        self.btn_color_selected_background.clicked.connect(self.set_color_select_background)
+        self.btn_color_selected_foreground.clicked.connect(self.set_color_select_foreground)
         # Backup
         self.rb_LocalBackup.toggled.connect(self.set_local_backup)
         self.rb_CloudBackup.toggled.connect(self.set_cloud_backup)
@@ -91,6 +95,14 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.__color_weekend_foreground = QColorDialog(parent=self).getColor().name()
         self.lbl_color_weekend_foreground.setStyleSheet("background-color: %s" % self.__color_weekend_foreground)
 
+    def set_color_select_background(self):
+        self.__color_select_background = QColorDialog(parent=self).getColor().name()
+        self.lbl_color_select_background.setStyleSheet("background-color: %s" % self.__color_select_background)
+
+    def set_color_select_foreground(self):
+        self.__color_select_foreground = QColorDialog(parent=self).getColor().name()
+        self.lbl_color_select_foreground.setStyleSheet("background-color: %s" % self.__color_select_foreground)
+
     def load_settings(self):
         """
         Restore the saved settings
@@ -104,6 +116,9 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.__color_weekday_foreground = params.load_setting("colors", "weekday_foreground")
         self.__color_weekend_foreground = params.load_setting("colors", "weekend_foreground")
         self.__color_weekend_background = params.load_setting("colors", "weekend_background")
+        self.__color_select_foreground = params.load_setting("colors", "select_foreground")
+        self.__color_select_background = params.load_setting("colors", "select_background")
+
         if self.__color_weekday_background:
             self.lbl_color_weekday_background.setStyleSheet("background-color: %s" % self.__color_weekday_background)
         if self.__color_weekday_foreground:
@@ -112,6 +127,10 @@ class FrmSettings(QDialog, Ui_frmSettings):
             self.lbl_color_weekend_background.setStyleSheet("background-color: %s" % self.__color_weekend_background)
         if self.__color_weekend_foreground:
             self.lbl_color_weekend_foreground.setStyleSheet("background-color: %s" % self.__color_weekend_foreground)
+        if self.__color_select_background:
+            self.lbl_color_select_background.setStyleSheet("background-color: %s" % self.__color_select_background)
+        if self.__color_select_foreground:
+            self.lbl_color_select_foreground.setStyleSheet("background-color: %s" % self.__color_select_foreground)
         # Backup settings
         self.rb_LocalBackup.setChecked(str_to_bool(params.load_setting("backup",
                                                                        "backup_to_local_file")))
@@ -149,6 +168,10 @@ class FrmSettings(QDialog, Ui_frmSettings):
                             self.__color_weekend_background)
         params.save_setting("colors", "weekend_foreground",
                             self.__color_weekend_foreground)
+        params.save_setting("colors", "select_background",
+                            self.__color_select_background)
+        params.save_setting("colors", "select_foreground",
+                            self.__color_select_foreground)
         params.save_setting("backup", "google_id",
                             self.txt_google_folder_id.text())
         # Backup settings

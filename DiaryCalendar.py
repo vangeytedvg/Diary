@@ -10,17 +10,20 @@ class DiaryCalendar(QCalendarWidget):
       an existing diary page.
 
     """
-    myQColor = QColor(25, 30, 30)
-    myQColor_day = QColor(255, 255, 255)
-    myQColorWE = QColor(25, 30, 40)
-    myQColor_sel_bg = QColor(30, 150, 22)
-    myQColor_sel_fg = QColor(255, 255, 255)
-    myColorWEDay = QColor(168, 88, 50)
+    #myQColor = QColor(25, 30, 30)
+    #myQColor_day = QColor(255, 255, 255)
+    #myQColorWE = QColor(25, 30, 40)
+    #myQColor_sel_bg = QColor(30, 150, 22)
+    #myQColor_sel_fg = QColor(255, 255, 255)
+    #myColorWEDay = QColor(168, 88, 50)
 
-    def __init__(self, file_path, color_weekday_background,
+    def __init__(self, file_path,
+                 color_weekday_background,
                  color_weekday_foreground,
                  color_weekend_background,
-                 color_weekend_foreground):
+                 color_weekend_foreground,
+                 color_select_background,
+                 color_select_foreground):
         """
         Constructore override, need the path to the diary pages,
         so it is passed in the constructor.
@@ -30,6 +33,8 @@ class DiaryCalendar(QCalendarWidget):
         self.myQColor_day = QColor(color_weekday_foreground)
         self.myColorWEDay = QColor(color_weekend_foreground)
         self.myQColorWE = QColor(color_weekend_background)
+        self.myQColor_sel_bg = QColor(color_select_background)
+        self.myQColor_sel_fg = QColor(color_select_foreground)
 
         super(DiaryCalendar, self).__init__()
 

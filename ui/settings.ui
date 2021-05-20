@@ -196,7 +196,7 @@
           </widget>
          </item>
          <item row="10" column="1">
-          <widget class="QLabel" name="lbl_color_selected_foreground">
+          <widget class="QLabel" name="lbl_color_select_foreground">
            <property name="maximumSize">
             <size>
              <width>40</width>
@@ -276,7 +276,7 @@
           </widget>
          </item>
          <item row="12" column="1">
-          <widget class="QLabel" name="lbl_color_selected_background">
+          <widget class="QLabel" name="lbl_color_select_background">
            <property name="maximumSize">
             <size>
              <width>40</width>

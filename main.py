@@ -32,6 +32,8 @@ class Diary(QMainWindow, Ui_MainWindow):
     __color_weekday_foreground = ""
     __color_weekend_foreground = ""
     __color_weekend_background = ""
+    __color_select_foreground = ""
+    __color_select_background = ""
     __local_backup = False
     __local_backup_folder = ""
     __cloudBackup = False
@@ -65,7 +67,9 @@ class Diary(QMainWindow, Ui_MainWindow):
                                             self.__color_weekday_background,
                                             self.__color_weekday_foreground,
                                             self.__color_weekend_background,
-                                            self.__color_weekend_foreground)
+                                            self.__color_weekend_foreground,
+                                            self.__color_select_background,
+                                            self.__color_select_foreground)
         self.calendarWidget.setMaximumWidth(350)
         self.calendarWidget.setMaximumHeight(350)
         self.calendarWidget.setMaximumDate(QDate.currentDate())
@@ -143,10 +147,12 @@ class Diary(QMainWindow, Ui_MainWindow):
         settings = FrmSettings(self)
         res = settings.exec_()
         self.loadsettings()
-        DiaryCalendar.myQColor = QColor(self.__color_weekday_background)
-        DiaryCalendar.myQColor_day = QColor(self.__color_weekday_foreground)
-        DiaryCalendar.myColorWEDay = QColor(self.__color_weekend_foreground)
-        DiaryCalendar.myQColorWE = QColor(self.__color_weekend_background)
+        self.calendarWidget.myQColor = QColor(self.__color_weekday_background)
+        self.calendarWidget.myQColor_day = QColor(self.__color_weekday_foreground)
+        self.calendarWidget.myColorWEDay = QColor(self.__color_weekend_foreground)
+        self.calendarWidget.myQColorWE = QColor(self.__color_weekend_background)
+        self.calendarWidget.myQColor_sel_bg = QColor(self.__color_select_background)
+        self.calendarWidget.myQColor_sel_fg = QColor(self.__color_select_foreground)
 
     def backup(self, destination: Backup):
         """
@@ -414,6 +420,10 @@ class Diary(QMainWindow, Ui_MainWindow):
                                                               "weekend_foreground")
         self.__color_weekend_background = params.load_setting("colors",
                                                               "weekend_background")
+        self.__color_select_foreground = params.load_setting("colors",
+                                                             "select_foreground")
+        self.__color_select_background = params.load_setting("colors",
+                                                             "select_background")
 
         # Backup settings
         self.__local_backup = dvgFileUtils.str_to_bool(params.load_setting("backup",
