@@ -476,9 +476,12 @@ class Diary(QMainWindow, Ui_MainWindow):
                                                                               "backup_to_other"))
         self.__last_backup_date = QDate(params.load_setting_from_byte_array("last_backup", "date"))
         self.__last_backup_time = QTime(params.load_setting_from_byte_array("last_backup", "time"))
-        self.__backup_interval = params.load_setting("backup", "push_interval_days")
+        self.__backup_interval = params.load_setting("backup",
+                                                     "push_interval_days")
         print("LB ", self.__last_backup_date.daysTo(QDate().currentDate()))
         self.__backup_interval = params.load_setting("backup", "push_interval_days")
+        self.should_backup_now = self.__backup_interval > \
+            self.__last_backup_date.daysTo(QDate().currentDate())
 
 
 if __name__ == '__main__':
