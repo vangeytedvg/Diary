@@ -20,8 +20,9 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame_warning = QtWidgets.QFrame(self.centralwidget)
         self.frame_warning.setMaximumSize(QtCore.QSize(16777215, 0))
-        self.frame_warning.setStyleSheet("background-color: rgb(255, 171, 230);")
-        self.frame_warning.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_warning.setStyleSheet("background-color: rgb(255, 171, 230);\n"
+"border-color: rgb(255, 0, 0);")
+        self.frame_warning.setFrameShape(QtWidgets.QFrame.Box)
         self.frame_warning.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_warning.setObjectName("frame_warning")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_warning)
@@ -31,6 +32,8 @@ class Ui_MainWindow(object):
         self.lbl_warning.setObjectName("lbl_warning")
         self.horizontalLayout.addWidget(self.lbl_warning)
         self.btn_close_warning = QtWidgets.QToolButton(self.frame_warning)
+        self.btn_close_warning.setStyleSheet("background-color: rgb(121, 121, 121);\n"
+"color: rgb(255, 255, 255);")
         self.btn_close_warning.setObjectName("btn_close_warning")
         self.horizontalLayout.addWidget(self.btn_close_warning)
         self.verticalLayout.addWidget(self.frame_warning)
@@ -232,7 +235,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "KDiary"))
-        self.lbl_warning.setText(_translate("MainWindow", "TextLabel"))
+        self.lbl_warning.setText(_translate("MainWindow", "[]"))
         self.btn_close_warning.setText(_translate("MainWindow", "..."))
         self.menu_File.setTitle(_translate("MainWindow", "&File"))
         self.menuEvent_s.setTitle(_translate("MainWindow", "Ev&ents"))

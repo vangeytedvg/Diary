@@ -91,6 +91,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.load_diary_page(QDate.currentDate())
         # Check if backup is needed
         if self.__should_backup_now:
+            self.lbl_warning.setText("Please consider making a backup of your diary now!")
             self.drawer_slide("open")
 
     def drawer_slide(self, open_or_close):
@@ -216,17 +217,16 @@ class Diary(QMainWindow, Ui_MainWindow):
             # save the date and time of the last backup to the config file
             mySettings = Settings(self, "DenkaTech", "KDiary")
             mySettings.save_setting("last_backup", "date", QDate.currentDate())
+            mySettings.save_setting("last_backup", "time", QTime.currentTime())
             #mySettings.save_setting("last_backup", "date", QDate(2021, 5, 10))
-            # mySettings.save_setting("last_backup", "time", QTime.currentTime())
             # Be sure to save the active diary entry
             self.save_changes()
             self.__should_backup_now = False
-
+            self.drawer_slide("close")
         except FileNotFoundError:
             dvgFileUtils.warn(self, "IO Error",
                               "Path not found!",
                               destination._source_path)
-            # destination.push_to_path()
         except NoDiaryPagesFound:
             dvgFileUtils.warn(self, "IO Error",
                               "No diary files found in",
@@ -486,11 +486,11 @@ class Diary(QMainWindow, Ui_MainWindow):
                                                      "push_interval_days")
 
         self.__backup_interval = params.load_setting("backup", "push_interval_days")
+        # Check if a backup is desirable
+        print(int(self.__backup_interval))
+        print(self.__last_backup_date.daysTo(QDate().currentDate()))
         if int(self.__backup_interval) <= self.__last_backup_date.daysTo(QDate().currentDate()):
             self.__should_backup_now = True
-
-        print("QD", self.__last_backup_date)
-        print("BIAAR ", self.__backup_interval, self.__last_backup_date.daysTo(QDate().currentDate()))
 
 
 if __name__ == '__main__':
