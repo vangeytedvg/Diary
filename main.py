@@ -10,7 +10,7 @@ from PyQt5.QtPrintSupport import (QPrintDialog,
                                   QPrinter,
                                   QPrintPreviewDialog)
 from PyQt5.QtGui import (QFont,
-                         QTextCursor, QTextListFormat)
+                         QTextCursor, QTextListFormat, QColor)
 from PyQt5.QtCore import (QDate, QDateTime,
                           QFile, QTime,
                           QSettings, QByteArray)
@@ -61,7 +61,11 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.txtDiary.setEnabled(False)
 
         # Make sure no diary entries can be made for future dates
-        self.calendarWidget = DiaryCalendar(self.__diary_pages_path)
+        self.calendarWidget = DiaryCalendar(self.__diary_pages_path,
+                                            self.__color_weekday_background,
+                                            self.__color_weekday_foreground,
+                                            self.__color_weekend_background,
+                                            self.__color_weekend_foreground)
         self.calendarWidget.setMaximumWidth(350)
         self.calendarWidget.setMaximumHeight(350)
         self.calendarWidget.setMaximumDate(QDate.currentDate())
@@ -139,6 +143,10 @@ class Diary(QMainWindow, Ui_MainWindow):
         settings = FrmSettings(self)
         res = settings.exec_()
         self.loadsettings()
+        DiaryCalendar.myQColor = QColor(self.__color_weekday_background)
+        DiaryCalendar.myQColor_day = QColor(self.__color_weekday_foreground)
+        DiaryCalendar.myColorWEDay = QColor(self.__color_weekend_foreground)
+        DiaryCalendar.myQColorWE = QColor(self.__color_weekend_background)
 
     def backup(self, destination: Backup):
         """
@@ -199,9 +207,6 @@ class Diary(QMainWindow, Ui_MainWindow):
         """
         self._isDirty = True
         self.lbl_changed.setText("yes")
-
-    def set_calendar_colors(self):
-        pass
 
     def print_preview(self):
         """
@@ -409,7 +414,7 @@ class Diary(QMainWindow, Ui_MainWindow):
                                                               "weekend_foreground")
         self.__color_weekend_background = params.load_setting("colors",
                                                               "weekend_background")
-        self.set_calendar_colors()
+
         # Backup settings
         self.__local_backup = dvgFileUtils.str_to_bool(params.load_setting("backup",
                                                                            "backup_to_local_file"))

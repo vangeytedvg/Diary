@@ -8,24 +8,29 @@ class DiaryCalendar(QCalendarWidget):
     """
       Sublassed QCalendarWidget to enable painting dates with 
       an existing diary page.
-      If a given date has a corresponding diary file, the code
-      below will draw a circle arround that specific date.
-      Because this is a dynamic internal function, if a file is deleted,
-      or for that matter added for a given date, the circle is either removed
-      or added.
+
     """
     myQColor = QColor(25, 30, 30)
+    myQColor_day = QColor(255, 255, 255)
     myQColorWE = QColor(25, 30, 40)
     myQColor_sel_bg = QColor(30, 150, 22)
     myQColor_sel_fg = QColor(255, 255, 255)
     myColorWEDay = QColor(168, 88, 50)
 
-    def __init__(self, file_path):
+    def __init__(self, file_path, color_weekday_background,
+                 color_weekday_foreground,
+                 color_weekend_background,
+                 color_weekend_foreground):
         """
         Constructore override, need the path to the diary pages,
         so it is passed in the constructor.
         """
         self._file_path = file_path
+        self.myQColor = QColor(color_weekday_background)
+        self.myQColor_day = QColor(color_weekday_foreground)
+        self.myColorWEDay = QColor(color_weekend_foreground)
+        self.myQColorWE = QColor(color_weekend_background)
+
         super(DiaryCalendar, self).__init__()
 
     def paintCell(self, painter, rect, date):
@@ -42,7 +47,7 @@ class DiaryCalendar(QCalendarWidget):
                 painter.setPen(self.myColorWEDay)
             else:
                 painter.fillRect(rect, self.myQColor)
-                painter.setPen(Qt.darkGreen)
+                painter.setPen(self.myQColor_day)
             if self.selectedDate().day() == date.day():
                 # ignore the above color when the date is selected by the user
                 painter.setPen(self.myQColor_sel_fg)

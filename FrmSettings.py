@@ -113,13 +113,20 @@ class FrmSettings(QDialog, Ui_frmSettings):
         if self.__color_weekend_foreground:
             self.lbl_color_weekend_foreground.setStyleSheet("background-color: %s" % self.__color_weekend_foreground)
         # Backup settings
-        self.rb_LocalBackup.setChecked(str_to_bool(params.load_setting("backup", "backup_to_local_file")))
-        self.txt_backup_folder.setText(params.load_setting("backup", "back_to_local_file_path"))
-        self.rb_CloudBackup.setChecked(str_to_bool(params.load_setting("backup", "backup_to_cloud")))
-        self.rb_google.setChecked(str_to_bool(params.load_setting("backup", "backup_to_google_drive")))
-        self.txt_google_folder_id.setText(params.load_setting("backup", "google_id"))
-        self.rb_other.setChecked(str_to_bool(params.load_setting("backup", "backup_to_other")))
-        self.txt_google_folder_id.setText(params.load_setting("backup", "google_id"))
+        self.rb_LocalBackup.setChecked(str_to_bool(params.load_setting("backup",
+                                                                       "backup_to_local_file")))
+        self.txt_backup_folder.setText(params.load_setting("backup",
+                                                           "back_to_local_file_path"))
+        self.rb_CloudBackup.setChecked(str_to_bool(params.load_setting("backup",
+                                                                       "backup_to_cloud")))
+        self.rb_google.setChecked(str_to_bool(params.load_setting("backup",
+                                                                  "backup_to_google_drive")))
+        self.txt_google_folder_id.setText(params.load_setting("backup",
+                                                              "google_id"))
+        self.rb_other.setChecked(str_to_bool(params.load_setting("backup",
+                                                                 "backup_to_other")))
+        self.txt_google_folder_id.setText(params.load_setting("backup",
+                                                              "google_id"))
         # Some actions to set everything ok in the UI
         if self.rb_LocalBackup.isChecked():
             self.set_local_backup()
@@ -134,24 +141,43 @@ class FrmSettings(QDialog, Ui_frmSettings):
         # Diary location
         params.save_setting("paths", "file_location", self.txtPathToDiary.text())
         # Colors
-        params.save_setting("colors", "weekday_background", self.__color_weekday_background)
-        params.save_setting("colors", "weekday_foreground", self.__color_weekday_foreground)
-        params.save_setting("colors", "weekend_background", self.__color_weekend_background)
-        params.save_setting("colors", "weekend_foreground", self.__color_weekend_foreground)
-        params.save_setting("backup", "google_id", self.txt_google_folder_id.text())
+        params.save_setting("colors", "weekday_background",
+                            self.__color_weekday_background)
+        params.save_setting("colors", "weekday_foreground",
+                            self.__color_weekday_foreground)
+        params.save_setting("colors", "weekend_background",
+                            self.__color_weekend_background)
+        params.save_setting("colors", "weekend_foreground",
+                            self.__color_weekend_foreground)
+        params.save_setting("backup", "google_id",
+                            self.txt_google_folder_id.text())
         # Backup settings
         if self.rb_LocalBackup.isChecked():
-            params.save_setting("backup", "backup_to_local_file", self.rb_LocalBackup.isChecked())
-            params.save_setting("backup", "backup_to_cloud", False)
-            params.save_setting("backup", "backup_to_google_drive", False)
-            params.save_setting("backup", "backup_to_other", False)
-            params.save_setting("backup", "back_to_local_file_path", self.txt_backup_folder.text())
+            params.save_setting("backup",
+                                "backup_to_local_file",
+                                self.rb_LocalBackup.isChecked())
+            params.save_setting("backup",
+                                "backup_to_cloud", False)
+            params.save_setting("backup",
+                                "backup_to_google_drive", False)
+            params.save_setting("backup",
+                                "backup_to_other", False)
+            params.save_setting("backup",
+                                "back_to_local_file_path",
+                                self.txt_backup_folder.text())
         if self.rb_CloudBackup.isChecked():
-            params.save_setting("backup", "backup_to_local_file", False)
-            params.save_setting("backup", "backup_to_cloud", True)
-            params.save_setting("backup", "backup_to_google_drive", self.rb_google.isChecked())
-            params.save_setting("backup", "backup_to_other", self.rb_other.isChecked())
-            params.save_setting("backup", "back_to_local_file_path", "")
+            params.save_setting("backup",
+                                "backup_to_local_file", False)
+            params.save_setting("backup",
+                                "backup_to_cloud", True)
+            params.save_setting("backup",
+                                "backup_to_google_drive",
+                                self.rb_google.isChecked())
+            params.save_setting("backup",
+                                "backup_to_other",
+                                self.rb_other.isChecked())
+            params.save_setting("backup",
+                                "back_to_local_file_path", "")
         self.close()
 
     def choose_folder(self):
@@ -160,8 +186,8 @@ class FrmSettings(QDialog, Ui_frmSettings):
         """
         dir = QFileDialog.getExistingDirectory(self, "Open Directory",
                                                "/home",
-                                               QFileDialog.ShowDirsOnly |
-                                               QFileDialog.DontResolveSymlinks)
+                                               QFileDialog.ShowDirsOnly
+                                               | QFileDialog.DontResolveSymlinks)
         if dir:
             self.txtPathToDiary.setText(dir)
 
