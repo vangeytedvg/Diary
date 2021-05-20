@@ -42,6 +42,9 @@ class Diary(QMainWindow, Ui_MainWindow):
     __backup_to_google = False
     __google_folder_id = ""
     __backup_to_other = False
+    __last_backup_date = None
+    __last_backup_time = None
+    __backup_interval = 0
 
     def __init__(self):
 
@@ -72,6 +75,7 @@ class Diary(QMainWindow, Ui_MainWindow):
                                             self.__color_weekend_foreground,
                                             self.__color_select_background,
                                             self.__color_select_foreground)
+
         self.calendarWidget.setMaximumWidth(350)
         self.calendarWidget.setMaximumHeight(350)
         self.calendarWidget.setMaximumDate(QDate.currentDate())
@@ -201,9 +205,16 @@ class Diary(QMainWindow, Ui_MainWindow):
             # contructor call in the _backup method
             destination.zip_diary()
             result = destination.push_to_path()
+            # TODO check contents of the result
             dvgFileUtils.info(self, "Backup",
                               "Backup copied to Google Drive",
                               f"File with name {result} created")
+            # save the date and time of the last backup to the config file
+            mySettings = Settings(self, "DenkaTech", "KDiary")
+            mySettings.save_setting("last_backup", "date", QDate.currentDate())
+            mySettings.save_setting("last_backup", "time", QTime.currentTime())
+            # Be sure to save the active diary entry
+            self.save_changes()
 
         except FileNotFoundError:
             dvgFileUtils.warn(self, "IO Error",
@@ -463,6 +474,11 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.__google_folder_id = params.load_setting("backup", "google_id")
         self.__backup_to_other = dvgFileUtils.str_to_bool(params.load_setting("backup",
                                                                               "backup_to_other"))
+        self.__last_backup_date = QDate(params.load_setting_from_byte_array("last_backup", "date"))
+        self.__last_backup_time = QTime(params.load_setting_from_byte_array("last_backup", "time"))
+        self.__backup_interval = params.load_setting("backup", "push_interval_days")
+        print("LB ", self.__last_backup_date.daysTo(QDate().currentDate()))
+        self.__backup_interval = params.load_setting("backup", "push_interval_days")
 
 
 if __name__ == '__main__':

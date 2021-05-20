@@ -1,7 +1,7 @@
 """
 Class responsible for saving and restoring the state of a form
 """
-from PyQt5.QtCore import QSettings
+from PyQt5.QtCore import QSettings, QByteArray
 
 
 class Settings:
@@ -46,6 +46,16 @@ class Settings:
         settings = QSettings(self._company, self._section)
         settings.beginGroup(group)
         setting = settings.value(item, "Nothing")
+        settings.endGroup()
+        return setting
+
+    def load_setting_from_byte_array(self, group, item):
+        """
+        Load generic data
+        """
+        settings = QSettings(self._company, self._section)
+        settings.beginGroup(group)
+        setting = settings.value(item, QByteArray())
         settings.endGroup()
         return setting
 
