@@ -152,6 +152,12 @@ class FrmSettings(QDialog, Ui_frmSettings):
         else:
             self.set_cloud_backup()
 
+        interval = params.load_setting("backup", "push_interval_days")
+        if interval == "Nothing":
+            self.spin_backup_interval.setValue(0)
+        else:
+            self.spin_backup_interval.setValue(int(interval))
+
     def save_and_close(self):
         """
         Write the settings to disk
@@ -201,6 +207,9 @@ class FrmSettings(QDialog, Ui_frmSettings):
                                 self.rb_other.isChecked())
             params.save_setting("backup",
                                 "back_to_local_file_path", "")
+        # backup interval check counter
+        params.save_setting("backup", "push_interval_days",
+                            self.spin_backup_interval.value())
         self.close()
 
     def choose_folder(self):

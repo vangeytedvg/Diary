@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Main Entry point of Diary application
 import sys
 
@@ -13,7 +14,8 @@ from PyQt5.QtGui import (QFont,
                          QTextCursor, QTextListFormat, QColor)
 from PyQt5.QtCore import (QDate, QDateTime,
                           QFile, QTime,
-                          QSettings, QByteArray)
+                          QSettings, QByteArray,
+                          QPropertyAnimation, QEasingCurve)
 
 from frmMain import Ui_MainWindow
 from FrmSettings import FrmSettings
@@ -83,6 +85,26 @@ class Diary(QMainWindow, Ui_MainWindow):
         # methods
         self.load_diary_page(QDate.currentDate())
 
+    def drawer_slide(self, open_or_close):
+        """
+            Animate the drawer
+        :return:
+        """
+        self.animation = QPropertyAnimation(self.frame_warning, b"maximumHeight")
+        height = self.frame_warning.height()
+        if open_or_close == "open":
+            height = 0
+            new_height = 200
+        elif open_or_close == "close":
+            height = 200
+            new_height = 0
+        # Now we are going to animate the transition
+        self.animation.setDuration(250)
+        self.animation.setStartValue(height)
+        self.animation.setEndValue(new_height)
+        self.animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.animation.start()
+
     def config_status_bar(self):
         """
         Add labels to the statusbar for line, col and file name
@@ -142,6 +164,10 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.action_insert_date.triggered.connect(self.ed.insert_date_text)
         self.action_insert_time.triggered.connect(self.ed.insert_time_text)
         self.action_backup.triggered.connect(self._backup)
+        self.btn_close_warning.clicked.connect(self.close_warning_box)
+
+    def close_warning_box(self):
+        self.drawer_slide("close")
 
     def open_settings(self):
         settings = FrmSettings(self)
