@@ -286,7 +286,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self._active_file = file_name
         self._active_date = QDate(dateedit)
         self.lbl_file_name.setText(file_name)
-        #myFile = QFile(file_name)
+
         if not fm.page_exists(file_name):
             self.action_Add.setEnabled(True)
             self.txtDiary.clear()
@@ -355,7 +355,6 @@ class Diary(QMainWindow, Ui_MainWindow):
           the unix touch command would do.
         :return: nothing
         """
-        print(self.__diary_pages_path + "/" + file)
         Path(file).touch()
         return
 
@@ -402,18 +401,27 @@ class Diary(QMainWindow, Ui_MainWindow):
         # color settings
         params = Settings(self, "DenkaTech", "KDiary")
         self.__diary_pages_path = params.load_setting("paths", "file_location")
-        self.__color_weekday_background = params.load_setting("colors", "weekday_background")
-        self.__color_weekday_foreground = params.load_setting("colors", "weekday_foreground")
-        self.__color_weekend_foreground = params.load_setting("colors", "weekend_foreground")
-        self.__color_weekend_background = params.load_setting("colors", "weekend_background")
+        self.__color_weekday_background = params.load_setting("colors",
+                                                              "weekday_background")
+        self.__color_weekday_foreground = params.load_setting("colors",
+                                                              "weekday_foreground")
+        self.__color_weekend_foreground = params.load_setting("colors",
+                                                              "weekend_foreground")
+        self.__color_weekend_background = params.load_setting("colors",
+                                                              "weekend_background")
         self.set_calendar_colors()
         # Backup settings
-        self.__local_backup = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_local_file"))
-        self.__local_backup_folder = params.load_setting("backup", "back_to_local_file_path")
-        self.__cloudBackup = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_cloud"))
-        self.__backup_to_google = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_google_drive"))
+        self.__local_backup = dvgFileUtils.str_to_bool(params.load_setting("backup",
+                                                                           "backup_to_local_file"))
+        self.__local_backup_folder = params.load_setting("backup",
+                                                         "back_to_local_file_path")
+        self.__cloudBackup = dvgFileUtils.str_to_bool(params.load_setting("backup",
+                                                                          "backup_to_cloud"))
+        self.__backup_to_google = dvgFileUtils.str_to_bool(params.load_setting("backup",
+                                                                               "backup_to_google_drive"))
         self.__google_folder_id = params.load_setting("backup", "google_id")
-        self.__backup_to_other = dvgFileUtils.str_to_bool(params.load_setting("backup", "backup_to_other"))
+        self.__backup_to_other = dvgFileUtils.str_to_bool(params.load_setting("backup",
+                                                                              "backup_to_other"))
 
 
 if __name__ == '__main__':
