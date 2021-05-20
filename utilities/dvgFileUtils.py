@@ -135,5 +135,9 @@ def ask(title="No Title", msg="No Message", explain="No explanation"):
 
 
 def warn(parent, title="No Title", msg="No Message", explain="No explanation"):
-    reply = QMessageBox.question(parent, msg, explain, QMessageBox.Ok)
+    reply = QMessageBox.warning(parent, msg, explain, QMessageBox.Ok)
+
+
+def info(parent, title="No Title", msg="No Message", explain="No explanation"):
+    reply = QMessageBox.information(parent, msg, explain, QMessageBox.Ok)
 

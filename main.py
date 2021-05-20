@@ -161,13 +161,19 @@ class Diary(QMainWindow, Ui_MainWindow):
             # contructor call in the _backup method
             destination.zip_diary()
             result = destination.push_to_path()
-            print("KWAK", result)
+            dvgFileUtils.info(self, "Backup",
+                              "Backup copied to Google Drive",
+                              f"File with name {result} created")
 
         except FileNotFoundError:
-            dvgFileUtils.warn(self, "IO Error", "Path not found!", destination._source_path)
+            dvgFileUtils.warn(self, "IO Error",
+                              "Path not found!",
+                              destination._source_path)
             # destination.push_to_path()
         except NoDiaryPagesFound:
-            dvgFileUtils.warn(self, "IO Error", "No diary files found in", destination._source_path)
+            dvgFileUtils.warn(self, "IO Error",
+                              "No diary files found in",
+                              destination._source_path)
 
     def _backup(self):
         """

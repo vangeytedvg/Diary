@@ -144,8 +144,7 @@ class Backup():
                     my_file = self._source_path + "/" + file
                     my_zip.write(my_file, compress_type=zipfile.ZIP_DEFLATED)
         else:
-            #raise NoDiaryPagesFound(self._source_path)
-            pass
+            raise NoDiaryPagesFound(self._source_path)
 
     def push_to_path(self):
         raise NotImplementedError("<pushtopath> must be overriden")
@@ -180,8 +179,10 @@ class GoogleBackup(Backup):
         super(GoogleBackup, self).__init__(source_path)
 
     def push_to_path(self):
+        """ Perform the actual backup """
         result = self.my_google_drive.upload_file(self._zipname,
                                                   self._source_path)
+        return self._zipname
 
     def is_alive(self, l):
         """
