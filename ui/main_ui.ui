@@ -20,12 +20,12 @@
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>0</height>
+        <height>200</height>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 171, 230);
-border-color: rgb(255, 0, 0);</string>
+       <string notr="true">background-color: rgba(255, 171, 230, 0.5);
+</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::Box</enum>
@@ -37,7 +37,10 @@ border-color: rgb(255, 0, 0);</string>
        <item>
         <widget class="QLabel" name="lbl_warning">
          <property name="styleSheet">
-          <string notr="true">color: rgb(0, 0, 0);</string>
+          <string notr="true">color: rgb(0, 0, 0);
+background-color: transparent;
+
+</string>
          </property>
          <property name="text">
           <string>[]</string>

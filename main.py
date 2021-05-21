@@ -4,6 +4,7 @@ import sys
 
 from pathlib import Path
 from os import remove
+from enum import Enum
 
 from PyQt5.QtWidgets import (QMainWindow, QApplication,
                              QTextEdit, QMessageBox, QLabel, QFrame)
@@ -25,6 +26,18 @@ from utilities.editor import EditorProxy
 from utilities.cloudbackup import *
 from fileman import FileManager as fm
 from DiaryCalendar import DiaryCalendar
+
+
+class WarningLevel(Enum):
+    INFO = 1
+    WARNING = 2
+    ERROR = 3
+
+
+class SlideMode(Enum):
+    OPEN = 1
+    CLOSE = 2
+
 
 class Diary(QMainWindow, Ui_MainWindow):
 
@@ -61,6 +74,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.config_status_bar()
         # configure statusbar
         self.loadsettings()
+        self.frame_warning.setMaximumHeight(0)
         self.ed = EditorProxy(self.txtDiary)
         # Some more ui related stuff
         self.cursor = QTextCursor(self.txtDiary.document())
@@ -93,19 +107,27 @@ class Diary(QMainWindow, Ui_MainWindow):
         # Check if backup is needed
         if self.__should_backup_now:
             self.lbl_warning.setText("Please consider making a backup of your diary now!")
-            self.drawer_slide("open")
+            self.drawer_slide("open", "", "")
 
-    def drawer_slide(self, open_or_close):
+    def drawer_slide(self, open_or_close: SlideMode, message: str, msg_type: WarningLevel):
         """
             Animate the message frame
         :return:
         """
+        new_height = 0
         self.animation = QPropertyAnimation(self.frame_warning, b"maximumHeight")
         height = self.frame_warning.height()
-        if open_or_close == "open":
+        if open_or_close == SlideMode.OPEN:
             height = 0
             new_height = 200
-        elif open_or_close == "close":
+            self.lbl_warning.setText(message)
+            if msg_type == WarningLevel.INFO:
+                self.frame_warning.setStyleSheet("background-color: rgba(118, 236, 0, 0.5);")
+            if msg_type == WarningLevel.WARNING:
+                self.frame_warning.setStyleSheet("background-color: rgba(193, 129, 0, 0.5);")
+            if msg_type == WarningLevel.ERROR:
+                self.frame_warning.setStyleSheet("background-color: rgba(255, 171, 230, 0.5;")
+        elif open_or_close == SlideMode.CLOSE:
             height = 200
             new_height = 0
         # Now we are going to animate the transition
@@ -183,7 +205,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.btn_close_warning.clicked.connect(self.close_warning_box)
 
     def close_warning_box(self):
-        self.drawer_slide("close")
+        self.drawer_slide("close", "", None)
 
     def open_settings(self):
         settings = FrmSettings(self)
@@ -203,14 +225,6 @@ class Diary(QMainWindow, Ui_MainWindow):
         if not destination:
             raise Excepion("No destination class set")
 
-        #is_alive = destination.is_alive(4)
-        # if len(is_alive) == 0:
-            #print("No file found")
-        # else:
-            #print(f"Destination folder {len(is_alive)} file(s) found")
-            # for file in is_alive:
-            # print(file['name'])
-
         try:
             # Zip the file and then send it to google. Note, we do not have
             # to pass any parameters here, they were already set in the
@@ -218,9 +232,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             destination.zip_diary()
             result = destination.push_to_path()
             # TODO check contents of the result
-            dvgFileUtils.info(self, "Backup",
-                              "Backup copied to Google Drive",
-                              f"File with name {result} created")
+
             # save the date and time of the last backup to the config file
             mySettings = Settings(self, "DenkaTech", "KDiary")
             mySettings.save_setting("last_backup", "date", QDate.currentDate())
@@ -229,7 +241,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             # Be sure to save the active diary entry
             self.save_changes()
             self.__should_backup_now = False
-            self.drawer_slide("close")
+            self.drawer_slide(SlideMode.OPEN, f"Backup to Google Drive completed.  File name = {result}", WarningLevel.INFO)
         except FileNotFoundError:
             dvgFileUtils.warn(self, "IO Error",
                               "Path not found!",
@@ -293,6 +305,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             self._isDirty = False
             self.lbl_file_name.setText("not existing")
             self.lbl_changed.setText("no")
+            self.drawer_slide(SlideMode.OPEN, "Page removed from disk", WarningLevel.WARNING)
 
     def show_cursor_position(self):
         """
