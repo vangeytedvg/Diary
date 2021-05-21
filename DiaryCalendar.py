@@ -51,6 +51,7 @@ class DiaryCalendar(QCalendarWidget):
                 painter.fillRect(rect, self.myQColorWE)
                 painter.setPen(self.myColorWEDay)
             else:
+                # normal day
                 painter.fillRect(rect, self.myQColor)
                 painter.setPen(self.myQColor_day)
             if self.selectedDate().day() == date.day():

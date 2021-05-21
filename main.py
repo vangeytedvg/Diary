@@ -45,6 +45,7 @@ class Diary(QMainWindow, Ui_MainWindow):
     __last_backup_date = None
     __last_backup_time = None
     __backup_interval = 0
+    __days_until_backup = 0
     __should_backup_now = False
 
     def __init__(self):
@@ -96,7 +97,7 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def drawer_slide(self, open_or_close):
         """
-            Animate the drawer
+            Animate the message frame
         :return:
         """
         self.animation = QPropertyAnimation(self.frame_warning, b"maximumHeight")
@@ -130,10 +131,14 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.lbl_file_name = QLabel("none")
         self.lbl_changed_info = QLabel("Changed")
         self.lbl_changed = QLabel("no")
+        self.lbl_backup_days_info = QLabel("Next Backup in days")
+        self.lbl_backup_days = QLabel("0")
         self.lbl_changed.setFrameShadow(QFrame.Raised)
         self.lbl_changed.setFrameShape(QFrame.Panel)
         self.lbl_file_name.setFrameShadow(QFrame.Raised)
         self.lbl_file_name.setFrameShape(QFrame.Panel)
+        self.lbl_backup_days.setFrameShadow(QFrame.Raised)
+        self.lbl_backup_days.setFrameShape(QFrame.Panel)
         self.statusbar.addPermanentWidget(self.lbl_line_nr_info)
         self.statusbar.addPermanentWidget(self.lbl_line_nr)
         self.statusbar.addPermanentWidget(self.lbl_col_nr_info)
@@ -142,6 +147,8 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.statusbar.addPermanentWidget(self.lbl_file_name)
         self.statusbar.addPermanentWidget(self.lbl_changed_info)
         self.statusbar.addPermanentWidget(self.lbl_changed)
+        self.statusbar.addPermanentWidget(self.lbl_backup_days_info)
+        self.statusbar.addPermanentWidget(self.lbl_backup_days)
 
     def init_signal_handlers(self):
         """
@@ -486,9 +493,9 @@ class Diary(QMainWindow, Ui_MainWindow):
                                                      "push_interval_days")
 
         self.__backup_interval = params.load_setting("backup", "push_interval_days")
+        self.__days_until_backup = int(self.__backup_interval) - self.__last_backup_date.daysTo(QDate().currentDate())
+        self.lbl_backup_days.setText(str(self.__days_until_backup))
         # Check if a backup is desirable
-        print(int(self.__backup_interval))
-        print(self.__last_backup_date.daysTo(QDate().currentDate()))
         if int(self.__backup_interval) <= self.__last_backup_date.daysTo(QDate().currentDate()):
             self.__should_backup_now = True
 
