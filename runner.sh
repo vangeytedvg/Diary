@@ -1,2 +1,2 @@
 source bin/activate
-./main.py
+python main.py

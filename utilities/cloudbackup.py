@@ -90,7 +90,6 @@ class GoogleDrive():
                 'parents': [self.__folder_id]
             }
             file = self.service.files().create(body=file_metadata, media_body=media, fields='id').execute()
-            print(f"New file created : {file.get('id')}")
             return file
         else:
             for myfile in response.get('files', []):

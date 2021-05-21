@@ -203,13 +203,13 @@ class Diary(QMainWindow, Ui_MainWindow):
         if not destination:
             raise Excepion("No destination class set")
 
-        is_alive = destination.is_alive(4)
-        if len(is_alive) == 0:
-            print("No file found")
-        else:
-            print(f"Destination folder {len(is_alive)} file(s) found")
-            for file in is_alive:
-                print(file['name'])
+        #is_alive = destination.is_alive(4)
+        # if len(is_alive) == 0:
+            #print("No file found")
+        # else:
+            #print(f"Destination folder {len(is_alive)} file(s) found")
+            # for file in is_alive:
+            # print(file['name'])
 
         try:
             # Zip the file and then send it to google. Note, we do not have
