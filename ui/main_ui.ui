@@ -24,7 +24,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgba(255, 171, 230, 0.5);
+       <string notr="true">background-color: rgba(193, 129, 0, 0.5);
 </string>
       </property>
       <property name="frameShape">
@@ -145,7 +145,7 @@ color: rgb(255, 255, 255);</string>
    <addaction name="menuInsert"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar_2">
+  <widget class="QToolBar" name="toolbar_insertions">
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -160,7 +160,7 @@ color: rgb(255, 255, 255);</string>
    <addaction name="action_insert_date"/>
    <addaction name="action_insert_time"/>
   </widget>
-  <widget class="QToolBar" name="toolBar_3">
+  <widget class="QToolBar" name="toolbar_file">
    <property name="windowTitle">
     <string>toolBar_3</string>
    </property>
@@ -178,7 +178,7 @@ color: rgb(255, 255, 255);</string>
    <addaction name="separator"/>
    <addaction name="actionE_xit"/>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolbar_font">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>

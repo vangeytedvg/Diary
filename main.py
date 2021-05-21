@@ -7,12 +7,13 @@ from os import remove
 from enum import Enum
 
 from PyQt5.QtWidgets import (QMainWindow, QApplication,
-                             QTextEdit, QMessageBox, QLabel, QFrame)
+                             QTextEdit, QMessageBox, QLabel,
+                             QFrame, QFontComboBox, QComboBox)
 from PyQt5.QtPrintSupport import (QPrintDialog,
                                   QPrinter,
                                   QPrintPreviewDialog)
-from PyQt5.QtGui import (QFont,
-                         QTextCursor, QTextListFormat, QColor)
+from PyQt5.QtGui import (QFont, QTextCursor,
+                         QTextListFormat, QColor)
 from PyQt5.QtCore import (QDate, QDateTime,
                           QFile, QTime,
                           QSettings, QByteArray,
@@ -79,6 +80,22 @@ class Diary(QMainWindow, Ui_MainWindow):
         # Some more ui related stuff
         self.cursor = QTextCursor(self.txtDiary.document())
         self.txtDiary.setAutoFormatting(QTextEdit.AutoAll)
+        # Font combo box
+        self.font_box = QFontComboBox(self)
+        self.font_box.currentFontChanged.connect(self.set_font_family)
+        self.font_box.setEditable(False)
+        self.font_size_box = QComboBox(self)
+        self.font_size_box.setEditable(True)
+        self.font_size_box.setMinimumContentsLength(3)
+        self.font_size_box.activated.connect(self.set_font_size)
+        fontSizes = ['6', '7', '8', '9', '10', '11', '12', '13', '14',
+                     '15', '16', '18', '20', '22', '24', '26', '28',
+                     '32', '36', '40', '44', '48', '54', '60', '66',
+                     '72', '80', '88', '96']
+        for i in fontSizes:
+            self.font_size_box.addItem(i)
+        self.toolbar_font.addWidget(self.font_box)
+        self.toolbar_font.addWidget(self.font_size_box)
         font = QFont('Arial', 12)
         self.txtDiary.setFont(font)
         self.txtDiary.setEnabled(False)
@@ -108,6 +125,12 @@ class Diary(QMainWindow, Ui_MainWindow):
         if self.__should_backup_now:
             self.lbl_warning.setText("Please consider making a backup of your diary now!")
             self.drawer_slide("open", "", "")
+
+    def set_font_family(self):
+        pass
+
+    def set_font_size(self):
+        pass
 
     def drawer_slide(self, open_or_close: SlideMode, message: str, msg_type: WarningLevel):
         """
