@@ -83,6 +83,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         # Font combo box
         self.font_box = QFontComboBox(self)
         self.font_box.setEditable(False)
+        self.font_box.setFontFilters(QFontComboBox.ScalableFonts)
         self.font_size_box = QComboBox(self)
         self.font_size_box.setEditable(True)
         self.font_size_box.setMinimumContentsLength(3)
@@ -90,8 +91,10 @@ class Diary(QMainWindow, Ui_MainWindow):
                      '15', '16', '18', '20', '22', '24', '26', '28',
                      '32', '36', '40', '44', '48', '54', '60', '66',
                      '72', '80', '88', '96']
+
         for i in fontSizes:
             self.font_size_box.addItem(i)
+
         self.toolbar_font.addWidget(self.font_box)
         self.toolbar_font.addWidget(self.font_size_box)
         font = QFont('Arial', 12)
@@ -113,10 +116,8 @@ class Diary(QMainWindow, Ui_MainWindow):
         # make an option from this
         self.calendarWidget.setGridVisible(True)
         self.testFrame.addWidget(self.calendarWidget)
-
         # signals
         self.init_signal_handlers()
-
         # methods
         self.load_diary_page(QDate.currentDate())
         # Check if backup is needed
@@ -227,6 +228,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.drawer_slide("close", "", None)
 
     def open_settings(self):
+        """ Open settings form """
         settings = FrmSettings(self)
         res = settings.exec_()
         self.loadsettings()
@@ -314,6 +316,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         answer = dvgFileUtils.ask(title="Diary",
                                   msg="Entry",
                                   explain="Delete the current page?")
+
         if answer == QMessageBox.Ok:
             remove(self._active_file)
             self.EnableEditControls(False)
@@ -375,6 +378,9 @@ class Diary(QMainWindow, Ui_MainWindow):
         # Create date object and create a filename based on the
         # dateedit parameter.
 
+        if self.slider_mode == SlideMode.OPEN:
+            self.drawer_slide(SlideMode.CLOSE, "", None)
+
         file_name = str(QDate(dateedit).toPyDate())
         file_name = self.__diary_pages_path + "/" + file_name.replace("-", "") + ".html"
         self._active_file = file_name
@@ -392,12 +398,11 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.drawer_slide(SlideMode.OPEN, "No page found for the selected date.  You can create one by clicking on the New page icon", WarningLevel.INFO)
             return
 
-        if self.slider_mode == SlideMode.OPEN:
-            self.drawer_slide(SlideMode.CLOSE, "", None)
-
         self.action_Add.setEnabled(False)
+
         with open(file_name, 'r') as f:
             self.txtDiary.setHtml(f.read())
+
         self._editorDirty = False
         self.txtDiary.moveCursor(QTextCursor.End)
         self.txtDiary.setFocus()
