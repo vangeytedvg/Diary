@@ -123,6 +123,7 @@ color: rgb(255, 255, 255);</string>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
     <addaction name="separator"/>
+    <addaction name="action_Set_Font_Back_to_Default_Arial_12"/>
     <addaction name="actionBold"/>
     <addaction name="actionItalic"/>
     <addaction name="actionUnderline"/>
@@ -198,6 +199,7 @@ color: rgb(255, 255, 255);</string>
    <addaction name="actionItalic"/>
    <addaction name="actionUnderline"/>
    <addaction name="actionStrikethrough"/>
+   <addaction name="action_Set_Font_Back_to_Default_Arial_12"/>
   </widget>
   <action name="actionE_xit">
    <property name="icon">
@@ -431,6 +433,15 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Preferences</string>
+   </property>
+  </action>
+  <action name="action_Set_Font_Back_to_Default_Arial_12">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/standard_font.png</normaloff>:/tlb/standard_font.png</iconset>
+   </property>
+   <property name="text">
+    <string>Set Font Back to Default (Arial 12)</string>
    </property>
   </action>
  </widget>

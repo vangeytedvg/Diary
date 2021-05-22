@@ -82,7 +82,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.txtDiary.setAutoFormatting(QTextEdit.AutoAll)
         # Font combo box
         self.font_box = QFontComboBox(self)
-        self.font_box.setEditable(False)
+        # self.font_box.setEditable(False)
         self.font_box.setFontFilters(QFontComboBox.ScalableFonts)
         self.font_size_box = QComboBox(self)
         self.font_size_box.setEditable(True)
@@ -212,6 +212,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionUnderline.triggered.connect(self.ed.set_fontunderline)
         self.actionStrikethrough.triggered.connect(self.ed.set_fontstrikethrough)
         self.font_box.currentFontChanged.connect(self.ed.set_font_family)
+        self.action_Set_Font_Back_to_Default_Arial_12.triggered.connect(self.ed.set_font_family_default)
         self.font_size_box.activated.connect(self.ed.set_font_size)
         # shorthand actions
         self.actionUndo.triggered.connect(self.txtDiary.undo)
@@ -337,7 +338,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         """
         # Detect font family.
         fmt = self.txtDiary.currentCharFormat()
-        # print(fmt.fontFamily())
+
         # Bold
         if fmt.fontWeight() == QFont.Bold:
             self.actionBold.setChecked(True)
@@ -349,6 +350,10 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionUnderline.setChecked(fmt.fontUnderline())
         # strike through
         self.actionStrikethrough.setChecked(fmt.fontStrikeOut())
+        # Font Settings
+        self.font_box.setCurrentText(str(fmt.fontFamily()))
+        self.font_size_box.setCurrentText(str(fmt.fontPointSize()))
+
         # position of the cursor
         cursor = self.txtDiary.textCursor()
         self.lbl_line_nr.setText(str(cursor.blockNumber() + 1))
@@ -395,7 +400,11 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.action_Add.setEnabled(True)
             self.lbl_file_name.setText("not existing")
             self.lbl_changed.setText("no")
-            self.drawer_slide(SlideMode.OPEN, "No page found for the selected date.  You can create one by clicking on the New page icon", WarningLevel.INFO)
+            self.drawer_slide(SlideMode.OPEN,
+                              "No page found for the selected date. \
+                              You can create one by clicking on the \
+                              <img src=:/tlb/edit.png height=40> icon",
+                              WarningLevel.INFO)
             return
 
         self.action_Add.setEnabled(False)

@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="tlb">
+    <file>standard_font.png</file>
     <file>sync.png</file>
     <file>strikethrough.png</file>
     <file>printer.png</file>

@@ -18,6 +18,11 @@ class EditorProxy:
         """ Set the editor's font """
         self.parent.setCurrentFont(font)
 
+    def set_font_family_default(self):
+        """ Set the editor's default font """
+        font = QFont('Arial', 12)
+        self.parent.setCurrentFont(font)
+
     def set_font_size(self, fontsize):
         """ Change the font size """
         self.parent.setFontPointSize(fontsize)

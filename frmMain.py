@@ -181,6 +181,11 @@ class Ui_MainWindow(object):
         icon19.addPixmap(QtGui.QPixmap(":/tlb/settings-3.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Preferences.setIcon(icon19)
         self.action_Preferences.setObjectName("action_Preferences")
+        self.action_Set_Font_Back_to_Default_Arial_12 = QtWidgets.QAction(MainWindow)
+        icon20 = QtGui.QIcon()
+        icon20.addPixmap(QtGui.QPixmap(":/tlb/standard_font.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_Set_Font_Back_to_Default_Arial_12.setIcon(icon20)
+        self.action_Set_Font_Back_to_Default_Arial_12.setObjectName("action_Set_Font_Back_to_Default_Arial_12")
         self.menu_File.addAction(self.actionSave)
         self.menu_File.addAction(self.action_Print)
         self.menu_File.addAction(self.action_backup)
@@ -195,6 +200,7 @@ class Ui_MainWindow(object):
         self.menu_Edit.addAction(self.actionCopy)
         self.menu_Edit.addAction(self.actionPaste)
         self.menu_Edit.addSeparator()
+        self.menu_Edit.addAction(self.action_Set_Font_Back_to_Default_Arial_12)
         self.menu_Edit.addAction(self.actionBold)
         self.menu_Edit.addAction(self.actionItalic)
         self.menu_Edit.addAction(self.actionUnderline)
@@ -230,6 +236,7 @@ class Ui_MainWindow(object):
         self.toolbar_font.addAction(self.actionItalic)
         self.toolbar_font.addAction(self.actionUnderline)
         self.toolbar_font.addAction(self.actionStrikethrough)
+        self.toolbar_font.addAction(self.action_Set_Font_Back_to_Default_Arial_12)
 
         self.retranslateUi(MainWindow)
         self.actionE_xit.triggered.connect(MainWindow.close)
@@ -280,4 +287,5 @@ class Ui_MainWindow(object):
         self.action_backup.setText(_translate("MainWindow", "Backup diary files"))
         self.action_backup.setToolTip(_translate("MainWindow", "Backup"))
         self.action_Preferences.setText(_translate("MainWindow", "Preferences"))
+        self.action_Set_Font_Back_to_Default_Arial_12.setText(_translate("MainWindow", "Set Font Back to Default (Arial 12)"))
 import icons_rc
