@@ -69,7 +69,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self._active_date = None
         self._editorDirty = False
         self._isDirty = False
-        self.set_slide_mode = SlideMode.CLOSE
+        self.slider_mode = SlideMode.CLOSE
 
         self.setupUi(self)
         self.config_status_bar()
@@ -138,14 +138,15 @@ class Diary(QMainWindow, Ui_MainWindow):
         if msg_type == WarningLevel.ERROR:
             self.frame_warning.setStyleSheet("background-color: rgba(255, 171, 230, 0.5;")
         if open_or_close == SlideMode.OPEN:
-            self.set_slide_mode = SlideMode.OPEN
+            self.lbl_warning.setText(message)
+            self.slider_mode = SlideMode.OPEN
             height = 0
             new_height = 200
         elif open_or_close == SlideMode.CLOSE:
-            self.set_slide_mode = SlideMode.CLOSE
+            self.slider_mode = SlideMode.CLOSE
             height = 200
             new_height = 0
-        self.lbl_warning.setText(message)
+
         self.animation = QPropertyAnimation(self.frame_warning, b"maximumHeight")
         self.animation.setDuration(500)
         self.animation.setStartValue(height)
@@ -390,6 +391,9 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.lbl_changed.setText("no")
             self.drawer_slide(SlideMode.OPEN, "No page found for the selected date.  You can create one by clicking on the New page icon", WarningLevel.INFO)
             return
+
+        if self.slider_mode == SlideMode.OPEN:
+            self.drawer_slide(SlideMode.CLOSE, "", None)
 
         self.action_Add.setEnabled(False)
         with open(file_name, 'r') as f:
