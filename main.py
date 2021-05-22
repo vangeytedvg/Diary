@@ -63,14 +63,14 @@ class Diary(QMainWindow, Ui_MainWindow):
     __should_backup_now = False
 
     def __init__(self):
-
+        super(Diary, self).__init__()
         # instance attributes
         self._active_file = None
         self._active_date = None
         self._editorDirty = False
         self._isDirty = False
+        self.set_slide_mode = SlideMode.CLOSE
 
-        super(Diary, self).__init__()
         self.setupUi(self)
         self.config_status_bar()
         # configure statusbar
@@ -82,12 +82,10 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.txtDiary.setAutoFormatting(QTextEdit.AutoAll)
         # Font combo box
         self.font_box = QFontComboBox(self)
-        self.font_box.currentFontChanged.connect(self.set_font_family)
         self.font_box.setEditable(False)
         self.font_size_box = QComboBox(self)
         self.font_size_box.setEditable(True)
         self.font_size_box.setMinimumContentsLength(3)
-        self.font_size_box.activated.connect(self.set_font_size)
         fontSizes = ['6', '7', '8', '9', '10', '11', '12', '13', '14',
                      '15', '16', '18', '20', '22', '24', '26', '28',
                      '32', '36', '40', '44', '48', '54', '60', '66',
@@ -126,35 +124,30 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.lbl_warning.setText("Please consider making a backup of your diary now!")
             self.drawer_slide("open", "", "")
 
-    def set_font_family(self):
-        pass
-
-    def set_font_size(self):
-        pass
-
     def drawer_slide(self, open_or_close: SlideMode, message: str, msg_type: WarningLevel):
         """
             Animate the message frame
         :return:
         """
         new_height = 0
-        self.animation = QPropertyAnimation(self.frame_warning, b"maximumHeight")
         height = self.frame_warning.height()
+        if msg_type == WarningLevel.INFO:
+            self.frame_warning.setStyleSheet("background-color: rgba(118, 236, 0, 0.5);")
+        if msg_type == WarningLevel.WARNING:
+            self.frame_warning.setStyleSheet("background-color: rgba(193, 129, 0, 0.5);")
+        if msg_type == WarningLevel.ERROR:
+            self.frame_warning.setStyleSheet("background-color: rgba(255, 171, 230, 0.5;")
         if open_or_close == SlideMode.OPEN:
+            self.set_slide_mode = SlideMode.OPEN
             height = 0
             new_height = 200
-            self.lbl_warning.setText(message)
-            if msg_type == WarningLevel.INFO:
-                self.frame_warning.setStyleSheet("background-color: rgba(118, 236, 0, 0.5);")
-            if msg_type == WarningLevel.WARNING:
-                self.frame_warning.setStyleSheet("background-color: rgba(193, 129, 0, 0.5);")
-            if msg_type == WarningLevel.ERROR:
-                self.frame_warning.setStyleSheet("background-color: rgba(255, 171, 230, 0.5;")
         elif open_or_close == SlideMode.CLOSE:
+            self.set_slide_mode = SlideMode.CLOSE
             height = 200
             new_height = 0
-        # Now we are going to animate the transition
-        self.animation.setDuration(250)
+        self.lbl_warning.setText(message)
+        self.animation = QPropertyAnimation(self.frame_warning, b"maximumHeight")
+        self.animation.setDuration(500)
         self.animation.setStartValue(height)
         self.animation.setEndValue(new_height)
         self.animation.setEasingCurve(QEasingCurve.InOutQuart)
@@ -216,6 +209,8 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionItalic.triggered.connect(self.ed.set_fontitalic)
         self.actionUnderline.triggered.connect(self.ed.set_fontunderline)
         self.actionStrikethrough.triggered.connect(self.ed.set_fontstrikethrough)
+        self.font_box.currentFontChanged.connect(self.ed.set_font_family)
+        self.font_size_box.activated.connect(self.ed.set_font_size)
         # shorthand actions
         self.actionUndo.triggered.connect(self.txtDiary.undo)
         self.actionRedo.triggered.connect(self.txtDiary.redo)
@@ -336,8 +331,9 @@ class Diary(QMainWindow, Ui_MainWindow):
           bold, italic, underline and strikethrough actions
           :return: nothing
         """
-
+        # Detect font family.
         fmt = self.txtDiary.currentCharFormat()
+        # print(fmt.fontFamily())
         # Bold
         if fmt.fontWeight() == QFont.Bold:
             self.actionBold.setChecked(True)
@@ -392,6 +388,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.action_Add.setEnabled(True)
             self.lbl_file_name.setText("not existing")
             self.lbl_changed.setText("no")
+            self.drawer_slide(SlideMode.OPEN, "No page found for the selected date.  You can create one by clicking on the New page icon", WarningLevel.INFO)
             return
 
         self.action_Add.setEnabled(False)

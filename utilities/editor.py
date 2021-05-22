@@ -14,6 +14,14 @@ class EditorProxy:
         # The parent here is the QTextEditor on any form
         self.parent = parent
 
+    def set_font_family(self, font):
+        """ Set the editor's font """
+        self.parent.setCurrentFont(font)
+
+    def set_font_size(self, fontsize):
+        """ Change the font size """
+        self.parent.setFontPointSize(fontsize)
+
     def set_fontbold(self):
         """
         Bold
