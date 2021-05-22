@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1013</width>
-    <height>564</height>
+    <width>1168</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,7 +91,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1013</width>
+     <width>1168</width>
      <height>30</height>
     </rect>
    </property>
@@ -130,6 +130,12 @@ color: rgb(255, 255, 255);</string>
     <addaction name="actionStrikethrough"/>
     <addaction name="separator"/>
     <addaction name="action_Preferences"/>
+    <addaction name="actionLeft_outline"/>
+    <addaction name="actionRight_outline"/>
+    <addaction name="actionIndent_left"/>
+    <addaction name="actionIndent_right"/>
+    <addaction name="actionCenter"/>
+    <addaction name="actionOutline"/>
    </widget>
    <widget class="QMenu" name="menuInsert">
     <property name="title">
@@ -201,6 +207,23 @@ color: rgb(255, 255, 255);</string>
    <addaction name="actionStrikethrough"/>
    <addaction name="separator"/>
    <addaction name="action_Set_Font_Back_to_Default_Arial_12"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionLeft_outline"/>
+   <addaction name="actionCenter"/>
+   <addaction name="actionRight_outline"/>
+   <addaction name="actionOutline"/>
+   <addaction name="actionIndent_right"/>
+   <addaction name="actionIndent_left"/>
   </widget>
   <action name="actionE_xit">
    <property name="icon">
@@ -443,6 +466,60 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Set Font Back to Default (Arial 12)</string>
+   </property>
+  </action>
+  <action name="actionLeft_outline">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/left-align.png</normaloff>:/tlb/left-align.png</iconset>
+   </property>
+   <property name="text">
+    <string>Left outline</string>
+   </property>
+  </action>
+  <action name="actionRight_outline">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/right-align.png</normaloff>:/tlb/right-align.png</iconset>
+   </property>
+   <property name="text">
+    <string>Right outline</string>
+   </property>
+  </action>
+  <action name="actionIndent_left">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/left-indent.png</normaloff>:/tlb/left-indent.png</iconset>
+   </property>
+   <property name="text">
+    <string>Indent left</string>
+   </property>
+  </action>
+  <action name="actionIndent_right">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/right-indent.png</normaloff>:/tlb/right-indent.png</iconset>
+   </property>
+   <property name="text">
+    <string>Indent right</string>
+   </property>
+  </action>
+  <action name="actionCenter">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/align-center.png</normaloff>:/tlb/align-center.png</iconset>
+   </property>
+   <property name="text">
+    <string>Center</string>
+   </property>
+  </action>
+  <action name="actionOutline">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/tlb/justify-text.png</normaloff>:/tlb/justify-text.png</iconset>
+   </property>
+   <property name="text">
+    <string>Outline</string>
    </property>
   </action>
  </widget>

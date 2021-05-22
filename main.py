@@ -4,7 +4,7 @@ import sys
 
 from pathlib import Path
 from os import remove
-from enum import Enum
+
 
 from PyQt5.QtWidgets import (QMainWindow, QApplication,
                              QTextEdit, QMessageBox, QLabel,
@@ -27,17 +27,7 @@ from utilities.editor import EditorProxy
 from utilities.cloudbackup import *
 from fileman import FileManager as fm
 from DiaryCalendar import DiaryCalendar
-
-
-class WarningLevel(Enum):
-    INFO = 1
-    WARNING = 2
-    ERROR = 3
-
-
-class SlideMode(Enum):
-    OPEN = 1
-    CLOSE = 2
+from utilities.enumerator import WarningLevel, SlideMode
 
 
 class Diary(QMainWindow, Ui_MainWindow):
@@ -95,8 +85,15 @@ class Diary(QMainWindow, Ui_MainWindow):
         for i in fontSizes:
             self.font_size_box.addItem(i)
 
+        self.headings_box = QComboBox(self)
+        self.headings_box.setEditable(False)
+        headings = ['Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5']
+
+        self.headings_box.addItems(headings)
+
         self.toolbar_font.addWidget(self.font_box)
         self.toolbar_font.addWidget(self.font_size_box)
+        self.toolbar_font.addWidget(self.headings_box)
         font = QFont('Arial', 12)
         self.txtDiary.setFont(font)
         self.txtDiary.setEnabled(False)
@@ -214,6 +211,8 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.font_box.currentFontChanged.connect(self.ed.set_font_family)
         self.action_Set_Font_Back_to_Default_Arial_12.triggered.connect(self.ed.set_font_family_default)
         self.font_size_box.activated.connect(self.ed.set_font_size)
+        #self.headings_box.activated.connect(lambda: self.ed.insert_heading(self.headings_box.currentText()))
+        self.headings_box.activated.connect(self.ed.insert_heading)
         # shorthand actions
         self.actionUndo.triggered.connect(self.txtDiary.undo)
         self.actionRedo.triggered.connect(self.txtDiary.redo)
@@ -403,7 +402,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.drawer_slide(SlideMode.OPEN,
                               "No page found for the selected date. \
                               You can create one by clicking on the \
-                              <img src=:/tlb/edit.png height=40> icon",
+                              <img src=:/tlb/edit.png height=30> icon...",
                               WarningLevel.INFO)
             return
 

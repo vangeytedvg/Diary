@@ -58,6 +58,12 @@ class EditorProxy:
         fmt.setFontStrikeOut(not fmt.fontStrikeOut())
         self.parent.setCurrentCharFormat(fmt)
 
+    def insert_heading(self, heading):
+        print(heading)
+        cursor = self.parent.textCursor()
+        font = QFont('Arial', 14)
+        self.parent.setCurrentFont(font)
+
     def insert_bulleted_list(self):
         """
         Insert a bulleted list at the cursor position
