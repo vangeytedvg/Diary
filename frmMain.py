@@ -236,6 +236,7 @@ class Ui_MainWindow(object):
         self.toolbar_font.addAction(self.actionItalic)
         self.toolbar_font.addAction(self.actionUnderline)
         self.toolbar_font.addAction(self.actionStrikethrough)
+        self.toolbar_font.addSeparator()
         self.toolbar_font.addAction(self.action_Set_Font_Back_to_Default_Arial_12)
 
         self.retranslateUi(MainWindow)

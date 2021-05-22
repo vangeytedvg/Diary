@@ -199,6 +199,7 @@ color: rgb(255, 255, 255);</string>
    <addaction name="actionItalic"/>
    <addaction name="actionUnderline"/>
    <addaction name="actionStrikethrough"/>
+   <addaction name="separator"/>
    <addaction name="action_Set_Font_Back_to_Default_Arial_12"/>
   </widget>
   <action name="actionE_xit">

@@ -1,5 +1,11 @@
 <RCC>
   <qresource prefix="tlb">
+    <file>right-align.png</file>
+    <file>left-align.png</file>
+    <file>align-center.png</file>
+    <file>left-indent.png</file>
+    <file>right-indent.png</file>
+    <file>justify-text.png</file>
     <file>standard_font.png</file>
     <file>sync.png</file>
     <file>strikethrough.png</file>
