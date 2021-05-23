@@ -4,7 +4,7 @@ This subclass specializes in working with Google Drive
 """
 import zipfile
 import zlib
-from PyQt5.QtCore import QFile, QDir
+from PyQt5.QtCore import QFile, QDir, QObject, pyqtSignal
 
 import os.path
 from googleapiclient.discovery import build
@@ -44,7 +44,7 @@ class DiaryPagesDirectoryNotFound(Exception):
         return f"{self.path} {self.message}"
 
 
-class GoogleDrive():
+class GoogleDrive(QObject):
     def __init__(self, folder_id: str):
         # If modifying these scopes, delete the file token.json.
         SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -113,14 +113,17 @@ class GoogleDrive():
             return items
 
 
-class Backup():
+class Backup(QObject):
     """
     Base class for backups
     """
     _zipname = ""
     _source_path = ""
 
+    finished = pyqtSignal(str)
+
     def __init__(self, source_path: str):
+        super().__init__()
         self._source_path = source_path
 
     def zip_diary(self):
@@ -142,6 +145,7 @@ class Backup():
                 for file in file_list:
                     my_file = self._source_path + "/" + file
                     my_zip.write(my_file, compress_type=zipfile.ZIP_DEFLATED)
+            self.finished.emit(new_zip_name)
         else:
             raise NoDiaryPagesFound(self._source_path)
 
@@ -174,8 +178,8 @@ class GoogleBackup(Backup):
 
     def __init__(self, source_path, folder_id):
         # folder_id is local to this class
-        self.my_google_drive = GoogleDrive(folder_id)
         super(GoogleBackup, self).__init__(source_path)
+        self.my_google_drive = GoogleDrive(folder_id)
 
     def push_to_path(self):
         """ Perform the actual backup """

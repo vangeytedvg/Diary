@@ -252,17 +252,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             # contructor call in the _backup method
             destination.zip_diary()
             result = destination.push_to_path()
-            # TODO check contents of the result
 
-            # save the date and time of the last backup to the config file
-            mySettings = Settings(self, "DenkaTech", "KDiary")
-            mySettings.save_setting("last_backup", "date", QDate.currentDate())
-            mySettings.save_setting("last_backup", "time", QTime.currentTime())
-            #mySettings.save_setting("last_backup", "date", QDate(2021, 5, 10))
-            # Be sure to save the active diary entry
-            self.save_changes()
-            self.__should_backup_now = False
-            self.drawer_slide(SlideMode.OPEN, f"Backup to Google Drive completed.  File name = {result}", WarningLevel.INFO)
         except FileNotFoundError:
             dvgFileUtils.warn(self, "IO Error",
                               "Path not found!",
@@ -287,8 +277,22 @@ class Diary(QMainWindow, Ui_MainWindow):
         if self.__backup_to_google:
             my_backup = GoogleBackup(self.__diary_pages_path,
                                      self.__google_folder_id)
+            # Handle signal from backup manager
+            my_backup.finished.connect(self.backup_event)
             # use polymorphism here
             self.backup(my_backup)
+
+    def backup_event(self, result):
+        """ Called when backup ends """
+        self.drawer_slide(SlideMode.OPEN, f"Backup to Google Drive completed.  File name = {result}", WarningLevel.INFO)
+        # save the date and time of the last backup to the config file
+        mySettings = Settings(self, "DenkaTech", "KDiary")
+        mySettings.save_setting("last_backup", "date", QDate.currentDate())
+        mySettings.save_setting("last_backup", "time", QTime.currentTime())
+        #mySettings.save_setting("last_backup", "date", QDate(2021, 5, 10))
+        # Be sure to save the active diary entry
+        self.save_changes()
+        self.__should_backup_now = False
 
     def set_dirty(self):
         """

@@ -1,6 +1,7 @@
 from PyQt5.QtCore import QDate, QDateTime, QFile, QTime, Qt
 from PyQt5.QtGui import QFont, QTextCursor, QTextListFormat, QFont
 from PyQt5.QtWidgets import QTextEdit
+from .enumerator import Headings
 
 
 class EditorProxy:
@@ -59,10 +60,24 @@ class EditorProxy:
         self.parent.setCurrentCharFormat(fmt)
 
     def insert_heading(self, heading):
+        fontsize = 0
         print(heading)
+        if heading == 0:
+            fontsize = 40
+        if heading == 1:
+            fontsize = 35
+        if heading == 2:
+            fontsize = 30
+        if heading == 3:
+            fontsize = 25
+        if heading == 4:
+            fontsize = 20
         cursor = self.parent.textCursor()
-        font = QFont('Arial', 14)
+        font = QFont('Arial')
         self.parent.setCurrentFont(font)
+        self.parent.setFontWeight(QFont.Bold)
+        self.parent.setFontPointSize(fontsize)
+        self.parent.setFocus()
 
     def insert_bulleted_list(self):
         """
