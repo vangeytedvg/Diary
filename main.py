@@ -17,7 +17,7 @@ from PyQt5.QtGui import (QFont, QTextCursor,
 from PyQt5.QtCore import (QDate, QDateTime,
                           QFile, QTime,
                           QSettings, QByteArray,
-                          QPropertyAnimation, QEasingCurve)
+                          QPropertyAnimation, QEasingCurve, Qt)
 
 from frmMain import Ui_MainWindow
 from FrmSettings import FrmSettings
@@ -76,6 +76,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.font_box.setFontFilters(QFontComboBox.ScalableFonts)
         self.font_size_box = QComboBox(self)
         self.font_size_box.setEditable(True)
+        # The following sets how many characters are minimum allowed
         self.font_size_box.setMinimumContentsLength(3)
         fontSizes = ['6', '7', '8', '9', '10', '11', '12', '13', '14',
                      '15', '16', '18', '20', '22', '24', '26', '28',
@@ -94,6 +95,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         font = QFont('Arial', 12)
         self.txtDiary.setFont(font)
         self.txtDiary.setEnabled(False)
+        # self.txtDiary.setWordWrapMode(
 
         # Instantiate sublassed calendar
         self.calendarWidget = DiaryCalendar(self.__diary_pages_path,
@@ -209,7 +211,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.font_box.currentFontChanged.connect(self.ed.set_font_family)
         self.action_Set_Font_Back_to_Default_Arial_12.triggered.connect(self.ed.set_font_family_default)
         self.font_size_box.activated.connect(self.ed.set_font_size)
-        #self.headings_box.activated.connect(lambda: self.ed.insert_heading(self.headings_box.currentText()))
+        # self.headings_box.activated.connect(lambda: self.ed.insert_heading(self.headings_box.currentText()))
         self.headings_box.activated.connect(self.ed.insert_heading)
         # shorthand actions
         self.actionUndo.triggered.connect(self.txtDiary.undo)
@@ -220,6 +222,10 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.action_insert_date.triggered.connect(self.ed.insert_date_text)
         self.action_insert_time.triggered.connect(self.ed.insert_time_text)
         self.action_backup.triggered.connect(self._backup)
+        self.actionLeft_outline.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignLeft))
+        self.actionRight_outline.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignRight))
+        self.actionCenter.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignCenter))
+        self.actionOutline.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignJustify))
         self.btn_close_warning.clicked.connect(self.close_warning_box)
 
     def close_warning_box(self):
@@ -246,12 +252,13 @@ class Diary(QMainWindow, Ui_MainWindow):
             raise Excepion("No destination class set")
 
         try:
-            # Zip the file and then send it to google. Note, we do not have
-            # to pass any parameters here, they were already set in the
-            # contructor call in the _backup method
+            """
+            Zip the file and then send it to google. Note, we do not have
+            to pass any parameters here, they were already set in the
+            contructor call in the _backup method
+            """
             destination.zip_diary()
             result = destination.push_to_path()
-
         except FileNotFoundError:
             dvgFileUtils.warn(self, "IO Error",
                               "Path not found!",
@@ -288,7 +295,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         mySettings = Settings(self, "DenkaTech", "KDiary")
         mySettings.save_setting("last_backup", "date", QDate.currentDate())
         mySettings.save_setting("last_backup", "time", QTime.currentTime())
-        #mySettings.save_setting("last_backup", "date", QDate(2021, 5, 10))
+        # mySettings.save_setting("last_backup", "date", QDate(2021, 5, 10))
         # Be sure to save the active diary entry
         self.save_changes()
         self.__should_backup_now = False

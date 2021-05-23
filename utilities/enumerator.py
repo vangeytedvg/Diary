@@ -15,10 +15,4 @@ class SlideMode(Enum):
     CLOSE = 2
 
 
-class Headings(Enum):
-    """ Values for the headings """
-    HEAD_1 = 0
-    HEAD_2 = 1
-    HEAD_3 = 2
-    HEAD_4 = 3
-    HEAD_5 = 4
+

@@ -1,7 +1,6 @@
 from PyQt5.QtCore import QDate, QDateTime, QFile, QTime, Qt
 from PyQt5.QtGui import QFont, QTextCursor, QTextListFormat, QFont
 from PyQt5.QtWidgets import QTextEdit
-from .enumerator import Headings
 
 
 class EditorProxy:
@@ -61,7 +60,6 @@ class EditorProxy:
 
     def insert_heading(self, heading):
         fontsize = 0
-        print(heading)
         if heading == 0:
             font = QFont('Arial')
             self.parent.setCurrentFont(font)
