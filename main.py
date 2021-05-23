@@ -87,7 +87,7 @@ class Diary(QMainWindow, Ui_MainWindow):
 
         self.headings_box = QComboBox(self)
         self.headings_box.setEditable(False)
-        headings = ['Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5']
+        headings = ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5']
 
         self.headings_box.addItems(headings)
 
@@ -225,6 +225,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.btn_close_warning.clicked.connect(self.close_warning_box)
 
     def close_warning_box(self):
+        """ Hide warning box """
         self.drawer_slide("close", "", None)
 
     def open_settings(self):

@@ -145,7 +145,6 @@ class Backup(QObject):
                 for file in file_list:
                     my_file = self._source_path + "/" + file
                     my_zip.write(my_file, compress_type=zipfile.ZIP_DEFLATED)
-            self.finished.emit(new_zip_name)
         else:
             raise NoDiaryPagesFound(self._source_path)
 
@@ -185,6 +184,7 @@ class GoogleBackup(Backup):
         """ Perform the actual backup """
         result = self.my_google_drive.upload_file(self._zipname,
                                                   self._source_path)
+        self.finished.emit(self._zipname)
         return self._zipname
 
     def is_alive(self, l):

@@ -63,14 +63,21 @@ class EditorProxy:
         fontsize = 0
         print(heading)
         if heading == 0:
-            fontsize = 40
+            font = QFont('Arial')
+            self.parent.setCurrentFont(font)
+            self.parent.setFontWeight(QFont.Normal)
+            self.parent.setFontPointSize(12)
+            self.parent.setFocus()
+            return
         if heading == 1:
-            fontsize = 35
+            fontsize = 40
         if heading == 2:
-            fontsize = 30
+            fontsize = 35
         if heading == 3:
-            fontsize = 25
+            fontsize = 30
         if heading == 4:
+            fontsize = 25
+        if heading == 5:
             fontsize = 20
         cursor = self.parent.textCursor()
         font = QFont('Arial')
