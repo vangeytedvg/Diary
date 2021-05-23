@@ -116,7 +116,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         # signals
         self.init_signal_handlers()
         # methods
-        self.on_calendar_clicked(QDate.currentDate())
+        self.handle_calendar_clicked(QDate.currentDate())
         # Check if backup is needed
         if self.__should_backup_now:
             self.lbl_warning.setText("Please consider making a backup of your diary now!")
@@ -191,16 +191,16 @@ class Diary(QMainWindow, Ui_MainWindow):
         """
         Connect the signals on our actions
         """
-        self.txtDiary.cursorPositionChanged.connect(self.on_cursor_position_changed)
-        self.txtDiary.textChanged.connect(self.set_dirty)
-        self.calendarWidget.clicked[QDate].connect(self.on_calendar_clicked)
-        self.calendarWidget.selectionChanged.connect(self.on_save_changes)
+        self.txtDiary.cursorPositionChanged.connect(self.handle_cursor_position_changed)
+        self.txtDiary.textChanged.connect(self.handle_dirty)
+        self.calendarWidget.clicked[QDate].connect(self.handle_calendar_clicked)
+        self.calendarWidget.selectionChanged.connect(self.handle_save_changes)
         # actions
-        self.action_Add.triggered.connect(self.on_add_new_file)
-        self.actionErase.triggered.connect(self.on_erase_diary_entry)
-        self.actionSave.triggered.connect(self.on_save_changes)
-        self.action_Print.triggered.connect(self.on_print_preview)
-        self.action_Preferences.triggered.connect(self.on_open_settings)
+        self.action_Add.triggered.connect(self.handle_add_new_file)
+        self.actionErase.triggered.connect(self.handle_erase_diary_entry)
+        self.actionSave.triggered.connect(self.handle_save_changes)
+        self.action_Print.triggered.connect(self.handle_print_preview)
+        self.action_Preferences.triggered.connect(self.handle_open_settings)
         # delegated to the editor proxy
         self.actionInsert_bulleted_list.triggered.connect(self.ed.insert_bulleted_list)
         self.actionInsert_numbered_list.triggered.connect(self.ed.insert_numbered_list)
@@ -211,7 +211,6 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.font_box.currentFontChanged.connect(self.ed.set_font_family)
         self.action_Set_Font_Back_to_Default_Arial_12.triggered.connect(self.ed.set_font_family_default)
         self.font_size_box.activated.connect(self.ed.set_font_size)
-        # self.headings_box.activated.connect(lambda: self.ed.insert_heading(self.headings_box.currentText()))
         self.headings_box.activated.connect(self.ed.insert_heading)
         # shorthand actions
         self.actionUndo.triggered.connect(self.txtDiary.undo)
@@ -221,7 +220,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.actionPaste.triggered.connect(self.txtDiary.paste)
         self.action_insert_date.triggered.connect(self.ed.insert_date_text)
         self.action_insert_time.triggered.connect(self.ed.insert_time_text)
-        self.action_backup.triggered.connect(self.on_backup_clicked)
+        self.action_backup.triggered.connect(self.handle_backup_clicked)
         self.actionLeft_outline.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignLeft))
         self.actionRight_outline.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignRight))
         self.actionCenter.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignCenter))
@@ -232,7 +231,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         """ Hide warning box """
         self.drawer_slide("close", "", None)
 
-    def on_open_settings(self):
+    def handle_open_settings(self):
         """ Open settings form """
         settings = FrmSettings(self)
         res = settings.exec_()
@@ -268,7 +267,7 @@ class Diary(QMainWindow, Ui_MainWindow):
                               "No diary files found in",
                               destination._source_path)
 
-    def on_backup_clicked(self):
+    def handle_backup_clicked(self):
         """
         Make a backup to google drive or local.  The 'other' option
         is not yet implemented.
@@ -300,14 +299,14 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.on_save_changes()
         self.__should_backup_now = False
 
-    def set_dirty(self):
+    def handle_dirty(self):
         """
         Flags when the text has been changed by the user.
         """
         self._isDirty = True
         self.lbl_changed.setText("yes")
 
-    def on_print_preview(self):
+    def handle_print_preview(self):
         """
           Print preview
         :return: nothing
@@ -318,7 +317,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         # show it
         preview.exec_()
 
-    def on_erase_diary_entry(self):
+    def handle_erase_diary_entry(self):
         """
           Remove a selected diary page
         :return: nothing
@@ -339,7 +338,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.lbl_changed.setText("no")
             self.drawer_slide(SlideMode.OPEN, "Page removed from disk", WarningLevel.WARNING)
 
-    def on_cursor_position_changed(self):
+    def handle_cursor_position_changed(self):
         """
           Shows the line and column position and sets the flags of the
           bold, italic, underline and strikethrough actions
@@ -368,7 +367,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.lbl_line_nr.setText(str(cursor.blockNumber() + 1))
         self.lbl_col_nr.setText(str(cursor.columnNumber()))
 
-    def on_save_changes(self):
+    def handle_save_changes(self):
         """
           Save our active file.  If the file is inexisting, clear the content
           of the text editor.  Otherwise, when we jump to another date the
@@ -383,7 +382,7 @@ class Diary(QMainWindow, Ui_MainWindow):
             return
         self.txtDiary.clear()
 
-    def on_calendar_clicked(self, dateedit):
+    def handle_calendar_clicked(self, dateedit):
         """
           Opens a diary day file if it exists.  If it does not exist
           the add new item button will be enabled.
@@ -452,7 +451,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         if state:
             self.txtDiary.setFocus()
 
-    def on_add_new_file(self):
+    def handle_add_new_file(self):
         """
           Create a file with the selected date as name
         :return: nothing
@@ -493,7 +492,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         mySettings.save_form_settings("mainwindow", "frm_main/geometry")
         self.savesettings()
         # Be sure to save the active diary entry
-        self.on_save_changes()
+        self.handle_save_changes()
 
     def savesettings(self):
         """
