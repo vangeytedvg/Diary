@@ -129,13 +129,14 @@ color: rgb(255, 255, 255);</string>
     <addaction name="actionUnderline"/>
     <addaction name="actionStrikethrough"/>
     <addaction name="separator"/>
-    <addaction name="action_Preferences"/>
     <addaction name="actionLeft_outline"/>
     <addaction name="actionRight_outline"/>
     <addaction name="actionIndent_left"/>
     <addaction name="actionIndent_right"/>
     <addaction name="actionCenter"/>
     <addaction name="actionOutline"/>
+    <addaction name="separator"/>
+    <addaction name="action_Preferences"/>
    </widget>
    <widget class="QMenu" name="menuInsert">
     <property name="title">

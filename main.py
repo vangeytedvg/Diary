@@ -81,14 +81,11 @@ class Diary(QMainWindow, Ui_MainWindow):
                      '15', '16', '18', '20', '22', '24', '26', '28',
                      '32', '36', '40', '44', '48', '54', '60', '66',
                      '72', '80', '88', '96']
-
-        for i in fontSizes:
-            self.font_size_box.addItem(i)
+        self.font_size_box.addItems(fontSizes)
 
         self.headings_box = QComboBox(self)
         self.headings_box.setEditable(False)
         headings = ['Normal', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5']
-
         self.headings_box.addItems(headings)
 
         self.toolbar_font.addWidget(self.font_box)
@@ -98,7 +95,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.txtDiary.setFont(font)
         self.txtDiary.setEnabled(False)
 
-        # Make sure no diary entries can be made for future dates
+        # Instantiate sublassed calendar
         self.calendarWidget = DiaryCalendar(self.__diary_pages_path,
                                             self.__color_weekday_background,
                                             self.__color_weekday_foreground,
@@ -106,13 +103,14 @@ class Diary(QMainWindow, Ui_MainWindow):
                                             self.__color_weekend_foreground,
                                             self.__color_select_background,
                                             self.__color_select_foreground)
-
         self.calendarWidget.setMaximumWidth(350)
         self.calendarWidget.setMaximumHeight(350)
+        # Make sure no diary entries can be made for future dates
         self.calendarWidget.setMaximumDate(QDate.currentDate())
         # make an option from this
         self.calendarWidget.setGridVisible(True)
         self.testFrame.addWidget(self.calendarWidget)
+
         # signals
         self.init_signal_handlers()
         # methods

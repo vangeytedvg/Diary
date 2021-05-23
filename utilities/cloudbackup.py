@@ -4,9 +4,10 @@ This subclass specializes in working with Google Drive
 """
 import zipfile
 import zlib
+import os.path
+
 from PyQt5.QtCore import QFile, QDir, QObject, pyqtSignal
 
-import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -172,7 +173,7 @@ class LocalBackup(Backup):
 
 class GoogleBackup(Backup):
     """
-    Backup to google
+    Backup to google.
     """
 
     def __init__(self, source_path, folder_id):
