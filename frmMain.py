@@ -45,6 +45,7 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem, 2, 0, 1, 1)
         self.txtDiary = QtWidgets.QTextEdit(self.centralwidget)
+        self.txtDiary.setLineWidth(1)
         self.txtDiary.setObjectName("txtDiary")
         self.gridLayout.addWidget(self.txtDiary, 0, 1, 3, 1)
         self.testFrame = QtWidgets.QVBoxLayout()
