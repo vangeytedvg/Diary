@@ -280,14 +280,17 @@ class Diary(QMainWindow, Ui_MainWindow):
             # use polymorphism here
             self.backup(my_backup)
         if self.__backup_to_google:
-            my_backup = GoogleBackup(self.__diary_pages_path,
-                                     self.__google_folder_id)
-            # Handle signal from backup manager
-            my_backup.finished.connect(self.on_backup_complete)
-            # use polymorphism here
-            self.backup(my_backup)
+            try:
+                my_backup = GoogleBackup(self.__diary_pages_path,
+                                         self.__google_folder_id)
+                # Handle signal from backup manager
+                my_backup.finished.connect(self.handle_backup_complete)
+                # use polymorphism here
+                self.backup(my_backup)
+            except Exception as ex:
+                print("An network error occurred")
 
-    def on_backup_complete(self, result):
+    def handle_backup_complete(self, result):
         """ Called when backup ends """
         self.drawer_slide(SlideMode.OPEN, f"Backup to Google Drive completed.  File name = {result}", WarningLevel.INFO)
         # save the date and time of the last backup to the config file
@@ -296,7 +299,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         mySettings.save_setting("last_backup", "time", QTime.currentTime())
         # mySettings.save_setting("last_backup", "date", QDate(2021, 5, 10))
         # Be sure to save the active diary entry
-        self.on_save_changes()
+        self.handle_save_changes()
         self.__should_backup_now = False
 
     def handle_dirty(self):
@@ -462,7 +465,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         if answer == QMessageBox.Ok:
             self.create_new_file(file=self._active_file,
                                  date=self._active_date)
-            self.on_calendar_clicked(self._active_date)
+            self.handle_calendar_clicked(self._active_date)
             self.cursor.setPosition(0)
             self.cursor.insertBlock()
             self.cursor.insertHtml(f"<h1>Diary entry {self._active_date.toString()}<br />")
