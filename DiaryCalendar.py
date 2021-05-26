@@ -43,6 +43,7 @@ class DiaryCalendar(QCalendarWidget):
         super(DiaryCalendar, self).__init__()
 
     def is_date_holiday(self, thedate):
+        """ Check if the painted date is a holiday """
         return [holiday for holiday in self.holidays if holiday['Date'] == thedate]
 
     def load_holidays(self):
@@ -50,15 +51,16 @@ class DiaryCalendar(QCalendarWidget):
         with open('specialdays.csv', newline='') as holidays_file:
             reader = csv.DictReader(holidays_file)
             self.holidays = list(reader)
-        print(self.holidays)
 
     def paintCell(self, painter, rect, date):
         painter.setRenderHint(QPainter.Antialiasing, True)
         filename = self._file_path + "/" + fm.make_diary_filename(date.year(), date.month(), date.day())
-        # if date.day() == QDate().currentDate().day():
-        # print("today")
 
-        # ------>> Holidays : print(self.is_date_holiday('01-01'))
+        # check if the drawing date is a holiday
+        str_date = str(date.day()).zfill(2) + str(date.month()).zfill(2)
+
+        if self.is_date_holiday(str_date):
+            print("Holiday ", self.is_date_holiday(str_date)[0]['Name'])
 
         if fm.page_exists(filename):
             # We have a diary entry for this date, let the user know
