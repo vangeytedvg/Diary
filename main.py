@@ -581,7 +581,7 @@ if __name__ == '__main__':
     main_form = Diary()
     splash.showMessage("Starting Diary", alignment=Qt.AlignBottom, color=Qt.white)
     main_form.show()
-    sleep(3)
+    sleep(4)
     splash.showMessage("Ready", alignment=Qt.AlignBottom, color=Qt.white)
     splash.finish(main_form)
     sys.exit(app.exec_())
