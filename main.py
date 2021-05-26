@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 from os import remove
 
-
 from PyQt5.QtWidgets import (QMainWindow, QApplication,
                              QTextEdit, QMessageBox, QLabel, QWidget,
                              QFrame, QFontComboBox, QComboBox, QSplashScreen)
@@ -105,8 +104,8 @@ class Diary(QMainWindow, Ui_MainWindow):
                                             self.__color_weekend_foreground,
                                             self.__color_select_background,
                                             self.__color_select_foreground)
-        self.calendarWidget.setMaximumWidth(350)
-        self.calendarWidget.setMaximumHeight(350)
+        self.calendarWidget.setMaximumWidth(450)
+        self.calendarWidget.setMaximumHeight(450)
         self.calendarWidget.setMouseTracking(True)
         # Make sure no diary entries can be made for future dates
         self.calendarWidget.setMaximumDate(QDate.currentDate())
@@ -571,16 +570,18 @@ def sleep(secs):
 
 
 if __name__ == '__main__':
+    print(dvgFileUtils.calc_easter(2021))
     app = QApplication(sys.argv)
     pixmap = QPixmap("acta.png")
     splash = QSplashScreen(pixmap)
     splash.show()
     app.processEvents()
-    splash.showMessage("Loading calendar", alignment=Qt.AlignBottom, color=Qt.white)
+    splash.showMessage("Loading diary entries...", alignment=Qt.AlignBottom, color=Qt.white)
     sleep(0.5)
     main_form = Diary()
     splash.showMessage("Starting Diary", alignment=Qt.AlignBottom, color=Qt.white)
     main_form.show()
-    sleep(2)
+    sleep(3)
+    splash.showMessage("Ready", alignment=Qt.AlignBottom, color=Qt.white)
     splash.finish(main_form)
     sys.exit(app.exec_())

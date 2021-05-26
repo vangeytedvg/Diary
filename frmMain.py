@@ -292,7 +292,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Acta mea"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Acta Mea"))
         self.lbl_warning.setText(_translate("MainWindow", "[]"))
         self.btn_close_warning.setText(_translate("MainWindow", "..."))
         self.menu_File.setTitle(_translate("MainWindow", "&File"))
