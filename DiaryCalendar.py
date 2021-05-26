@@ -95,7 +95,6 @@ class DiaryCalendar(QCalendarWidget):
             holiday_font = painter.font()
             holiday_font.setPixelSize(12)
             painter.setFont(holiday_font)
-
             painter.save()
             if date.dayOfWeek() > 5:
                 # Weekend colors
@@ -134,7 +133,6 @@ class DiaryCalendar(QCalendarWidget):
                 painter.drawText(QRectF(rect), Qt.TextSingleLine | Qt.AlignBottom, hday[0]['Name'])
                 holiday_font.setPixelSize(12)
                 painter.setFont(holiday_font)
-
             else:
                 QCalendarWidget.paintCell(self, painter, rect, date)
 
