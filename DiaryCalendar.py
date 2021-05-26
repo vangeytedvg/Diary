@@ -11,12 +11,6 @@ class DiaryCalendar(QCalendarWidget):
       an existing diary page.
 
     """
-    # myQColor = QColor(25, 30, 30)
-    # myQColor_day = QColor(255, 255, 255)
-    # myQColorWE = QColor(25, 30, 40)
-    # myQColor_sel_bg = QColor(30, 150, 22)
-    # myQColor_sel_fg = QColor(255, 255, 255)
-    # myColorWEDay = QColor(168, 88, 50)
 
     def __init__(self, file_path,
                  color_weekday_background,
@@ -41,11 +35,8 @@ class DiaryCalendar(QCalendarWidget):
         self.myQColor_sel_fg = QColor(color_select_foreground)
         super(DiaryCalendar, self).__init__()
 
-    def clicked(self):
-        print("kwaaak")
-
-    def calc_easter(self, year):
-        "Returns Easter as a date object."
+    def __calc_easter(self, year):
+        """ Returns Easter as a date object."""
         a = year % 19
         b = year // 100
         c = year % 100
@@ -66,7 +57,7 @@ class DiaryCalendar(QCalendarWidget):
             reader = csv.DictReader(holidays_file)
             self.holidays = list(reader)
         # Add the date of easter to the holidays list
-        easter = self.calc_easter(year)
+        easter = self.__calc_easter(year)
         day = str(easter.day()).zfill(2)
         month = str(easter.month()).zfill(2)
         easter = day + month
@@ -75,6 +66,7 @@ class DiaryCalendar(QCalendarWidget):
         self.holidays.append(element)
 
     def paintCell(self, painter, rect, date):
+        """ Override the paint method """
         super(DiaryCalendar, self).paintCell(painter, rect, date)
         self.load_holidays(date.year())
         painter.fillRect(rect, self.myQColorWE)
