@@ -42,11 +42,16 @@ class DiaryCalendar(QCalendarWidget):
 
         super(DiaryCalendar, self).__init__()
 
+    def is_date_holiday(self, thedate):
+        return [holiday for holiday in self.holidays if holiday['Date'] == thedate]
+
     def load_holidays(self):
         """ Load holidays file and add easter day to the recovered data """
         with open('specialdays.csv', newline='') as holidays_file:
             reader = csv.DictReader(holidays_file)
             self.holidays = list(reader)
+        print(self.holidays)
+        print(self.is_date_holiday('01-01'))
 
     def paintCell(self, painter, rect, date):
         painter.setRenderHint(QPainter.Antialiasing, True)
@@ -68,7 +73,7 @@ class DiaryCalendar(QCalendarWidget):
                 # ignore the above color when the date is selected by the user
                 painter.setPen(self.myQColor_sel_fg)
                 painter.fillRect(rect, self.myQColor_sel_bg)
-            #painter.drawText(QRectF(rect), Qt.TextSingleLine | Qt.AlignBottom, "text")
+            # painter.drawText(QRectF(rect), Qt.TextSingleLine | Qt.AlignBottom, "text")
             painter.drawText(QRectF(rect), Qt.TextSingleLine | Qt.AlignCenter, str(date.day()))
             painter.restore()
         else:
