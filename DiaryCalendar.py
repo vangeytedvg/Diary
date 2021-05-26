@@ -39,8 +39,10 @@ class DiaryCalendar(QCalendarWidget):
         self.myQColorWE = QColor(color_weekend_background)
         self.myQColor_sel_bg = QColor(color_select_background)
         self.myQColor_sel_fg = QColor(color_select_foreground)
-
         super(DiaryCalendar, self).__init__()
+
+    def clicked(self):
+        print("kwaaak")
 
     def calc_easter(self, year):
         "Returns Easter as a date object."
@@ -73,6 +75,7 @@ class DiaryCalendar(QCalendarWidget):
         self.holidays.append(element)
 
     def paintCell(self, painter, rect, date):
+        super(DiaryCalendar, self).paintCell(painter, rect, date)
         self.load_holidays(date.year())
         painter.fillRect(rect, self.myQColorWE)
         holiday_font = painter.font()
