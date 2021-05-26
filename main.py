@@ -7,15 +7,15 @@ from os import remove
 
 
 from PyQt5.QtWidgets import (QMainWindow, QApplication,
-                             QTextEdit, QMessageBox, QLabel,
-                             QFrame, QFontComboBox, QComboBox)
+                             QTextEdit, QMessageBox, QLabel, QWidget,
+                             QFrame, QFontComboBox, QComboBox, QSplashScreen)
 from PyQt5.QtPrintSupport import (QPrintDialog,
                                   QPrinter,
                                   QPrintPreviewDialog)
 from PyQt5.QtGui import (QFont, QTextCursor,
-                         QTextListFormat, QColor)
-from PyQt5.QtCore import (QDate, QDateTime,
-                          QFile, QTime,
+                         QTextListFormat, QColor, QPixmap)
+from PyQt5.QtCore import (QDate, QDateTime, QEventLoop,
+                          QFile, QTime, QTimer,
                           QSettings, QByteArray,
                           QPropertyAnimation, QEasingCurve, Qt)
 
@@ -107,6 +107,7 @@ class Diary(QMainWindow, Ui_MainWindow):
                                             self.__color_select_foreground)
         self.calendarWidget.setMaximumWidth(350)
         self.calendarWidget.setMaximumHeight(350)
+        self.calendarWidget.setMouseTracking(True)
         # Make sure no diary entries can be made for future dates
         self.calendarWidget.setMaximumDate(QDate.currentDate())
         # make an option from this
@@ -562,8 +563,24 @@ class Diary(QMainWindow, Ui_MainWindow):
             self.__should_backup_now = True
 
 
+def sleep(secs):
+    """ Simple sleep function """
+    loop = QEventLoop()
+    QTimer.singleShot(secs * 1000, loop.quit)
+    loop.exec_()
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    pixmap = QPixmap("acta.png")
+    splash = QSplashScreen(pixmap)
+    splash.show()
+    app.processEvents()
+    splash.showMessage("Loading calendar", alignment=Qt.AlignBottom, color=Qt.white)
+    sleep(0.5)
     main_form = Diary()
+    splash.showMessage("Starting Diary", alignment=Qt.AlignBottom, color=Qt.white)
     main_form.show()
+    sleep(2)
+    splash.finish(main_form)
     sys.exit(app.exec_())
