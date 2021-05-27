@@ -38,7 +38,8 @@ class EditorProxy:
             # get the line/block nr
             temp = cursor.blockNumber()
             # Move to last line of the selection
-            cursor.setPosition(cursor.selectionEnd)
+            cursor.setPosition(cursor.selectionEnd())
+            # calculate range of selection
 
     def set_font_family(self, font):
         """ Set the editor's font """
