@@ -32,6 +32,13 @@ class EditorProxy:
 
     def set_left_indent(self):
         """ Left indent """
+        cursor = self.parent.textCursor()
+        # Check if something is selected
+        if cursor.hasSelection():
+            # get the line/block nr
+            temp = cursor.blockNumber()
+            # Move to last line of the selection
+            cursor.setPosition(cursor.selectionEnd)
 
     def set_font_family(self, font):
         """ Set the editor's font """
