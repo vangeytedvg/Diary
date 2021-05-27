@@ -570,14 +570,13 @@ def sleep(secs):
 
 
 if __name__ == '__main__':
-    print(dvgFileUtils.calc_easter(2021))
     app = QApplication(sys.argv)
     pixmap = QPixmap("acta.png")
     splash = QSplashScreen(pixmap)
     splash.show()
     app.processEvents()
     splash.showMessage("Loading diary entries...", alignment=Qt.AlignBottom, color=Qt.white)
-    sleep(0.5)
+    sleep(1)
     main_form = Diary()
     splash.showMessage("Starting Diary", alignment=Qt.AlignBottom, color=Qt.white)
     main_form.show()

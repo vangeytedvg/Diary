@@ -81,9 +81,6 @@ class DiaryCalendar(QCalendarWidget):
         str_date = str(date.day()).zfill(2) + str(date.month()).zfill(2)
         hday = self.is_date_holiday(str_date)
 
-        if self.is_date_holiday(str_date):
-            print("Holiday ", self.is_date_holiday(str_date)[0]['Name'])
-
         if fm.page_exists(filename):
             # We have a diary entry for this date, let the user know
             painter.fillRect(rect, self.myQColorWE)
@@ -128,6 +125,7 @@ class DiaryCalendar(QCalendarWidget):
                 painter.drawText(QRectF(rect), Qt.TextSingleLine | Qt.AlignBottom, hday[0]['Name'])
                 holiday_font.setPixelSize(12)
                 painter.setFont(holiday_font)
+                painter.restore()
             else:
                 QCalendarWidget.paintCell(self, painter, rect, date)
 
