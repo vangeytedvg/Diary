@@ -221,10 +221,12 @@ class Diary(QMainWindow, Ui_MainWindow):
         self.action_insert_date.triggered.connect(self.ed.insert_date_text)
         self.action_insert_time.triggered.connect(self.ed.insert_time_text)
         self.action_backup.triggered.connect(self.handle_backup_clicked)
-        self.actionLeft_outline.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignLeft))
-        self.actionRight_outline.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignRight))
-        self.actionCenter.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignCenter))
-        self.actionOutline.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignJustify))
+        # alignment
+        # self.actionLeft_outline.triggered.connect(lambda: self.txtDiary.setAlignment(Qt.AlignLeft))
+        self.actionLeft_outline.triggered.connect(self.ed.set_alignment_left)
+        self.actionRight_outline.triggered.connect(self.ed.set_alignment_right)
+        self.actionCenter.triggered.connect(self.ed.set_alignment_center)
+        self.actionOutline.triggered.connect(self.ed.set_alignment_justify)
         self.btn_close_warning.clicked.connect(self.close_warning_box)
 
     def close_warning_box(self):

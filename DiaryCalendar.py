@@ -11,6 +11,10 @@ class DiaryCalendar(QCalendarWidget):
       an existing diary page.
 
     """
+    """
+    Constructor override, need the path to the diary pages,
+    so it is passed in the constructor.
+    """
 
     def __init__(self, file_path,
                  color_weekday_background,
@@ -22,10 +26,6 @@ class DiaryCalendar(QCalendarWidget):
         self.holidays = []
         self.load_holidays(QDate().currentDate().year())
 
-        """
-        Constructore override, need the path to the diary pages,
-        so it is passed in the constructor.
-        """
         self._file_path = file_path
         self.myQColor = QColor(color_weekday_background)
         self.myQColor_day = QColor(color_weekday_foreground)

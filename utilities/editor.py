@@ -14,6 +14,25 @@ class EditorProxy:
         # The parent here is the QTextEditor on any form
         self.parent = parent
 
+    def set_alignment_left(self):
+        """ Align left """
+        self.parent.setAlignment(Qt.AlignLeft)
+
+    def set_alignment_right(self):
+        """ Align right """
+        self.parent.setAlignment(Qt.AlignRight)
+
+    def set_alignment_center(self):
+        """ Align center """
+        self.parent.setAlignment(Qt.AlignCenter)
+
+    def set_alignment_justify(self):
+        """ Align center """
+        self.parent.setAlignment(Qt.AlignJustify)
+
+    def set_left_indent(self):
+        """ Left indent """
+
     def set_font_family(self, font):
         """ Set the editor's font """
         self.parent.setCurrentFont(font)
@@ -28,37 +47,30 @@ class EditorProxy:
         self.parent.setFontPointSize(fontsize)
 
     def set_fontbold(self):
-        """
-        Bold
-        """
+        """ Bold """
         if self.parent.fontWeight() == QFont.Bold:
             self.parent.setFontWeight(QFont.Normal)
         else:
             self.parent.setFontWeight(QFont.Bold)
 
     def set_fontitalic(self):
-        """
-        Italic
-        """
+        """ Italic """
         state = self.parent.fontItalic()
         self.parent.setFontItalic(not state)
 
     def set_fontunderline(self):
-        """
-        Underline
-        """
+        """ Underline """
         state = self.parent.fontUnderline()
         self.parent.setFontUnderline(not state)
 
     def set_fontstrikethrough(self):
-        """
-        Strikethrough
-        """
+        """ Strikethrough """
         fmt = self.parent.currentCharFormat()
         fmt.setFontStrikeOut(not fmt.fontStrikeOut())
         self.parent.setCurrentCharFormat(fmt)
 
     def insert_heading(self, heading):
+        """ Headings """
         fontsize = 0
         if heading == 0:
             font = QFont('Arial')
@@ -85,23 +97,21 @@ class EditorProxy:
         self.parent.setFocus()
 
     def insert_bulleted_list(self):
-        """
-        Insert a bulleted list at the cursor position
-        """
+        """ Insert bulleted list """
         cursor = self.parent.textCursor()
         cursor.insertList(QTextListFormat.ListDisc)
 
     def insert_numbered_list(self):
-        """
-        Insert a numbered list 
-        """
+        """ Insert a numbered list """
         cursor = self.parent.textCursor()
         cursor.insertList(QTextListFormat.ListDecimal)
 
     def insert_date_text(self):
+        """ Insert current date """
         cursor = self.parent.textCursor()
         cursor.insertText(QDate().currentDate().toString())
 
     def insert_time_text(self):
+        """ Insert current time """
         cursor = self.parent.textCursor()
         cursor.insertText(QTime().currentTime().toString(Qt.DefaultLocaleShortDate))
