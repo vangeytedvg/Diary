@@ -23,6 +23,16 @@ class DiaryCalendar(QCalendarWidget):
                  color_weekend_foreground,
                  color_select_background,
                  color_select_foreground):
+        """
+        Ctor of the DiaryCalendar
+        :param file_path: Path to the location where diary files are stored (.html)
+        :param color_weekday_background: Background of weekday
+        :param color_weekday_foreground: Foreground of weekday
+        :param color_weekend_background: Background of weekend
+        :param color_weekend_foreground: Foreground of weekend
+        :param color_select_background: Selected day background
+        :param color_select_foreground: Selected day foreground
+        """
         self.holidays = []
         self.load_holidays(QDate().currentDate().year())
 
@@ -36,7 +46,11 @@ class DiaryCalendar(QCalendarWidget):
         super(DiaryCalendar, self).__init__()
 
     def __calc_easter(self, year):
-        """ Returns Easter as a date object."""
+        """
+        Calculate the day of easter
+        :param year:
+        :return: QDate object with the date of easter
+        """
         a = year % 19
         b = year // 100
         c = year % 100
@@ -48,11 +62,19 @@ class DiaryCalendar(QCalendarWidget):
         return QDate(year, month, day)
 
     def is_date_holiday(self, thedate):
-        """ Check if the painted date is a holiday """
+        """
+        Check if the painted date is a holiday
+        :param thedate:
+        :return: True or False
+        """
         return [holiday for holiday in self.holidays if holiday['Date'] == thedate]
 
     def load_holidays(self, year):
-        """ Load holidays file and add easter day to the recovered data """
+        """
+        Load holidays file and add easter day to the recovered data
+        :param year: Year needed for calculating easter
+        :return:
+        """
         with open('specialdays.csv', newline='') as holidays_file:
             reader = csv.DictReader(holidays_file)
             self.holidays = list(reader)
@@ -65,8 +87,14 @@ class DiaryCalendar(QCalendarWidget):
         element = {'Date': easter, 'Name': 'Easter'}
         self.holidays.append(element)
 
-    def paintCell(self, painter, rect, date):
-        """ Override the paint method """
+    def paintCell(self, painter, rect, date: object):
+        """
+        Override the paintCell method
+        :param painter: QPaint
+        :param rect:
+        :param date: QDate
+        :return:
+        """
         super(DiaryCalendar, self).paintCell(painter, rect, date)
         self.load_holidays(date.year())
         painter.fillRect(rect, self.myQColorWE)

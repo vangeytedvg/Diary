@@ -25,6 +25,8 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.__color_weekend_foreground = ""
         self.__color_select_foreground = ""
         self.__color_select_background = ""
+        self.__backup_local = False
+        self.__backup_google_drive = False
         self.load_settings()
         # Actions
         self.btnSave.clicked.connect(self.save_and_close)
@@ -65,7 +67,7 @@ class FrmSettings(QDialog, Ui_frmSettings):
         self.rb_other.setEnabled(True)
 
     def set_google_backup(self):
-        if self.sender().isChecked() == True:
+        if self.sender().isChecked():
             self.__backup_google_drive = True
         else:
             self.__backup_google_drive = False
@@ -216,10 +218,9 @@ class FrmSettings(QDialog, Ui_frmSettings):
         """
         Select the folder where the diary files will reside
         """
-        dir = QFileDialog.getExistingDirectory(self, "Open Directory",
-                                               "/home",
-                                               QFileDialog.ShowDirsOnly
-                                               | QFileDialog.DontResolveSymlinks)
-        if dir:
-            self.txtPathToDiary.setText(dir)
-
+        directory = QFileDialog.getExistingDirectory(self, "Open Directory",
+                                                     "/home",
+                                                     QFileDialog.ShowDirsOnly
+                                                     | QFileDialog.DontResolveSymlinks)
+        if directory:
+            self.txtPathToDiary.setText(directory)
