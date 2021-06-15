@@ -18,7 +18,7 @@ from PyQt5.QtCore import (QDate, QDateTime, QEventLoop,
                           QSettings, QByteArray,
                           QPropertyAnimation, QEasingCurve, Qt)
 
-from frmMain import Ui_MainWindow
+from frmMain_ui import Ui_MainWindow
 from FrmSettings import FrmSettings
 from utilities import dvgFileUtils
 from utilities.setting import Settings
