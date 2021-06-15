@@ -494,7 +494,7 @@ color: rgb(255, 255, 255);</string>
   <action name="actionIndent_left">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/tlb/left-indent.png</normaloff>:/tlb/left-indent.png</iconset>
+     <normaloff>:/tlb/indent_l.png</normaloff>:/tlb/indent_l.png</iconset>
    </property>
    <property name="text">
     <string>Indent left</string>
@@ -503,7 +503,7 @@ color: rgb(255, 255, 255);</string>
   <action name="actionIndent_right">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/tlb/right-indent.png</normaloff>:/tlb/right-indent.png</iconset>
+     <normaloff>:/tlb/indent_r.png</normaloff>:/tlb/indent_r.png</iconset>
    </property>
    <property name="text">
     <string>Indent right</string>

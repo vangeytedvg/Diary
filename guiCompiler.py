@@ -59,7 +59,7 @@ def compile_resources(resourcename="images", location="."):
             # get the filename without extension
             base_filename, _ = os.path.splitext(os.path.basename(qrc_file))
             # Make the target name
-            target_filename = f"{base_filename}.py"
+            target_filename = f"{base_filename}_rc.py"
             # Run!
             result = subprocess.run(["pyrcc5", "-o", target_filename, f"{location}/{qrc_file}"], capture_output=True)
             if result.returncode == 0:
