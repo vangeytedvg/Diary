@@ -45,7 +45,7 @@ class DiaryPagesDirectoryNotFound(Exception):
         return f"{self.path} {self.message}"
 
 
-class GoogleDrive(QObject):
+class GoogleDrive:
     def __init__(self, folder_id: str):
         # If modifying these scopes, delete the file token.json.
         SCOPES = ['https://www.googleapis.com/auth/drive']
