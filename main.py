@@ -251,7 +251,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         Perform the backup using Polymorphism!
         """
         if not destination:
-            raise Excepion("No destination class set")
+            raise Exception("No destination class set")
 
         try:
             """

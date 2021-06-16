@@ -107,7 +107,6 @@ class EditorProxy:
                     break
                 cursor.deleteChar()
 
-
     def set_font_family(self, font):
         """
             Set the editors' font

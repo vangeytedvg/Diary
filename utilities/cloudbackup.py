@@ -97,7 +97,7 @@ class GoogleDrive(QObject):
                 # Process changed files
                 update_file = self.service.files().update(
                     fileId=myfile.get('id'),
-                    media_body=media,).execute()
+                    media_body=media, ).execute()
 
             return "Updated"
 
@@ -109,7 +109,7 @@ class GoogleDrive(QObject):
         ).execute()
         items = results.get('files', [])
         if not items:
-            return("No items found")
+            return "No items found"
         else:
             return items
 
@@ -152,18 +152,18 @@ class Backup(QObject):
     def push_to_path(self):
         raise NotImplementedError("<pushtopath> must be overriden")
 
-    def is_alive(self):
+    def is_alive(self, l):
         raise NotImplementedError("<is_alive> must be overriden")
 
 
 class LocalBackup(Backup):
-    def __init__(self):
+    def __init__(self, zipname, source_path):
         super(LocalBackup, self).__init__(zipname, source_path)
 
     def push_to_path(self):
         print("Pushing to local")
 
-    def is_alive(self, l):
+    def is_alive(self, l: str):
         """
         Perform a simple connection test
         """
@@ -188,10 +188,9 @@ class GoogleBackup(Backup):
         self.finished.emit(self._zipname)
         return self._zipname
 
-    def is_alive(self, l):
+    def is_alive(self, l: str):
         """
         Perform a simple connection test
         """
         my_test = self.my_google_drive.test_run(l)
         return my_test
-
