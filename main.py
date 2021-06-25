@@ -31,7 +31,7 @@ from utilities.enumerator import WarningLevel, SlideMode
 
 class Diary(QMainWindow, Ui_MainWindow):
 
-    # These are class variables, the go with each copy of the class
+    # These are class variables, they go with each copy of the class
     __diary_pages_path = ""
     __color_weekday_background = ""
     __color_weekday_foreground = ""

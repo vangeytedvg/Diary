@@ -77,7 +77,7 @@ class GoogleDrive:
 
     def upload_file(self, filename: str, path: str):
         """ Load a new file or update an existing one """
-        media = MediaFileUpload(f"{path}/{filename}")
+        media = MediaFileUpload(f"{path}/{filename}", resumable=True)
         response = self.service.files().list(
             q=f"name='{filename}' and parents = '{self.__folder_id}'",
             spaces='drive',
