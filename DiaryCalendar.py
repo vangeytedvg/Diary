@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QCalendarWidget
 from fileman import FileManager as fm
 import csv
 
-
 class DiaryCalendar(QCalendarWidget):
     """
       Sublassed QCalendarWidget to enable painting dates with
@@ -23,6 +22,7 @@ class DiaryCalendar(QCalendarWidget):
                  color_weekend_foreground,
                  color_select_background,
                  color_select_foreground):
+
         """
         Ctor of the DiaryCalendar
         :param file_path: Path to the location where diary files are stored (.html)
@@ -78,6 +78,7 @@ class DiaryCalendar(QCalendarWidget):
         with open('specialdays.csv', newline='') as holidays_file:
             reader = csv.DictReader(holidays_file)
             self.holidays = list(reader)
+
         # Add the date of easter to the holidays list
         easter = self.__calc_easter(year)
         day = str(easter.day()).zfill(2)

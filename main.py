@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # Main Entry point of Diary application
+import os.path
 import sys
+
+import logging
+from logging.handlers import TimedRotatingFileHandler
 
 from pathlib import Path
 from os import remove
@@ -30,7 +34,6 @@ from utilities.enumerator import WarningLevel, SlideMode
 
 
 class Diary(QMainWindow, Ui_MainWindow):
-
     # These are class variables, they go with each copy of the class
     __diary_pages_path = ""
     __color_weekday_background = ""
@@ -53,13 +56,13 @@ class Diary(QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         super(Diary, self).__init__()
+        logger.info("Setting up UI")
         # instance attributes
         self._active_file = None
         self._active_date = None
         self._editorDirty = False
         self._isDirty = False
         self.slider_mode = SlideMode.CLOSE
-
         self.setupUi(self)
         self.config_status_bar()
         # configure statusbar
@@ -262,10 +265,12 @@ class Diary(QMainWindow, Ui_MainWindow):
             destination.zip_diary()
             result = destination.push_to_path()
         except FileNotFoundError:
+            logger.error("In FileNotFoundError exception handler in self.backup in main.py")
             dvgFileUtils.warn(self, "IO Error",
                               "Path not found!",
                               destination._source_path)
         except NoDiaryPagesFound:
+            logger.error("NoDiary Pages found exception handler in self.backup in main.py")
             dvgFileUtils.warn(self, "IO Error",
                               "No diary files found in",
                               destination._source_path)
@@ -279,7 +284,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         my_backup = None
         if self.__local_backup:
             # local backup
-            my_backup = LocalBackup()
+            my_backup = LocalBackup("", "")
             # use polymorphism here
             self.backup(my_backup)
         if self.__backup_to_google:
@@ -296,6 +301,7 @@ class Diary(QMainWindow, Ui_MainWindow):
     def handle_backup_complete(self, result):
         """ Called when backup ends """
         self.drawer_slide(SlideMode.OPEN, f"Backup to Google Drive completed.  File name = {result}", WarningLevel.INFO)
+        logger.info("Backup to Google completed")
         # save the date and time of the last backup to the config file
         mySettings = Settings(self, "DenkaTech", "KDiary")
         mySettings.save_setting("last_backup", "date", QDate.currentDate())
@@ -333,6 +339,7 @@ class Diary(QMainWindow, Ui_MainWindow):
                                   explain="Delete the current page?")
 
         if answer == QMessageBox.Ok:
+            logger.info(f"Request to remove {self._active_file} acknowledged")
             remove(self._active_file)
             self.EnableEditControls(False)
             self.action_Add.setEnabled(True)
@@ -385,6 +392,7 @@ class Diary(QMainWindow, Ui_MainWindow):
                 my_file.write(self.txtDiary.toHtml())
             self._isDirty = False
             self.lbl_changed.setText("no")
+            logger.info(f"{self._active_file} saved to disk")
             return
         self.txtDiary.clear()
 
@@ -498,6 +506,7 @@ class Diary(QMainWindow, Ui_MainWindow):
         mySettings.save_form_settings("mainwindow", "frm_main/geometry")
         self.savesettings()
         # Be sure to save the active diary entry
+        logger.info("Application closed by request.  Saving changes to open files...")
         self.handle_save_changes()
 
     def savesettings(self):
@@ -572,7 +581,33 @@ def sleep(secs):
     loop.exec_()
 
 
+def init_logging(logfile: str):
+    # Added logging support, this hooks to the global python interpreter, so
+    # not needed to declare it in the class
+    logger = logging.getLogger("diarylog")
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler = TimedRotatingFileHandler(logfile, when="d", interval=5, backupCount=5)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    return logger
+
+def check_app_files():
+    fatalerror = False
+    if not os.path.isfile("specialdays.csv"):
+        logger.critical("specialdays.csv file not found")
+        fatalerror = True
+    if not os.path.isfile("credentials.json"):
+        logger.critical("credentials.json file not found")
+        fatalerror = True
+    return fatalerror
+
+
 if __name__ == '__main__':
+    logger = init_logging("diary.log")
+    if check_app_files():
+        print("Config files missing, please check diary.log for more information.  Stopping application!")
+        sys.exit(1)
     app = QApplication(sys.argv)
     pixmap = QPixmap("acta.png")
     splash = QSplashScreen(pixmap)
@@ -586,4 +621,5 @@ if __name__ == '__main__':
     sleep(2)
     splash.showMessage("Ready", alignment=Qt.AlignBottom, color=Qt.white)
     splash.finish(main_form)
+    logger.info("Application started normally")
     sys.exit(app.exec_())

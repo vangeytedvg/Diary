@@ -4,7 +4,8 @@ This subclass specializes in working with Google Drive
 """
 import zipfile
 import zlib
-import os.path
+import os
+import logging
 
 from PyQt5.QtCore import QFile, QDir, QObject, pyqtSignal
 
@@ -47,6 +48,8 @@ class DiaryPagesDirectoryNotFound(Exception):
 
 class GoogleDrive:
     def __init__(self, folder_id: str):
+        logger = logging.getLogger("diarylog")
+        logger.info("In GoogleDrive Constructor")
         # If modifying these scopes, delete the file token.json.
         SCOPES = ['https://www.googleapis.com/auth/drive']
 
@@ -62,7 +65,9 @@ class GoogleDrive:
             creds = Credentials.from_authorized_user_file('token.json', SCOPES)
         # If there are no (valid) credentials available, let the user log in.
         if not creds or not creds.valid:
+            logger.warning("No credentials or credentials invalid in cloudbackup.py")
             if creds and creds.expired and creds.refresh_token:
+                logger.info("Credentials for Google Drive expired, refresh requested")
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
@@ -71,6 +76,7 @@ class GoogleDrive:
             # Save the credentials for the next run
             with open('token.json', 'w') as token:
                 token.write(creds.to_json())
+            logger.info("Created new token.json")
 
         self.service = build('drive', 'v3', credentials=creds)
         self.__folder_id = folder_id
@@ -78,6 +84,8 @@ class GoogleDrive:
     def upload_file(self, filename: str, path: str):
         """ Load a new file or update an existing one """
         media = MediaFileUpload(f"{path}/{filename}", resumable=True)
+        logger = logging.getLogger("diarylog")
+        logger.info(f"Backing up file: {filename}")
         response = self.service.files().list(
             q=f"name='{filename}' and parents = '{self.__folder_id}'",
             spaces='drive',
